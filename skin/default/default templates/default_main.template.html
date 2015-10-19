@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>{$_site_title} :: {$_page_title}</title>
+<base href="{$base_url}skin/default/" />
+<meta charset="utf-8" />
+<meta property="og:title" content="{$_site_title}"/><meta property="og:type" content="website"/><meta property="og:url" content="{$base_url}"/><meta property="og:image" content="{$base_url}skin/fb/images/thumbnail.png"/><meta property="og:site_name" content="{$_site_title}"/><meta property="fb:admins" content="100002981469237"/><meta property="og:description" content="Leclinique"/><meta itemprop="name" content="{$_site_title}"><meta itemprop="description" content="{$_meta_description}"><meta name="description" content="{$_meta_description}" /><meta name="robots" content="{$_meta_robots}"><meta name="apple-mobile-web-app-capable" content="yes" />  
+<meta name="keywords" content="{$_meta_keywords}" />
+<meta name="description" content="{$_meta_description}" />
+<!-- Google will often use this as its description of your page/site. Make it good. -->
+
+<meta name="author" content="{$_meta_author}" />
+<meta name="Copyright" content="Copyright {$_site_title} {$smarty.now|date_format:"%Y"}. All Rights Reserved." />
+
+<meta name="DC.title" content="{$_meta_title}" />
+<meta name="DC.subject" content="What you're about." />
+<meta name="DC.creator" content="Who made this site." />
+
+<meta name="google-site-verification" content="" />
+<!-- Speaking of Google, don't forget to set your site up: http://google.com/webmasters -->
+
+<link rel="shortcut icon" href="-/img/favicon.png"/>
+<!-- This is the traditional favicon.
+	 - size: 16x16 or 32x32
+	 - transparency is OK
+	 - see wikipedia for info on broswer support: http://mky.be/favicon/ -->
+
+<link rel="apple-touch-icon" href="-/img/custom_icon.png"/>
+<!-- The is the icon for iOS's Web Clip.
+	 - size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for iPhone4's retina display (IMHO, just go ahead and use the biggest one)
+	 - To prevent iOS from applying its styles to the icon name it thusly: apple-touch-icon-precomposed.png
+	 - Transparency is not recommended (iOS will put a black BG behind the icon) -->
+
+
+
+<style type="text/css" media="Screen">
+@import url("styles/base.css");
+</style>
+
+<!--[if (gte IE 5.5)&(lt IE 7)]>
+<style type="text/css" media="Screen">
+@import url("styles/ie6.css");
+</style><![endif]-->
+
+<!--[if gte IE 7]>
+<style type="text/css" media="Screen">
+@import url("styles/ie7.css");
+</style><![endif]-->
+
+<!--[if gte IE 8]>
+<style type="text/css" media="Screen">
+@import url("styles/ie8.css");
+</style><![endif]-->
+
+<!--[if (gte IE 5.5)&(lt IE 7)]> 
+<script src="js/ie8.js" type="text/javascript"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="styles/validationEngine.jquery.css" type="text/css"/>
+
+</head>
+
+<body>
+<section class="canvas">
+<section class="wrap">
+
+	<header class="headr">
+		<h1><a href="#"><span>Sample Logo</span></a></h1>
+	</header>
+
+	<nav id="main-nav">
+		<ul id="menu" class="sf-menu">
+				<li class="menu-1"><a href="#"><span>Link I</span></a>
+					<ul>
+						<li><a href="#">Link 1.a</a></li>
+						<li><a href="#">Link 1.b</a></li>
+						<li><a href="#">Link 1.c</a></li>
+						<li><a href="#">Link 1.d</a></li>
+					</ul>
+				</li>
+				<li class="menu-2"><a href="#"><span>Link 2</span></a>
+					<ul>
+						<li><a href="#">Link 2.a</a></li>
+						<li><a href="#">Link 2.b</a></li>
+						<li><a href="#">Link 2.c</a></li>
+						<li><a href="#">Link 2.d</a></li>
+						<li><a href="#">Link 2.e &gt;&gt;</a>
+							<ul>
+								<li><a href="#">Link 2.e.1</a></li>
+								<li><a href="#">Link 2.e.2</a></li>
+								<li><a href="#">Link 2.e.3</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="menu-3"><a href="#"><span>Link 3</span></a>
+					<ul>
+						<li><a href="#">Link 3.a</a></li>
+						<li><a href="#">Link 3.b</a></li>
+						<li><a href="#">Link 3.c &gt;&gt;</a>
+							<ul>
+								<li><a href="#">Link 3.c.1</a></li>
+								<li><a href="#">Link 3.c.2</a></li>
+								<li><a href="#">Link 3.c.3</a></li>
+								<li><a href="#">Link 3.c.4</a></li>
+								<li><a href="#">Link 3.c.5</a></li>
+							</ul>
+						</li>
+						<li><a href="#">Link 3.d</a></li>
+						<li><a href="#">Link 3.e</a></li>
+						<li><a href="#">Link 3.f</a></li>
+					</ul>
+				</li>
+				<li class="menu-4"><a href="#"><span>Link 4</span></a>
+					<ul>
+						<li><a href="#">Link 4.a</a></li>
+						<li><a href="#">Link 4.b</a></li>
+						<li><a href="#">Link 4.c</a></li>
+						<li><a href="#">Link 4.d</a></li>
+						<li><a href="#">Link 4.e</a></li>
+						<li><a href="#">Link 4.f</a></li>
+						<li><a href="#">Link 4.g &gt;&gt;</a>
+							<ul>
+								<li><a href="#">Link 4.f.1</a></li>
+								<li><a href="#">Link 4.f.2</a></li>
+								<li><a href="#">Link 4.f.3</a></li>
+								<li><a href="#">Link 4.f.4</a></li>
+								<li><a href="#">Link 4.f.5</a></li>
+								<li><a href="#">Link 4.f.6</a></li>
+								<li><a href="#">Link 4.f.7</a></li>
+								<li><a href="#">Link 4.f.8</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="menu-5"><a href="#"><span>Link 5</span></a></li>
+			</ul>
+		</nav>
+
+
+	<section class="middle">
+
+		<figure class="banner"></figure>
+
+		<section class="content-area">
+			
+			<section id="content">
+				<!-- BEGIN: INCLUDES FOR CONTENT AREA <::> DO NOT CHANGE -->
+				{if $_content}{include file=$_content}{/if}
+				<article>				
+				{if $_template}{include file=$_template}{/if}
+				</article>
+				<!-- END: INCLUDES FOR CONTENT AREA <::> DO NOT CHANGE -->
+			</section>
+			
+		
+		</section> <!-- End of content-area -->
+
+
+	
+	
+		
+
+	
+
+		<aside id="featured">
+			<article class="article">	
+				<h3><a href="#">This is the Sidebar Area</a></h3>
+				<p>Discover how to use Graceful Degradation and Progressive Enhancement techniques to achieve an outstanding, cross-browser <a href="http://dev.w3.org/html5/spec/Overview.html" rel="external">HTML5</a> and <a href="http://www.w3.org/TR/css3-roadmap/" rel="external">CSS3</a> website today!</p>
+			</article>
+
+			<article class="article">			
+				<h3><a href="#">We now try HTML5!</a></h3>
+				<p>Discover how to use Graceful Degradation and Progressive Enhancement techniques to achieve an outstanding, cross-browser <a href="http://dev.w3.org/html5/spec/Overview.html" rel="external">HTML5</a> and <a href="http://www.w3.org/TR/css3-roadmap/" rel="external">CSS3</a> website today!</p>
+			</article>
+
+			<figure class="testimonial">
+				<a href="#testimonial-callout" class="lightwindow"><span>A sample testimonial image callout.</span></a>
+				<section id="testimonial-callout">
+					<p>This can be considered a sample image callout.</p>
+					<p>We can try to put in 'text' testimonial callouts.</p>
+					<p class="testimonial-text">Mauris sem tellus, faucibus a dictum mattis, rhoncus et urna. Pellentesque at erat id mauris mattis ullamcorper. Suspendisse convallis mattis leo, in ultrices augue semper semper. Sed ut diam nec eros iaculis gravida eget ac ipsum. Donec ac ligula ante. Nullam id turpis lacus, eu varius nulla. Sed vel orci felis. Nulla tincidunt mollis tortor et convallis. Integer in sem ac tellus porta semper ac tempor odio. Ut mollis varius faucibus.</p>
+				</section>
+			</figure>
+		</aside> <!-- End of featured -->
+	</section> <!-- End of middle -->
+
+
+
+	<section class="bottom">
+		<section id="extras">
+			<div class="blogroll">
+				<h2>blogroll</h2>
+				<ul>
+					<li><a href="#">HTML5 Doctor</a></li>
+					<li><a href="#">HTML5 Spec (working draft)</a></li>
+					<li><a href="#">Smashing Magazine</a></li>	
+					<li><a href="#">W3C</a></li>
+					<li><a href="#">Wordpress</a></li>
+					<li><a href="#">Wikipedia</a></li>
+					<li><a href="#">HTML5 Doctor</a></li>
+					<li><a href="#">HTML5 Spec (working draft)</a></li>
+					<li><a href="#">Smashing Magazine</a></li>
+				</ul>
+				<ul>
+					<li><a href="#">W3C</a></li>
+					<li><a href="#">Wordpress</a></li>
+					<li><a href="#">Wikipedia</a></li>
+					<li><a href="#">HTML5 Doctor</a></li>
+					<li><a href="#">HTML5 Spec (working draft)</a></li>
+					<li><a href="#">Smashing Magazine</a></li>
+					<li><a href="#">W3C</a></li>
+					<li><a href="#">Wordpress</a></li>
+					<li><a href="#">Wikipedia</a></li>
+				</ul>
+			</div>
+		
+			<div class="social">
+				<h2>social</h2>
+				<ul>
+					<li><a href="#"><img src="images/icon-delicious.gif" /></a></li>
+					<li><a href="#"><img src="images/icon-digg.gif" /></a></li>
+					<li><a href="#"><img src="images/icon-facebook.gif" /></a></li>
+					<li><a href="#"><img src="images/icon-google.gif" /></a></li>
+					<li><a href="#"><img src="images/icon-rss.gif" /></a></li>
+					<li><a href="#"><img src="images/icon-twitter.gif" /></a></li>
+				</ul>
+				<div class="post-it"><a href="#"><span>A sample post it note image. Just for fun.</span></a></div>
+			</div>
+		</section>
+	</section> <!-- End of bottom -->
+
+	
+
+
+	<footer id="contentinfo">
+		<address class="about">	
+			<span class="about-title">About Site:</span> <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur porta semper porttitor. Morbi sed dolor sit amet tortor blandit convallis et ut nulla. Morbi urna est, iaculis id blandit ac, vulputate eu justo. Sed in magna mauris, ac ornare tellus. Cras diam eros, eleifend vel tempus ac, condimentum quis lacus. Morbi a felis risus. Sed vel tellus a orci fringilla mattis. Sed sagittis arcu nec elit mollis auctor. Praesent dictum ornare sapien non porta. Aliquam vel augue purus, eu aliquet sem.</p>
+		</address>
+
+		<p class="copyright">2006-{$smarty.now|date_format:"%Y"} <a href="#">Ivertise Web</a>.</p>
+	</footer>
+
+<br clear="all" />
+
+</section> <!-- End of wrap -->
+</section> <!-- End of canvas -->
+
+<script type="text/javascript" src="js/default-full.js"></script>
+
+{if $_google_ua}
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{$_google_ua}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+{/if}
+
+</body>
+</html>

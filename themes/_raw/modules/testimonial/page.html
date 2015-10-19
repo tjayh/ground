@@ -1,0 +1,31 @@
+<form role="form" id='testiForm' onsubmit="return false;">
+	<input type="text" class="form-control" id="name" placeholder="Enter Name" name="data[name]" required>
+	<textarea class="form-control" id="message" rows="3" name="data[message]" required></textarea>
+	<div id="testiNotif" style='display:none;'></div>	
+	<img src="img/sending.gif" id="testiLoadingGif" style="display:none;">
+	<button type="submit" class="btn btn-default" id="testiBtn" onclick="checker()">Submit</button>
+	<button type="reset" class="btn btn-default" id="testiRBtn">Reset</button>
+</form>
+	  
+ {if $testimonial}
+	{foreach from=$testimonial key=key item=item}
+		<p>{$key}</p>
+		<p>{$item.message}</p>
+		<p>{$item.name}</p>
+	{/foreach}
+{/if} 
+  
+  
+{if $testimonial}
+<ul class="pagination">
+	{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if}
+		{for $page=1 to $num_pages}
+			{if $int_page eq $page}
+				<li><span class="current">{$page}</span></li>
+			{else}
+				<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
+			{/if}
+		{/for}
+	{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
+</ul>
+{/if}

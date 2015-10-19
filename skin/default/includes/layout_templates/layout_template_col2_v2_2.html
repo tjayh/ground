@@ -1,0 +1,20 @@
+<h1>6 WIDTH - 2 columns</h1>
+
+<div class="col-md-6">
+	{foreach from=$sections.col0 item=item key="key"}
+	<div class="{$item.section_class}">
+	{assign var="html_file" value=$item.template_html}
+	{assign var="colnum" value='col0'}
+	{include file="$html_file"}
+	</div>
+	{/foreach}
+</div>
+<div class="col-md-6">
+	{foreach from=$sections.col1 item=item key="key"}
+	<div class="{$item.section_class}">
+	{assign var="html_file" value=$item.template_html}
+	{assign var="colnum" value='col1'}
+	{include file="$html_file"}
+	</div>
+	{/foreach}
+</div>

@@ -1,0 +1,42 @@
+<!-- {if $faqs}  
+	{foreach from=$faqs key=key item=item}
+		<p>{$key}</p>
+		<p>{$item.category_title}</p>
+		<p>{$item.category_description}</p>
+		{foreach from=$item.items key=key2 item=item2}
+			<p>{$key2}</p>
+			<p>{$item2.faq_question}</p>
+			<p>{$item2.faq_answer}</p>
+		{/foreach}
+		___________________________________
+	{/foreach}
+{/if} -->
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <br/>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            {if $faqs} {foreach from=$faqs key=key item=item} {foreach from=$item.items key=key2 item=item2}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading{$key2}">
+                    <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{$key2}" aria-expanded="true" aria-controls="collapse{$key2}">
+              {$item2.faq_question}
+            </a>
+          </h4>
+                </div>
+                <div id="collapse{$key2}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{$key2}">
+                    <div class="panel-body">
+
+                        <p>
+                            {$item2.faq_answer}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {/foreach} {/foreach} {/if}
+        </div>
+    </div>
+</div>

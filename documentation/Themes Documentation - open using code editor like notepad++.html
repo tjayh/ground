@@ -1,0 +1,223 @@
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+PLEASE READ EVERYTHING HERE BEFORE DEVELOPING OR DESIGNING
+
+<!----------------------------------------#Adminashboard Link---------------------------------------->
+Go to http://[IP ADDRESS HERE]/[PROJECT NAME]/administrator <!-- EXAMPLE of [IP ADDRESS HERE] is 10.10.1.12 -->
+To login, here are the basic access details:
+FOR CLIENT MAIN ADMIN
+Username: webadmin
+Password: 7works
+
+FOR FRAMEWORK ADMIN
+Username: admin
+Password: test
+
+<!----------------------------------------# SOP (Standard Operating Procedure)---------------------------------------->
+	1.	PLEASE READ AND UNDERSTAND BEFORE DEVELOPING OR DESIGNING
+	2.	PLEASE try your code first or do trial and error before consulting, GOOGLE is your friend, my friend
+	3.	IF found an HTML codes that seems wrong please use appropriate code for it, again GOOGLE is you friend
+	4.	REMOVE UNNECESSARY codes if not used and do NOT COMMENT if it will NEVER ever be used
+	5.	REMOVE UNNECESSARY lines instead use only INFORMATIVE comments for BETTER development/design references
+	6.	ALWAYS BEAUTIFY if you want to organize the .html, .js codes (jsbeautifier.org) and .css (html.fwpolice.com/css) and .php (phpbeautifier.com), please help those who can't read your codes, FAVORITE/BOOKMARK those links
+	7.	ALWAYS use proper code line TABULATION .html, .js, .css  and .php, those beautifier will really help or prepare to find codes in disorganized way
+	8.	ALWAYS create LOCAL BACKUP a file/s or folder/s before debugging/editing per day, at least you have the latest backup up before you make changes
+	9.	REMOVE ALL UNNECESSARY FILES for easy viewing of files after designing (ex. index.html, about.html, careers.html empty_content.css etc.)
+	10. IF error found ALWAYS CHECK IF YOUR SMARTY CODES are correct, and lastly GOOGLE is your friend, my friend
+	
+<!----------------------------------------# Tips/Errors/Solutions---------------------------------------->
+Description: Please read this might save lots of time and effort for coding/designing/typing
+Important Codes: 
+	- Press ctrl + "F" , a pop up FIND will appear, use it to find some inquires here (ex. find "link"), then press F3 for faster find
+	- to collapse all html tags (Ex. <p></p>), press alt + 0
+	- NEVER use direct link or url of the website in html and js codes
+	- When beautified always CHECK the smarty codes curly braces {, } should have NO space before and after see examples codes here
+	- Please see SMARTY.NET for more references
+	- ALL themes may have different design and not all codes might not be needed
+	- UPDATE facebook share - https://developers.facebook.com/tools/debug/
+	- CHECK config.php if CORRECT _BASE_URL_ , _THEME_ 
+	- please CHECK/DEBUG the codes first
+	- don't duplicate jquery.js, jquery-ie.js, bootstrap.css, bootstrap.js because they are atleast they are always updated if not just change the codes inside, don't rename it.
+	- most of the time there will only be main.template.html, inner.template.html and error.template.html
+	- always add a commented template name at the top of the html to help others what template does frontend page pulls up
+	- the rest of the pages will be inside modules, ex. forms, dynamic display of item name, includes folder or part of CMS page (http://[IP ADDRESS HERE]/[PROJECT NAME]/administrator/pages)
+	- to add/edit a customized css code (http://[IP ADDRESS HERE]/[PROJECT NAME]/administrator/settings)
+	- add numberOnly or textOnly in the class for strict field input
+	- use date-picker on the class for date select field
+	- some html has <p> </p> <br> <div> </div> etc. (just check the codes) PLEASE DELETE/EDIT/CHANGE this code as you wish, this codes are just extra SOP #3, #4
+	- As much as possible NEVER use # in an anchor html tags, this will redirect to ERROR page MOST of the time, REPLACE it with javascript:; instead (Ex. <a href="#"></a> <==BAD, <a href="javascript:;"></a> <==GOOD)
+	
+<!----------------------------------------# SMARTY CODES---------------------------------------->
+Description: List of basic and required smarty codes. For smarty code reference go to this website http://www.smarty.net/docs/en/ or just google what you need with smarty
+Important Codes: 
+		- {$base_url} - base url link of the site
+		- {$admin_base} - admin base url link of the site
+		- {$_theme} - skin folder name
+		- {$_site_title} - Site title, can be found in admin Settings > General
+		- {$_logo} - Site logo, can be found in admin Settings > General
+		- {$_page_title} - CMS page title, can be found in admin CMS
+		- {$_page_*****} - ***** (this asterisk represents linkrewrite name  Ex. {$_page_about}) - linkrewrite name based from the CMS of the page, this will display the content
+		
+		- {if $_content}{include file=$_content}{/if} - used for inner.template, page content text, can be found in admin CMS
+		- {if $_template}{include file=$_template}{/if} - used for template of page, can be found in admin CMS
+		
+		- {$_meta_keywords} - meta keywords, can be found in admin SEO > Settings (default) or admin CMS (override default)
+		- {$_meta_title} - meta title, can be found in admin SEO > Settings (default) or admin CMS (override default)
+		- {$_meta_description} - meta description, can be found in admin Settings > General (default) or admin CMS (override default)
+		- {$_meta_author} - meta author, can be found in admin SEO > Settings (default)
+		- {$_meta_robots} - meta description, can be found in admin SEO > Settings (default)
+		
+		- {$_sm_facebook} - facebook link, can be found in admin Settings > General (default)
+		- {$_sm_twitter} - twitter link, can be found in admin
+		- {$_sm_googleplus} - googleplus link, can be found in admin
+		- {$_sm_pinterest} - pinterest link, can be found in admin
+		- {$_sm_linkedin} - linkedin link, can be found in admin
+		- {$_sm_instagram} - instagram link, can be found in admin
+		
+		- {$_site_css} - customized css should be placed inside a <style>, can be found in admin Settings > General (default)
+		
+		- {if $key eq 7}{break}{/if} - add this to cut the display of foreach, change the number for limit, place before {/foreach}, Ex you want to display only 3 recent news use {if $key eq 3}{break}{/if} <!-- Limit the number of displayed -->
+		- |strip_tags - add this to remove all html tags Ex. {$image_desc|strip_tags} (EXAMPLE Output: Hello world)
+		- |replace:' ':'-' - add this to replace all the spaces Ex. {$image_name|replace:' ':'-'} (EXAMPLE Output: Helloworld)
+		- |truncate:100:"...":true - add this to shorten the text Ex. {$item.image_desc|truncate:100:"...":true} (EXAMPLE Output: Hello wor...)
+		- |@print_r - add this to display if the smarty variable used has an array values Ex. {$item_lists|@print_r}
+		- you can COMBINE smarty codes just use | for multiple conditions Ex. {$item.image_desc|strip_tags|truncate:100:"...":true} (EXAMPLE Output: Hello wor...)
+
+		
+		
+<!----------------------------------------#main.template.html---------------------------------------->
+Description: PLEASE READ EVERYTHING HERE, MOST OF THE CODES HERE ARE VERY IMPORTANT. SOME CODES CAN BE OMITTED IF NOT USED (SOP #4). AND ALWAYS BACKUP (SOP #8).
+			 THE CODES HERE ARE JUST GUIDE/REFERENCE/DESCRIPTION/USAGE/ORDER, IF CODE NOT FOUND IN TEMPLATE DO COPY AND PASTE THE CODES ONLY HERE AND NOT THE COMMENTS
+			 REFER TO # SMARTY CODES ABOVE FOR MORE INFORMATION REGARDING SMARTY CODES BELOW
+			 JUST INCLUDE CODES ONLY WITH * AND READ THE COMMENTS BESIDE, THESE ARE ALL VERY IMPORTANT IN EVERY WEBSITE.
+			 
+Important Codes: 
+		*<base href="{$base_url}skin/{$_theme}/"/> <!--  this is the root folder for css and js files -->
+		*<title>{$_site_title}</title> <!-- this is the title of the website, update it from the admin Settings > General -->
+		*<link rel="shortcut icon" href="{$_favicon}"> <!-- this is the favicon of the website, update it from the admin Settings > General -->
+		
+		*<meta name="title" content="{$_meta_title}"> <!-- this is the meta title of the website, update it from the admin SEO > Settings -->
+		*<meta name="description" content="{$_meta_description}"> <!-- this is the meta description of the website, update it from the admin SEO > Settings -->
+		*<meta name="keywords" content="{$_meta_keywords}"> <!-- this is the meta kewords of the website, update it from the admin SEO > Settings -->
+		*<meta name="author" content="{$_meta_author}"> <!-- this is the meta author of the website, update it from the admin SEO > Settings -->
+		*<meta name="robots" content="{$_meta_robots}"> <!-- this is fixed, just include this also -->
+		
+		*<meta property="og:title" content="{$_meta_title}" /> <!-- this is the title of the website for facebook detection-->
+		*<meta property="og:url" content="{$base_url}" /> <!-- this is the link for facebook detection -->
+		*<meta property="og:description" content="{$_meta_description}" /> <!-- this is the description for facebook detection -->
+		*<meta property="og:image" content="Enter website image" /> <!-- this is the image to be used for facebook detection, just type the image link -->
+		*<meta property="og:type" content="website" /> <!-- just search in facebook what is suitable for the website -->
+		
+		<img src="{$_page._logo}" style="max-height: 150px; max-width: 150px;"/> <!-- this is the logo of the website -->
+		
+		<a href="{$_sm_facebook}"></a> <!-- this is facebook link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_twitter}"></a> <!-- this is twitter link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_googleplus}"></a> <!-- this is googleplus link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_pinterest}"></a> <!-- this is pinterest link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_linkedin}"></a> <!-- this is linkedin link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_instagram}"></a> <!-- this is instagram link that will redirect that is edited from dashboard -->
+		
+		<a href="{$base_url}"></a> <!-- this is homepage link that can be used anywhere in the website -->
+		<a href="{$base_url}faqs"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		<a href="{$base_url}gallery"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		<a href="{$base_url}contactus"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		
+		<header id="header-include">{include file="$_theme/include/header.html"}</header> <!-- this will display the content of header.html -->
+		*<div class="section" id="main_section_include">{include file="$_theme/include/main_section.html"}</div> <!-- this will display the sections set up for maintemplate/homepage -->
+		<div class="navbar" id="navbar_include">{include file="$_theme/include/header-nav.html"}</div> <!-- this will display the content of header-nav.html -->
+		<div class="search" id="search_include">{include file="$_theme/include/search.html"}</div> <!-- this will display the content of search.html -->
+		<div class="slider" id="slider_include">{include file="$_theme/include/slider.html"}</div> <!-- this will display the content of slider.html -->
+		<div class="recent-news" id="recent_news_include">{include file="$_theme/include/recent-news.html"}</div> <!-- this will display the MOST RECENT news ONLY please chech the file for more info -->
+		<div class="recent-blog" id="recent_blog_include">{include file="$_theme/include/recent-blog.html"}</div> <!-- this will display the MOST RECENT blog ONLY please chech the file for more info -->
+		<div class="recent-events" id="recent_events_include">{include file="$_theme/include/recent-events.html"}</div> <!-- this will display the MOST RECENT events ONLY please chech the file for more info -->
+		<div class="recent-promo" id="recent_promo_include">{include file="$_theme/include/recent-promo.html"}</div> <!-- this will display the MOST RECENT promo ONLY please chech the file for more info -->
+		<div class="recent-testimonials" id="recent_testimonials_include">{include file="$_theme/include/recent-testimonials.html"}</div> <!-- this will display the MOST RECENT testimonials ONLY please chech the file for more info -->
+		<div class="recent-gallery" id="recent_gallery_include">{include file="$_theme/include/recent-gallery.html"}</div> <!-- this will display the MOST RECENT gallery ONLY please chech the file for more info -->
+		<div class="subscribe" id="subscribe_include">{include file="$_theme/include/subscribe.html"}</div> <!-- this will display the content of subscribe.html -->
+		<footer id="footer-include">{include file="$_theme/include/footer.html"}</footer>  <!-- this will display the content of footer.html -->
+		*<div class="others" id="others_include" >{include file="$_theme/include/others.html"}</div>  <!-- just include this because the content of of others.html are ALL in hidden -->
+		
+		{include file="$_theme/include/main_styles.html"} <!-- css codes for main template only-->
+		
+		{include file="$_theme/include/main_js.html"} <!-- js codes for main template only-->
+		
+<!----------------------------------------#inner.template.html---------------------------------------->
+Description: PLEASE READ EVERYTHING HERE, MOST OF THE CODES HERE ARE VERY IMPORTANT. SOME CODES CAN BE OMITTED IF NOT USED (SOP #4). AND ALWAYS BACKUP (SOP #8).
+			 THE CODES HERE ARE JUST GUIDE/REFERENCE/DESCRIPTION/USAGE/ORDER, IF CODE NOT FOUND IN TEMPLATE DO COPY AND PASTE THE CODES(ONLY AND NOT THE COMMENTS) HERE TO THE TEMPLATE 
+			 REFER TO # SMARTY CODES ABOVE FOR MORE INFORMATION REGARDING SMARTY CODES BELOW
+			 JUST INCLUDE CODES ONLY WITH * AND READ THE COMMENTS BESIDE, THESE ARE ALL VERY IMPORTANT IN EVERY WEBSITE.
+Important Codes: 
+		*<title>{$_site_title}</title> <!-- this is the title of the website -->
+		*<base href="{$base_url}skin/{$_theme}/"/> <!--  this is the root folder for css and js files -->
+		
+		*<meta name="title" content="{$_meta_title}"> <!-- this is the meta title of the website, update it from the admin SEO > Settings -->
+		*<meta name="description" content="{$_meta_description}"> <!-- this is the meta description of the website, update it from the admin SEO > Settings -->
+		*<meta name="keywords" content="{$_meta_keywords}"> <!-- this is the meta kewords of the website, 
+
+		it from the admin SEO > Settings -->
+		*<meta name="author" content="{$_meta_author}"> <!-- this is the meta author of the website, update it from the admin SEO > Settings -->
+		*<meta name="robots" content="{$_meta_robots}"> <!-- this is fixed, just include this also -->
+		
+		*<meta property="og:title" content="{$_meta_title}" /> <!-- this is the page title of the website for facebook detection-->
+		*<meta property="og:url" content="{$smarty.server.HTTP_HOST}{$smarty.server.REQUEST_URI}" /> <!-- this is the page link for facebook detection -->
+		*<meta property="og:description" content="{$_meta_description}" /> <!-- this is the page description for facebook detection -->
+		*<meta property="og:image" content="{$_meta_iamge}" /> <!-- this is the page image to be used for facebook detection Ex. news article image will be displayed here -->
+		*<meta property="og:type" content="website" /> <!-- just search in facebook what is suitable for the website -->
+		
+		<img src="{$_page._logo}" style="max-height: 150px; max-width: 150px;"/> <!-- this is the logo of the website -->
+		
+		<a href="{$_sm_facebook}"></a> <!-- this is facebook link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_twitter}"></a> <!-- this is twitter link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_googleplus}"></a> <!-- this is googleplus link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_pinterest}"></a> <!-- this is pinterest link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_linkedin}"></a> <!-- this is linkedin link that will redirect that is edited from dashboard -->
+		<a href="{$_sm_instagram}"></a> <!-- this is instagram link that will redirect that is edited from dashboard -->
+		
+		<a href="{$base_url}"></a> <!-- this is homepage link that can be used anywhere in the website -->
+		<a href="{$base_url}faqs"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		<a href="{$base_url}gallery"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		<a href="{$base_url}contactus"></a> <!-- this is just an EXAMPLE of other links based on modules -->
+		
+		<header id="header-include">{include file="$_theme/include/header.html"}</header> <!-- this will display the content of header.html -->
+		<div class="navbar" id="navbar_include">{include file="$_theme/include/header-nav.html"}</div> <!-- this will display the content of header-nav.html -->
+		<div class="search" id="search_include">{include file="$_theme/include/search.html"}</div> <!-- this will display the content of search.html -->
+		*{if $_page.image_src} <img src="{$_page.image_src}" style="max-height: 150px; max-width: 150px;"/> {/if} <!-- just include this because this will display the banner image of page -->
+		*<div class="content" id="content_include" >{if $_content}{include file=$_content}{/if}{if $_template}{include file=$_template}{/if}</div> <!-- just include this because this will display all the contents of the pages and modules -->
+		<div class="slider" id="slider_include">{include file="$_theme/include/slider.html"}</div> <!-- this will display the content of slider.html -->
+		<div class="recent-news" id="recent_news_include">{include file="$_theme/include/recent-news.html"}</div> <!-- this will display the MOST RECENT news ONLY please chech the file for more info -->
+		<div class="recent-blog" id="recent_blog_include">{include file="$_theme/include/recent-blog.html"}</div> <!-- this will display the MOST RECENT blog ONLY please chech the file for more info -->
+		<div class="recent-events" id="recent_events_include">{include file="$_theme/include/recent-events.html"}</div> <!-- this will display the MOST RECENT events ONLY please chech the file for more info -->
+		<div class="recent-promo" id="recent_promo_include">{include file="$_theme/include/recent-promo.html"}</div> <!-- this will display the MOST RECENT promo ONLY please chech the file for more info -->
+		<div class="recent-testimonials" id="recent_testimonials_include">{include file="$_theme/include/recent-testimonials.html"}</div> <!-- this will display the MOST RECENT testimonials ONLY please chech the file for more info -->
+		<div class="recent-gallery" id="recent_gallery_include">{include file="$_theme/include/recent-gallery.html"}</div> <!-- this will display the MOST RECENT gallery ONLY please chech the file for more info -->
+		<div class="subscribe" id="subscribe_include">{include file="$_theme/include/subscribe.html"}</div> <!-- this will display the content of subscribe.html -->
+		<footer id="footer-include">{include file="$_theme/include/footer.html"}</footer>  <!-- this will display the content of footer.html -->
+		*<div class="others" id="others_include" >{include file="$_theme/include/others.html"}</div>  <!-- just include this because the content of of others.html are all in display:none; -->
+		
+		*{include file="$_theme/include/inner_styles.html"} <!-- css codes for inner template only-->
+		
+		*{include file="$_theme/include/inner_js.html"} <!-- js codes for inner template only-->
+		
+<!----------------------------------------#XXXXXXXXXXXXXXX---------------------------------------->
+Description: 
+Important Codes: 
+	
+		

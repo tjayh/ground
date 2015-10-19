@@ -1,0 +1,353 @@
+/* ###### Table of Contents ###### */
+/* ------ Global contents ------ */
+/* ------ For parallel fieldset ------ */
+/* ------ For errors ------ */
+/* ------ Global contents ------ */
+
+input, textarea { 
+	background:#cecfd2; 
+	border:1px solid #90959e; 
+	padding:4px; 
+}
+
+select { 
+	background:#cecfd2; 
+	border:1px solid #90959e; 
+	padding:2px;
+}
+
+.button { padding:3px 5px; text-transform:uppercase; }
+
+.radiobutton { border:none; }
+
+/*
+fieldset div input:focus, 
+fieldset div input:hover, 
+fieldset div textarea:focus, 
+fieldset div textarea:hover, 
+fieldset div select:focus, 
+fieldset div select:hover {	background: #FFFFFF; }
+*/
+
+.inputRadio, 
+.inputCheckbox, 
+.input-radio, 
+.input-checkbox { border: 0px; }
+
+
+/* ------ For parallel fieldset ------ */
+
+
+.parallel {
+	border:0px;
+	float:left;
+	margin-top:10px;
+	padding:10px;
+	width:auto;
+}
+
+.parallel legend { font-weight:bold; width:100%; }
+
+.parallel span.required { color:#FF0000; }
+
+.parallel div {
+	clear:both;
+	float:left;
+	height:auto;
+	padding:3px;
+	width:100%;
+}
+
+
+
+.parallel div label {
+	cursor:text;
+	display:block;
+	float:left;
+	padding-bottom:10px;
+	width:150px;
+}
+
+.parallel ul li { padding:5px; }
+
+.parallel ul li a { text-decoration:underline; }
+
+.parallel ul li a:hover { text-decoration:none; }
+
+
+/* ------ For errors ------ */
+
+#error #error-title {
+	background-color:#FF0000;
+	padding:5px 10px;
+	color:#fff;
+	font:bold 15px "Arial";
+	display:block;
+	list-style-type:none;
+	margin:0;
+}
+
+#error {
+	background-color:#f5ffe2;
+	padding:0 0 5px 0;
+}
+
+#error li {
+	color:#FF0000;
+	margin-left:20px;
+	padding:3px;
+}
+
+#error li:hover {
+	background:none;
+}
+
+#bmi-calc {
+	padding:3px;
+	border:none;
+}
+
+#bmi-calc div {
+	padding:3px;
+}
+
+#bmi-calc div span {
+	color:#000000;
+}
+
+#bmi-calc div label {
+	display:block;
+	width:60px;
+	float:left;
+}
+
+#bmi-calc div input.button {
+	width:110px;
+}
+
+#bmi-calc input.txt-bmi {
+	color:#000000;
+}
+
+.vertical {
+	border:0px;
+	padding:10px;
+	margin-top:10px;
+}
+
+.vertical ul li {
+	padding:5px;
+}
+
+.vertical ul li a {
+	text-decoration:underline;
+}
+
+.vertical ul li a:hover {
+	text-decoration:none;
+}
+
+.vertical legend {
+
+}
+
+.vertical span.required {
+	color:#FF0000;
+}
+
+.vertical div {
+	clear:both;
+}
+
+.vertical label {
+	display:block;
+	padding-bottom:3px;
+}
+
+/* FOR CUSTOM STYLES */
+
+
+
+/* FOR TABLES */
+
+.table {
+	border-collapse:collapse;
+	border-spacing:0;
+	float:left; /*font:normal 12px "Arial";*/
+}
+
+.table td {
+	background:#FFFFFF;
+	border:1px solid #666666;
+	padding:5px 5px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.table th {
+	background:#666666;
+	border:1px solid #666666;
+	color:#ffffff;
+	padding:5px 5px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+
+.table a {
+
+}
+
+
+
+.table a:hover {
+	text-decoration:none;
+}
+
+
+
+/* FOR CHARTS */
+
+.chart {
+	border-collapse:collapse;
+	border-spacing:0; font:normal 11px "Arial";
+}
+
+.chart td {
+	background:#FFFFFF;
+	border:1px solid #666666;
+	padding:5px 5px;
+}
+
+.chart th {
+	background:#666666;
+	border:1px solid #666666;
+	color:#ffffff;
+	padding:5px 5px;
+}
+
+.chart a {
+
+}
+
+.chart a:hover {
+	text-decoration:none;
+}
+
+
+/* FOR SEMINARS */
+.seminars {
+	border-collapse:collapse;
+	border-spacing:0; /*font:normal 12px "Arial";*/
+}
+
+.seminars td {
+	background:#FFFFFF;
+	padding:5px 5px;
+	color:#000000;
+	border:1px solid #000000;
+}
+
+.seminars th {
+	background:#000000;
+	padding:5px 5px;
+	color:#ffffff;
+	border:1px solid #000000;
+}
+
+.seminars a {
+	color:#000000;
+}
+
+.seminars a:hover {
+	text-decoration:none;
+}
+
+
+
+/* EVENT CALENDAR STYLE */
+
+.month {
+	border:0;
+}
+
+#content .month td table { border-bottom:1px solid #666666;  }
+
+#content .month .event td { padding:3px; }
+
+#content .month .event td a { border:none; font-weight:normal; line-height:normal; }
+
+
+.month .monthnavigation {
+	background:#666666;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.month .monthname {
+	background:#666666;
+	color:#FFFFFF;
+	font-size:14px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+
+.month .dayname td {
+	color:#293C40;
+	background-image:none;
+	background:#CAC5A5;
+	text-align:center;
+	vertical-align:middle;
+}
+
+
+.month td.nomonthday {
+	background:#EEEEEE;
+}
+
+.month td.monthday {
+	background:#FFFFFF;
+	height:75px;
+	width:70px;
+}
+
+.month td.today {
+	background:#9999CC;
+	width:70px;
+	height:75px;
+}
+
+.month td.saturday {
+	background:#f5f0e2;
+	width:70px;
+	height:75px;
+}
+
+.month td.sunday {
+	width:70px;
+	height:75px;
+	background:#f5f0e2
+}
+
+.month td { border:1px solid #666666; }
+
+/*======== temporary for form buttons ========*/
+.spacer{margin-left:146px; 
+	margin-bottom:10px;
+	font-size:11px;
+	color:#555555;
+}
+.green{
+	background:url(images/green.gif);
+	padding:0px 6px;
+	border:1px solid #3b6e22;
+	height:24px; 
+	line-height:24px;
+	color:#FFFFFF;
+	font-size:12px;
+	margin-right:10px;
+	display:inline-block;
+	text-decoration:none;
+}
+/*====================*/

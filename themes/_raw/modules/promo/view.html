@@ -1,0 +1,34 @@
+<!---------- Recent ---------->
+{foreach from=$recent_promo key=key item=item}
+	<p>{$key}</p>
+	<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+	{if $key eq 4}{break}{/if} 
+{/foreach}
+<!---------- Recent ---------->
+------------------------------------------------------------------------------------------------------------------------<br><br>
+<!---------- Article ---------->
+<p>{$data.image_title|ucwords}</p>
+<p>{$data.image_sub_title}</p>
+<p>{$data.date|date_format}</p>
+<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+<p>{$data.image_desc}</p>
+{if $prev_image_link}<a href="{$prev_image_link}">Previous Post</a><{/if}
+{if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if}
+
+<!---------- Article ---------->
+	------------------------------------------------------------------------------------------------------------------------<br><br>
+<!---------- Facebook Comment ---------->
+<div class="fb-comments visible-lg hidden-md hidden-sm hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
+<div class="fb-comments hidden-lg hidden-sm vissible-md hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
+<div class="fb-comments hidden-lg vissible-sm hidden-md hidden-xs" data-href="{$data.image_link}" data-width="495" data-numposts="20" data-colorscheme="light"></div>
+<div class="fb-comments hidden-lg hidden-sm hidden-md visible-xs" data-href="{$data.image_link}" data-numposts="20" data-width="300" data-colorscheme="light"></div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!---------- Facebook Comment ---------->

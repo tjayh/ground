@@ -1,0 +1,59 @@
+/* ------------------- MAIN NAVIGATION DROPDOWN  ------------------- */
+		
+#menu li { position:relative; }
+
+#menu ul { border-bottom:1px solid #ffd400; }
+
+#menu ul li {
+	list-style-type:none; 
+	clear:both; 
+	margin:0; 
+	position:relative;
+}
+
+#menu ul li a { 
+	background-image:none;
+	background-color:#c1c8d5;
+	clear:both;
+	color:#000;
+	display:block;
+	float:left;
+	height:auto;
+	padding:10px;
+	text-decoration:none;
+	text-transform:uppercase;
+	width:180px;
+	z-index:999999;
+}
+
+#menu ul li a:hover, 
+#menu ul li.sfHover {
+	background:#e0e0e0; 
+	color:#004764; 
+	text-decoration:none;
+}
+
+#menu ul, 
+#menu ul ul, 
+#menu li:hover ul ul, 
+#menu li:hover ul ul ul, 
+#menu li.sfHover ul ul { 
+	position:absolute; 
+	left: -999em; 
+	z-index:9999; 
+	top:auto; 
+}
+
+#menu ul { top:30px; }
+
+#menu ul ul {
+	margin-left:200px;
+	top:auto;
+}
+		#menu li:hover ul,
+		#menu li li:hover ul,
+		#menu li.sfHover ul,
+		#menu li li.sfHover ul {
+			left:0;
+		}
+

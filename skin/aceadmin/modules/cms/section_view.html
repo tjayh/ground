@@ -1,0 +1,373 @@
+<div class="page-content-area">
+	<div class="page-header">
+		<h1>Page Sections</h1> 
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="widget-box widget-color-blue hid" id="widge">
+				<div class="widget-header">
+					<div class="widget-toolbar no-border widgeToolRemSpace" id="widgetItemActions">
+						<button class="btn btn-xs btn-success" id="btnEditForm"> <i class="fa fa-pencil"></i> Edit </button>
+						<button class="btn btn-xs btn-danger colorImportant delete-item" id="wid_del_sec" title="Delete" data-rel="tooltip" data-column="" data-idPage="{$page.id_page}" data-keySection="" data-toggle="modal" data-target="#secDeleteModal" href="javascript:;"><i class="fa fa-trash"></i> Delete</button>
+						<button class="btn btn-xs btn-info closeWidge"> <i class="ace-icon fa fa-arrow-left"></i> Back </button>
+					</div>
+					<div class="widget-toolbar no-border widgeToolRemSpace" id="widgetListBack">
+						<button class="btn btn-xs btn-info closeWidge"> <i class="ace-icon fa fa-arrow-left"></i> Back </button>
+					</div>
+				</div>
+				<div class="widget-body">
+					<form id="genericForm" class="form-horizontal" role="form">
+						<div class="widget-main">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="step-pane" id="step1">
+										<input type="hidden" id="id_page" name="where[id_page]" value="{$page.id_page}" />
+										<input type="hidden" id="key_section" name="where[key_section]" value="" />
+										<input type="hidden" id="sec_column" name="where[column]" value="" />
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="form-field-1">Title</label>
+											<div class="col-sm-10">
+												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_title" disabled="disabled" name="data[section_title]" required/> 
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="form-field-1">Sub Title</label>
+											<div class="col-sm-10">
+												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_subtitle" disabled="disabled" name="data[section_subtitle]" required/> 
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="form-field-1">Custom Class</label>
+											<div class="col-sm-10">
+												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_class" disabled="disabled" name="data[section_class]" /> 
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="form-field-1">Active</label>
+											<div class="col-sm-10">
+												<input type="checkbox" class="ace ace-checkbox-2 fieldEditable" disabled="disabled" id="active" name="data[isActive]" /> <span class="lbl"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="form-field-1">Type</label>
+											<div class="col-sm-10">
+												<label>
+													<input type="radio" class="col-sm-2 fieldEditable ace content-type" id="content_type_page" disabled="disabled" name="data[content_type]" value="page" required/> <span class="lbl">&nbsp;Page</span> &nbsp; &nbsp; </label>
+												<br/>
+												<label>
+													<input type="radio" class="col-sm-2 fieldEditable ace content-type" id="content_type_module" disabled="disabled" name="data[content_type]" value="module" required/> <span class="lbl">&nbsp;Module</span> </label>
+											</div>
+										</div>
+										<input type="hidden" value="" name="data[pages]" id="page" class="sec_page">
+										<div id="page_type" style="display:none;">
+											<!-- pages -->
+											<div class="form-group">
+												<!-- pages -->
+												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
+												<div class="col-sm-4">
+													<input type="hidden" value="" name="data[limit]" id="limit"> {foreach from=$section_temp item=item}
+													<label class="section-label"> {assign var="section_html" value="../default/images/sections/`$item`.png"}
+														<input type="radio" class="ace fieldEditable templateList" data-templisttype="page" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
+														<span class="lbl">
+															<button type="button" class="viewTemplateButton " data-toggle="modal" data-idPage="{$page.id_page}" data-img="{$section_html}" data-target="#viewTemplate">
+																<img class="section-templates"src="{$section_html}" >
+															</button>
+														</span> 
+													</label>
+													<br/> {/foreach} </div>
+												<p>
+													<div id="templateNotif" style='display:none;'></div>
+												</p>
+											</div>
+											<div class="form-group">
+												<!-- pages -->
+												<label class="col-sm-2 control-label" for="form-field-1">Pages</label>
+												<div class="col-sm-10"> {foreach from=$pages item=item}
+													<input type="checkbox" class=" ace val-page val-list fieldEditable requiredGroup" disabled="disabled" id="pages_{$item.id_page}" value="{$item.id_page}" minchecked="2" /> <span class="lbl">&nbsp;{$item.title}</span>
+													<br> {/foreach} </div>
+											</div>
+										</div>
+										<div id="module_type" style="display:none;">
+											<!-- modules -->
+											<div class="form-group">
+												<!-- modules -->
+												<label class="col-sm-2 control-label" for="form-field-1">Pages</label>
+												<div class="col-sm-3"> {foreach from=$pages item=item} {if $item.module_name neq 'pages'}
+													<input type="radio" class="ace c val-list fieldEditable val-module" id="pages_{$item.id_page}" disabled="disabled" name="modules" data-modulename="{$item.module_name}" value="{$item.id_page}" required/> <span class="lbl">&nbsp;{$item.title}</span>
+													<br>
+													<br/> {/if} {/foreach} </div>
+											</div>
+											<div class="form-group">
+												<!-- templates -->
+												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
+												<div class="col-sm-4">
+													<input type="hidden" value="" name="data[limit]" id="limit"> 
+													{foreach from=$module_temp item=item}
+													<label style="display:none;"> {assign var="module_html" value="../default/images/modules/`$item`.png"} {assign var="filename_array" value="_"|explode:$item}
+														<input type="radio" class="ace fieldEditable" data-templisttype="module" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
+														<span class="lbl">	
+															<a class="viewTemplateButton {$filename_array.0} moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$module_html}">
+																<img src="{$module_html}" class="section-templates2">
+															</a>
+														</span> 
+													</label>
+													<!-- 	<a class="viewTemplateButton {$filename_array.0} moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$module_html}"><img src="{$module_html}" class="img-responsive section-sample-layout"></a>
+													<input type="radio" class="col-sm-2 fieldEditable" data-templisttype="module" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
+													<span class="lbl"></span>
+													<br/>
+													<br/> -->
+													{/foreach} 
+												</div>
+												<p>
+													<div id="templateNotif" style='display:none;'></div>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="widget-toolbox padding-8 clearfix" id="formActions">
+							<a class="btn btn-xs btn-danger closeWidge ignore"> <i class="ace-icon fa fa-times"></i> <span class="bigger-110">Cancel</span> </a>
+							<input type='reset' id="resetForm" class="hid" />
+							<button class="btn btn-xs btn-success" data-last="Finish" id="submit"> 
+								<span class="bigger-110">Submit</span> <i class="ace-icon fa fa-arrow-right icon-on-right"></i> 
+							</button> 
+							<img src="img/loading_whitebg.gif" id="sgLoading_whitebg" class="hid loaderGif" style="vertical-align:bottom !Important;" />&nbsp;&nbsp;&nbsp; <img src="img/admin_submit_loader.gif" id="sgLoader_whitebg" class="hid loaderGif" /> 
+						</div>
+					</form>
+					<!--/widget-main-->
+				</div>
+				<!--/widget-body-->
+			</div>
+		</div>
+		<div class="col-xs-12"> 
+		{assign var="layout" value=$page.layout} 
+		Page Layout:
+			<br/>
+			<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-idPage="{$page.id_page}" data-target="#layoutTempModal"><i class="fa fa-ok bigger-120"></i> Available Layout Templates</button>
+			<input type="hidden" value="" id="sec_order">
+			<input type="hidden" value="{$page.id_page}" id="id_page_order">
+			<input type="hidden" value="" id="col_order">
+			<div class="control-group">
+				<label class="control-label" for="form-field-1">{if $sections.col0}Page Sections:{/if} </label>
+			</div>
+			<div class="row"> {assign var="format" value="_"|explode:$layout.format} {assign var="sections" value=$page_sections}
+				<!-- column 1 -->
+				<div class="col-sm-{$format.0} widget-container-span1" {if $layout.columns>= 1}{else}style="display:none;"{/if}> 
+					{foreach from=$sections.col0 item=item key="key"} 
+					{assign var="html_file" value=$item.template_html}
+					<div id="colsec0" class="widget-box widget-color-dark ui-sortable-handle" data-index="{$key}" data-column="col0" data-sectionKey="{$key}" data-idPage="{$page.id_page}" data-column="col0">
+						<div class="widget-header widget-header-small">
+							<h6 class="widget-title">
+								<i class="fa fa-sort"></i>
+								{$item.section_title}
+							</h6>
+							<div class="widget-toolbar">
+								<div class="hid  col0{$page.id_page}{$item.key_section}" id="jd{$key}">{$item.json}</div>
+								<a title="Edit" data-rel="tooltip" data-column="col0" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" data-modID="jdata{$key}" class="showWidge setFormValues editItem tooltip-success" href="javascript:;"> <i class="fa fa-pencil"></i> </a>
+								<a title="Delete" data-rel="tooltip" data-column="col0" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" class="btn-xs delete-item" data-toggle="modal" data-target="#secDeleteModal" href="javascript:;"><i class="fa fa-trash"></i></a>
+								<a role="button" data-toggle="collapse" href="#collapseCol0{$item.key_section}" aria-expanded="false" aria-controls="collapseCol0{$item.key_section}"><span>
+									<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+								</a> 
+							</div>
+						</div>
+						<div class="collapse" id="collapseCol0{$item.key_section}">
+							<div class="widget-body">
+								<div class="widget-main container-fluid"> {assign var="html_file" value=$item.template_html} {include file=$html_file} </div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div> 
+					{/foreach}
+					<div>
+						<button id="dtAddRow" data-column="col0" class="btn btn-xs btn-info showWidge addReset addbtncol0"> <i class="fa fa-plus"></i> Add Section </button>
+					</div>
+				</div>
+				
+				<!-- column 2 -->
+				<div class="col-sm-{$format.1} widget-container-span2" {if $layout.columns>= 2}{else}style="display:none;"{/if}> 
+					{foreach from=$sections.col1 item=item key="key"} 
+					{assign var="html_file" value=$item.template_html}
+					<div id="colsec1" class="widget-box widget-color-dark ui-sortable-handle" data-index="{$key}" data-column="col1" data-sectionKey="{$key}" data-idPage="{$page.id_page}" data-column="col1">
+						<div class="widget-header widget-header-small">
+							<h6 class="widget-title">
+								<i class="fa fa-sort"></i>
+								{$item.section_title}
+							</h6>
+							<div class="widget-toolbar">
+								<div class="hid  col1{$page.id_page}{$item.key_section}" id="jd{$key}">{$item.json}</div>
+								<a title="Edit" data-rel="tooltip" data-column="col1" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" data-modID="jdata{$key}" class="showWidge setFormValues editItem tooltip-success" href="javascript:;" href="javascript:;"> <i class="fa fa-pencil"></i> </a>
+								<a title="Delete" data-rel="tooltip" data-column="col1" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" class="btn-xs delete-item" data-toggle="modal" data-target="#secDeleteModal" href="javascript:;"><i class="fa fa-trash"></i></a>
+								<a role="button" data-toggle="collapse" href="#collapseCol1{$item.key_section}" aria-expanded="false" aria-controls="collapseCol1{$item.key_section}"><span>
+									<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+								</a> 
+							</div>
+						</div>
+						<div class="collapse" id="collapseCol1{$item.key_section}">
+							<div class="widget-body">
+								<div class="widget-main container-fluid"> {assign var="html_file" value=$item.template_html} {include file=$html_file} </div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div> 
+					{/foreach}
+					<div>
+						<button id="dtAddRow" data-column="col1" class="btn btn-xs btn-info showWidge addReset addbtncol1"> <i class="fa fa-plus"></i> Add Section </button>
+					</div>
+				</div>
+				
+				<!-- column 3 -->
+				<div class="col-sm-{$format.2} widget-container-span3" {if $layout.columns>= 3}{else}style="display:none;"{/if}> 
+					{foreach from=$sections.col2 item=item key="key"} 
+					{assign var="html_file" value=$item.template_html}
+					<div id="colsec2" class="widget-box widget-color-dark ui-sortable-handle" data-index="{$key}" data-column="col2" data-sectionKey="{$key}" data-idPage="{$page.id_page}" data-column="col2">
+						<div class="widget-header widget-header-small">
+							<h6 class="widget-title">
+								<i class="fa fa-sort"></i>
+								{$item.section_title}
+							</h6>
+							<div class="widget-toolbar">
+								<div class="hid  col2{$page.id_page}{$item.key_section}" id="jd{$key}">{$item.json}</div>
+								<a title="Edit" data-rel="tooltip" data-column="col2" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" data-modID="jdata{$key}" class="showWidge setFormValues editItem tooltip-success" href="javascript:;" href="javascript:;"> <i class="fa fa-pencil"></i> </a>
+								<a title="Delete" data-rel="tooltip" data-column="col2" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" class="btn-xs delete-item" data-toggle="modal" data-target="#secDeleteModal" href="javascript:;"><i class="fa fa-trash"></i></a>
+								<a role="button" data-toggle="collapse" href="#collapseCol2{$item.key_section}" aria-expanded="false" aria-controls="collapseCol2{$item.key_section}"><span>
+									<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+								</a> 
+							</div>
+						</div>
+						<div class="collapse" id="collapseCol2{$item.key_section}">
+							<div class="widget-body">
+								<div class="widget-main container-fluid"> {assign var="html_file" value=$item.template_html} {include file=$html_file} </div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div> 
+					{/foreach}
+					<div>
+						<button id="dtAddRow" data-column="col2" class="btn btn-xs btn-info showWidge addReset addbtncol2"> <i class="fa fa-plus"></i> Add Section </button>
+					</div>
+				</div>
+				
+				<!-- column 4 -->
+				<div class="col-sm-{$format.3} widget-container-span4" {if $layout.columns>= 4}{else}style="display:none;"{/if}> 
+					{foreach from=$sections.col3 item=item key="key"} 
+					{assign var="html_file" value=$item.template_html}
+					<div id="colsec3" class="widget-box widget-color-dark ui-sortable-handle" data-index="{$key}" data-column="col3" data-sectionKey="{$key}" data-idPage="{$page.id_page}" data-column="col3">
+						<div class="widget-header widget-header-small">
+							<h6 class="widget-title">
+								<i class="fa fa-sort"></i>
+								{$item.section_title}
+							</h6>
+							<div class="widget-toolbar">
+								<div class="hid  col3{$page.id_page}{$item.key_section}" id="jd{$key}">{$item.json}</div>
+								<a title="Edit" data-rel="tooltip" data-column="col3" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" data-modID="jdata{$key}" class="showWidge setFormValues editItem tooltip-success" href="javascript:;" href="javascript:;"> <i class="fa fa-pencil"></i> </a>
+								<a title="Delete" data-rel="tooltip" data-column="col3" data-idPage="{$page.id_page}" data-keySection="{$item.key_section}" class="btn-xs delete-item" data-toggle="modal" data-target="#secDeleteModal" href="javascript:;"><i class="fa fa-trash"></i></a>
+								<a role="button" data-toggle="collapse" href="#collapseCol3{$item.key_section}" aria-expanded="false" aria-controls="collapseCol3{$item.key_section}"><span>
+									<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+								</a> 
+							</div>
+						</div>
+						<div class="collapse" id="collapseCol3{$item.key_section}">
+							<div class="widget-body">
+								<div class="widget-main container-fluid"> {assign var="html_file" value=$item.template_html} {include file=$html_file} </div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div> 
+					{/foreach}
+					<div>
+						<button id="dtAddRow" data-column="col3" class="btn btn-xs btn-info showWidge addReset addbtncol3"> <i class="fa fa-plus"></i> Add Section </button>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<br/>
+				<div class="col-xs-12">
+					<div class="page-header">
+						<h1>
+							<h1>Preview</h1> 
+						</h1> 
+					</div>
+					<iframe id="previewPage" src="{$base_url}{$page.link_rewrite}" style="min-height: 500px!important; width: 100%"></iframe>
+					<!-- view templatemodal -->
+					<div id="viewTemplate" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-body">
+									<div class="controls"> <img id="view_template_modal" src="" class="img-responsive"> </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- update layout modal -->
+					<!-- update layout modal -->
+					<!-- Modal -->
+					<div id="layoutTempModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Layout Template</h4> </div>
+								<div class="modal-body">
+									<p>Select Layout Template</p>
+									<div class="control-group">
+										<input type="hidden" value="" name="data[limit]" id="limit">
+										<div class="radio"> 
+										{foreach from=$layout_temp item=item} 
+										{assign var="layout_html" value="../default/images/layout/`$item`.png"}
+											<label>
+												<input type="radio" {if $layout.filename eq $item}checked{/if} id="page_layout" name="page_layout" value="{$item}" required/ class="ace fieldEditable"> <span class="lbl">
+												<a class="viewTemplateButton" role="button" href="javascript:;" data-img="{$layout_html}"> 
+													<img src="{$layout_html}" class="img-responsive layout-templates"> 
+												</a>
+												</span>
+												<hr/> 
+											</label> 
+										{/foreach} 
+										</div>
+										<div class="modal-footer">
+											<div id="layoutTempModalButtons">
+												<button data-dismiss="modal" class="btn btn-xs" style="display: inline-block;"> <i class="icon-remove"></i> Cancel </button>
+												<button id="layoutTempYes" class="btn btn-xs btn-primary" style="display: inline-block;" data-idpage="{$page.id_page}"> <i class="icon-ok"></i> Update </button>
+											</div> <img style="vertical-align:bottom !Important;" class="hid" id="sgLoading" src="img/loading.gif">&nbsp;&nbsp;&nbsp; <img class="hid" id="layoutTempModalLoading" src="img/3d.gif"> 
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- update layout modal -->
+						</div>
+					</div>
+					<div id="secDeleteModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+									<h4 class="blue bigger">Delete Section</h4>
+								</div>
+								<div class="modal-body">
+									<div class="row-fluid">Are you sure you want to delete this Section?</div>
+								</div>
+								<div class="modal-footer">
+									<button data-dismiss="modal" class="btn btn-xs hideWhile">
+										<i class="fa fa-remove"></i>
+										No
+									</button>
+									<button id="secDeleteYes" class="btn btn-xs btn-primary hideWhile" data-yesfxn="deleteSecRow();" data-idpage="{$page.id_page}">
+										<i class="fa fa-check"></i>
+										Yes
+									</button>
+									<input type="hidden" value="" id="deleteKeySection">
+									<input type="hidden" value="" id="deleteKeyColumn">
+									<input type="hidden" value="" id="deleteIdPage">
+									<img style="vertical-align:bottom !Important;" class="hid" id="sgLoading" src="img/loading.gif">&nbsp;&nbsp;&nbsp;
+									<img class="hid" id="sgLoader" src="img/3d.gif">
+								</div>
+							</div>
+						</div>
+					</div>
+					<span class="hid" id="forDeleteFxn" data-mtitle="Delete" data-mbody="Are you sure you want to delete this Section?" data-myes="deleteRow();"></span> <span class="hid" id="disableFxn" data-mtitle="Disable Item Status" data-mbody="Are you sure you want to Disable this item?" data-myes="disableMod();"></span> <span class="hid" id="enableFxn" data-mtitle="Enable Item Status" data-mbody="Are you sure you want to Enable this item?" data-myes="enableMod();"></span>
+				</div>
+			</div>
+		</div>

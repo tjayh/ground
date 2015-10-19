@@ -1,0 +1,66 @@
+<div class="col-md-12" style="padding: 0px;">
+	<div id="search_results" class="row"><img src="{$base_url}skin/{$_theme}/img/loading.gif" class="load" style="margin-left:15px;">&nbsp;Loading...</div>
+</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+	{literal}
+	(function() {
+		var cx = '009089290157398579598:bttf7slrpsy'; <!-- change id here https://www.google.com/cse/all -->
+		var gcse = document.createElement('script');
+		gcse.type = 'text/javascript';
+		gcse.async = true;
+		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.com/cse/cse.js?cx=' + cx;
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(gcse, s);
+	})();
+	function str_replace(search, replace, subject, count) {
+		var i = 0,
+			j = 0,
+			temp = '',
+			repl = '',
+			sl = 0,
+			fl = 0,
+			f = [].concat(search),
+			r = [].concat(replace),
+			s = subject,
+			ra = r instanceof Array,
+			sa = s instanceof Array;
+		s = [].concat(s);
+		if (count) {
+			this.window[count] = 0;
+		}
+		for (i = 0, sl = s.length; i < sl; i++) {
+			if (s[i] === '') {
+				continue;
+			}
+			for (j = 0, fl = f.length; j < fl; j++) {
+				temp = s[i] + '';
+				repl = ra ? (r[j] !== undefined ? r[j] : '') : r[0];
+				s[i] = (temp).split(f[j]).join(repl);
+				if (count && s[i] !== temp) {
+					this.window[count] += (temp.length - s[i].length) / f[j].length;
+				}
+			}
+		}
+		return sa ? s : s[0];
+	}
+	function getQuerystring(key, default_) {
+		if (default_ == null) default_ = "";
+		key = key.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+		var regex = new RegExp("[\\?&]" + key + "=([^&#]*)");
+		var qs = regex.exec(window.location.href);
+		if (qs == null) return default_;
+		else return qs[1];
+	}
+	var search_query = getQuerystring('search', 'change_this_name_in_search_index_html');
+	search_query = str_replace('%20', ' ', search_query);
+
+	function OnLoad() {
+		var customSearchControl = new google.search.CustomSearchControl('009089290157398579598:bttf7slrpsy'); <!-- change id here https://www.google.com/cse/all -->
+		customSearchControl.draw('search_results');
+		customSearchControl.execute(search_query);
+	}
+	google.setOnLoadCallback(OnLoad); 
+	{/literal}
+</script>
+		

@@ -1,0 +1,40 @@
+/* ---------->>> Master Settings <<<-----------*/
+
+
+@import url("reset.css");
+@import url("general.css");
+
+@import url("forms.css");
+@import url("anchor.css");
+@import url("inner.css");
+
+@import url("normal-dropdown.css");
+/*@import url("drop-up.css");*/
+
+
+/*@import url("default.css");*/
+
+
+
+
+
+/***** Shorthand Properties *****/
+
+/*
+CSS:
+margin: top right bottom left;
+margin: 1em 0 2em 0.5em;
+(margin-top: 1em; margin-right: 0; margin-bottom: 2em; margin-left: 0.5em;)
+
+CSS:
+border: width style color;
+border: 1px solid #000;
+
+CSS:
+background: color image repeat attachment position;
+background: #f00 url(background.gif) no-repeat fixed 0 0;
+
+CSS:
+font: font-style (italic/normal) font-variant (small-caps) font-weight font-size/line-height font-family;
+font: italic small-caps bold 1em/140% “Lucida Grande”,sans-serif;
+*/

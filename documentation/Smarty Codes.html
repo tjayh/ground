@@ -1,0 +1,378 @@
+FIXED (do not change position)
+{$_theme} - theme used
+{$_site_css} - custom css used
+{$_meta_keywords} - meta tags for keywords
+{$_meta_title} - meta tags for title
+{$_meta_description} - meta tags for description
+{$_meta_author} - meta tags for author
+{$_meta_robots} - meta tags for robot (index,follow)
+{$_google_ua} - google analytics
+{$_favicon} - website favicon
+{$_recaptcha_public_key} - recaptcha for contact us form
+{include file="$_theme/include/main_styles.html"} - css style for main template use ONLY
+{include file="$_theme/include/main_js.html"} - js scripts for main template use ONLY
+{include file="$_theme/include/inner_styles.html"} -  css style for inner template use ONLY
+{include file="$_theme/include/inner_js.html"} - js scripts for inner template use ONLY
+
+GLOBAL (can be copy paste anywhere)
+{$base_url} - <!-- url of the website -->
+{$skin_url} - <!-- theme used by the website -->
+{$_site_title} -<!--  website name -->
+{$_logo} - <!-- website logo -->
+{$_sm_facebook} - <!-- social media link facebook -->
+{$_sm_twitter} - <!-- social media link twitter -->
+{$_sm_googleplus} - <!-- social media link google plus -->
+{$_sm_pinterest} - <!-- social media link pinterest -->
+{$_sm_linkedin} - <!-- social media link linkedin -->
+{$_sm_instagram} - <!-- social media link instagram -->
+{$_contact_email} - <!-- contact email of the website -->
+{$_contact_no} - <!-- contact no. of the website -->
+{$_contact_address} - <!-- contact address of the website -->
+{$_banner} - <!-- banners of the website -->
+{$_news} - <!-- recent news (sorted by date from latest to oldest) -->
+{$_events} - <!-- recent events (sorted by date from latest to oldest) -->
+{$_promo} - <!-- recent promos (sorted by date from latest to oldest) -->
+{$_blog} - <!-- recent blogs (sorted by date from latest to oldest) -->
+{$_gallery} - <!-- recent gallery albums (sorted by date from latest to oldest) -->
+{$_testimonials} - <!-- recent testimonials (sorted by date from latest to oldest) -->
+{$_page_title} - <!--  page title -->
+{$_page_XXXXX} - <!-- change XXXXX to the linkrewrite of the page found in cms -->
+{$smarty.now|date_format:"%Y"} - <!-- gets current year can be used in footer  -->
+
+======================================================================================================
+======================================================================================================
+FIXED INCLUDES (can be copy paste anywhere)
+
+	OTHERS <!-- contains IMPORTANT site data  -->
+	- {include file="$_theme/include/others.html"}
+
+	SECTION FOR MAIN.TEMPLATE
+	- {include file="$_theme/include/main_section.html"}
+	- sections for main.template (homepage only)
+
+	MODULE and PAGE
+	- displays cms contents (pages and module) and specific html (module pages ex. index.html,view.html, etc.)
+	- always in innertemplate only
+		{if $_content}{include file=$_content}{/if}{if $_template}{include file=$_template}{/if}
+
+
+FIXED INCLUDES (can be copy paste anywhere)
+
+	HEADER NAV (header-nav.html) <!-- ordered navigation mostly used for header navigation -->
+	- {include file="$_theme/include/header-nav.html"}
+	{function navmenu level=0} 
+		{foreach from=$data key=key item=element}
+			{if $element.child|@count gt 0}
+			<li class="dropdown"> <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">{$element.title}<b class="caret"></b></a>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+					{navmenu data=$element.child level=$level+1}
+				</ul>
+			</li>
+			{else}
+				<li>
+					<a href="{if $element.absolute_link ne ''}{$base_url}{$element.absolute_link}{else}javascript:;{/if}">{$element.title}</a>
+				</li>
+			{/if}
+		{/foreach}
+	{/function}
+	{navmenu data=$navItems level=0} <!-- always placed after the function navmenu -->
+
+
+	SEARCH (search.html)
+	- {include file="$_theme/include/search.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		<form id="searchForm" action="{$base_url}search" method="get">
+			<input type="text" name="search" placeholder="Search">
+			<button type="submit" id="searchBtn">Search</button> <img src="img/loading.gif" class="loadingGif" style="display:none;">
+			<div id="subNotif"></div>
+		</form>
+
+
+	SLIDER BANNER (slider.html)
+	- {include file="$_theme/include/slider.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		<ul class="slides">
+			{foreach from=$_banner key=key item=item}
+			<li> 
+				<p>{$key}</p>
+				<img src="{$item.image_src}"/>
+				<h1><img src="{$item.image_src2}"/></h1>
+				<h2>{$item.image_title}</h2>
+				<h3>{$item.image_sub_title}</h3>
+				<h4>{$item.image_sub_title2}</h4>
+				<h5>{$item.image_desc}</h5>
+				<h6>{$item.date|date_format}</h6>
+				<h7><a href="{$item.image_link}">{$item.image_link}</a></h7>
+			</li>
+			{/foreach}
+		</ul>
+
+
+	RECENT NEWS, BLOG, PROMO, EVENTS (xxxxx.html)
+	- change xxxxx to news, blog, promo, events
+	- {include file="$_theme/include/recent-xxxxx.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		{foreach from=$_xxxxx key=key item=item}
+		<p>{$key}</p>
+		<p>{$item.image_title}</p>
+		<p>{$item.image_sub_title}</p>
+		<p>{$item.image_desc|strip_tags:true}</p>
+		<p>{if $item.image_src_thumb}<img src="{$item.image_src_thumb}">{/if}</p>
+		<p>{if $item.image_src}<img src="{$item.image_src}">{/if}</p>
+		<p><a href="{$item.image_link}/">{$item.image_link}</a></p>
+		{/foreach}
+
+
+	RECENT TESTIMONIAL (slider.html)
+	- {include file="$_theme/include/recent-testimonials.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		{foreach from=$_testimonials key=key item=item}
+		<div class="col-md-3">
+		<p>{$key}</p>
+		<p>{$item.name}</p>
+		<p>{$item.email}</p>
+		<p>{$item.message}</p>
+		</div>
+		{/foreach}
+
+
+	SUBSCRIBE (slider.html)
+	- {include file="$_theme/include/subscribe.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		<form id="subscribeForm" onsubmit="return false;">
+			<input type="email" class="validate[required,custom[email]]" name="data[email]" id="email" placeholder="Enter email" >
+			<button type="submit" id="subscribeSubmit">Subscribe</button>
+			<img src="img/loading.gif" id="subscribeLoading" style="display:none;">
+			<div id="subscribeNotif"></div>
+		</form>
+		
+		
+	FOOTER (slider.html)
+	- {include file="$_theme/include/subscribe.html"}
+	- can be used GLOBALY (copy paste to any part html)
+		<form id="subscribeForm" onsubmit="return false;">
+			<input type="email" class="validate[required,custom[email]]" name="data[email]" id="email" placeholder="Enter email" >
+			<button type="submit" id="subscribeSubmit">Subscribe</button>
+			<img src="img/loading.gif" id="subscribeLoading" style="display:none;">
+			<div id="subscribeNotif"></div>
+		</form>
+
+
+======================================================================================================
+======================================================================================================
+MODULES
+
+NEWS, BLOG, PROMO, EVENTS
+	index.html & page.html
+	RECENTS LISTS
+	- displays all from database
+	- ordered from latest to oldest
+	- change 4 (found below) to any number desired for limitation of items display
+	- change xxxxx to news, blog, promo, events
+		{foreach from=$recent_xxxxx key=key item=item}
+			<p>{$key}</p>
+			{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
+			{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+			<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+			{if $key eq 4}{break}{/if} 
+		{/foreach}
+
+	MODULE LISTS
+	- displays all from database
+	- ordered from latest to oldest
+	- change xxxxx to news, blog, promo, events
+		{if $xxxxx}
+			{foreach from=$xxxxx key=key item=item}
+			{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+				<p>{$key}</p>
+				<p>{$item.id_xxxxx_item}</p>
+				<p>{$item.image_sub_title}</p>
+				<p><a  href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+				<p>{if $item.image_src_thumb}<img src="{$item.image_src_thumb}"/>{/if}</p>
+				<p>{$item.date|date_format}</p>
+				<p>{$item.image_desc|strip_tags:true|truncate:1000}</p>
+			{/foreach}
+		{/if}
+
+	MODULE LIST PAGINATION
+	- pagination number of pages
+	- pagination class cannot be deleted just add class next to it if needed
+	- ordered from latest to oldest
+	- change xxxxx to news, blog, promo, events
+		{if $xxxxx}
+		<ul class="pagination">
+			{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if}
+				{for $page=1 to $num_pages}
+					{if $int_page eq $page}
+						<li><span class="current">{$page}</span></li>
+					{else}
+						<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
+					{/if}
+				{/for}
+			{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
+		</ul>
+		{/if}
+
+	view.html
+	RECENTS LISTS
+	- displays all from database
+	- ordered from latest to oldest
+	- change 4 (found below) to any number desired for limitation of items display
+	- change xxxxx to news, blog, promo, events
+		{foreach from=$recent_xxxxx key=key item=item}
+			<p>{$key}</p>
+			{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
+			{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+			<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+			{if $key eq 4}{break}{/if} 
+		{/foreach}
+		
+	ARTICLE
+	- display selected item found from the lists
+		<p>{$data.image_title|ucwords}</p>
+		<p>{$data.image_sub_title}</p>
+		<p>{$data.image_author}</p>
+		<p>{$data.date|date_format}</p>
+		<p>{if $data.image_src}<img src="{$data.image_src}"/>{/if}</p>
+		<p>{$data.image_desc}</p>
+		{if $prev_image_link}<a href="{$prev_image_link}">Previous Post</a><{/if}
+		{if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if}
+
+FAQ
+	index.html
+	- display all FAQ items from the list
+	{if $faqs}  
+		{foreach from=$faqs key=key item=item}
+			<p>{$key}</p>
+			<p>{$item.category_title}</p>
+			<p>{$item.category_description}</p>
+			{foreach from=$item.items key=key2 item=item2}
+				<p>{$key2}</p>
+				<p>{$item2.faq_question}</p>
+				<p>{$item2.faq_answer}</p>
+			{/foreach}
+			___________________________________
+		{/foreach}
+	{/if}
+	
+
+GALLERY
+	index.html
+	- display all gallery category
+	 {foreach from=$gallery key=key item=item}
+		<p>{$key}</p>
+		<p>{if $item.image_src}<img src="{$item.image_src}"/>{/if}</p>
+		<p>{if $item.image_src_thumb}<img src="{$item.image_src_thumb}"/>{/if}</p>
+		<p><a href="{$item.item_link}">{$item.item_link}</a></p>
+		<p>{$item.category_title}</p>
+		<p>{$item.category_sub_title}</p>
+		<p>{$item.category_desc}</p>
+	{/foreach}
+
+	category.html
+	- display selected category from index.html
+	 <p>{$gallery_category.category_title}</p>
+	<p>{$gallery_category.category_sub_title}</p>
+	<p>{$gallery_category.category_desc}</p>
+	<p>{if $gallery_category.image_src}<img src="{$gallery_category.image_src}"/>{/if}</p>
+	<p>{if $gallery_category.image_src_thumb}<img src="{$gallery_category.image_src_thumb}"/>{/if}</p>
+	
+	category.html
+	- display selected category and item from index.html
+	<p>{$gallery_category.category_title}</p>
+	<p>{$gallery_category.category_sub_title}</p>
+	<p>{$gallery_category.category_desc}</p>
+	<p>{if $gallery_category.image_src}<img src="{$gallery_category.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+	<p>{if $gallery_category.image_src_thumb}<img src="{$gallery_category.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+
+	<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+	<p>{if $data.image_src_thumb}<img src="{$data.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+	<p>{$data.id_item}<!--please delete this code if not needed and this comment. used if unique class or id is needed, check if slider, pop-up, etc. would need unique identifier--></p>
+	<p>{$data.image_title}</p>
+	<p>{$data.image_desc}</p>
+
+TESTIMONIAL
+	index.html and page.html
+	TESTIMONIAL FORM
+	- form to be filled up by visitor
+	<form role="form" id='testiForm' onsubmit="return false;">
+		<input type="text" class="validate[required]" id="name" placeholder="Enter Name" name="data[name]" required>
+		<textarea class="validate[required]" id="message" rows="3" name="data[message]" required></textarea>
+		<div id="testiNotif" style='display:none;'></div>	
+		<img src="img/sending.gif" id="testiLoading" style="display:none;">
+		<div id="testiFormBtns">
+		<button type="submit" class="btn btn-default">Submit</button>
+		<button type="reset" class="btn btn-default">Reset</button>
+		</div>
+	</form>
+	
+	ITEMS
+	- display all items from database
+	{if $testimonial}
+	{foreach from=$testimonial key=key item=item}
+		<p>{$key}</p>
+		<p>{$item.message}</p>
+		<p>{$item.name}</p>
+	{/foreach}
+	{if $testimonial}
+	
+	PAGINATION
+	- pagination number of pages
+	- pagination class cannot be deleted just add class next to it if needed
+	<ul class="pagination">
+		{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if}
+			{for $page=1 to $num_pages}
+				{if $int_page eq $page}
+					<li><span class="current">{$page}</span></li>
+				{else}
+					<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
+				{/if}
+			{/for}
+		{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
+	</ul>
+	{/if}
+	
+CONTACTUS
+	index.html
+	- add "validate[required]" in the class of the field
+	<form id='contactusForm' onsubmit="return false;">
+		<p><input type="text" id="contactName" class="validate[required]" placeholder="Enter Name" name="data[name]" ></p>
+		<p><input type="email" id="contactEmail" class="validate[required,custom[email]]" placeholder="Enter email" name="data[email]" ></p>
+		<p><input type="text" id="contactPhone" placeholder="Enter Contact No." name="data[phone]" ></p>
+		<p><input type="text" id="contactWebsite" placeholder="Enter Website" name="data[website]" ></p>
+		<p><input type="text" id="contactAddress" placeholder="Enter Address" name="data[address]" ></p>
+		<p><input type="text" id="contactSubject" placeholder="Enter Subject" name="data[subject]" ></p>
+		<p><textarea id="contactComment" class="validate[required]" rows="3" name="data[message]" ></textarea></p>
+		<p><img src="img/loading.gif" id="contactLoading" style="display:none;"></p>
+		<p><div id="contactNotif" style='display:none;' ></div></p>
+		<div id="contactusFormBtns">
+			<p><button type="submit">Submit</button></p>
+			<p><button type="reset">Reset</button></p>
+		</div>
+	</form>
+
+
+======================================================================================================
+======================================================================================================
+INNER PAGE SECTIONS
+- skin\default\includes\section_templates
+- sample file: accordion_with_title_caption_description_image_4 
+- the last two character should ALWAYS be underscore and number (ex: _4)
+
+	sample section
+	{$item.section_title} - <!-- title of section -->
+	{$item.section_subtitle} - <!-- sub title of section -->
+	{$item.pages.0.title} - <!-- page title -->
+	{$item.pages.0.caption} - <!-- page caption -->
+	{$item.pages.0.content} - <!-- page cms content -->
+	<img src="{$item.pages.0.image_src}" class="img-responsive" class="img-thumbnail"> - <!-- page banner image -->
+	- note that 0 will be based on the last two character found in the file name (ex: item_with_colmd2image_title_caption_description_1 = 0, accordion_with_title_caption_description_image_4 = 3)
+	
+
+	
+	
+a
+
+
+
+

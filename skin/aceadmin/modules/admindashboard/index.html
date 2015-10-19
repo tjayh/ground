@@ -1,0 +1,65 @@
+{if $bcContactIndex}
+<div class="col-xs-12">
+<h3 class="header smaller lighter blue">Last 10 Visitor Contacted Us</h3>
+	<div class="table-header">
+		<a class="btn btn-sm pull-right btn-info ignore" href="{$admin_base}contactus"> <i class="icon-plus"></i> View </a>
+		<div class="clearfix"></div>
+	</div>
+	<div class="table-responsive">
+		<div class="dataTables_borderWrap">
+			<div>
+				<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Message</th>
+							<th>Email</th>
+							<th>Date</th>
+						</tr>
+					</thead>
+					<tbody> {foreach from=$contacts key=key item=item}
+						<tr>
+							<td>{$item.name}</td>
+							<td>{$item.message|truncate:100}</td>
+							<td>{$item.email}</td>
+							<td>{$item.date_add|date_format:"F j, Y"}</td>
+							
+						</tr> 
+						{if $key eq 9}{break}{/if}
+						{/foreach} </tbody>
+				</table>
+			</div>
+		</div> 
+		<span class = "hid" id = "forDeleteFxn" data-mtitle = "Delete" data-mbody = "Are you sure you want to delete this item?" data-myes = "deleteRow();"></span>
+	</div>
+</div>
+{/if}
+{if $bcNewsSub}
+<div class="col-xs-12">
+<h3 class="header smaller lighter blue">Last 10 Subscribed Visitors</h3>
+	<div class="table-header">
+		<a class="btn btn-sm pull-right btn-info ignore" href="{$admin_base}newsletter"> <i class="icon-plus"></i> View </a>
+		<div class="clearfix"></div>
+	</div>
+	<div class="table-responsive">
+		<div class="dataTables_borderWrap">
+			<div>
+				<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>Email</th>
+							<th>Date Subscribed</th>
+							<th>Active</th>
+						</tr>
+					</thead>
+					<tbody> {foreach from=$subscribers item=item}
+						<tr>
+							<td> {$item.email} </td>
+							<td> {$item.date_add} </td>
+							<td class="center"> {if $item.status eq '1'} <span class="label label-success"> Active </span> {else} <span class="label label-danger">InActive</span> {/if} </td>
+						</tr> {if $key eq 9}{break}{/if} {/foreach} </tbody>
+				</table>
+			</div>
+		</div> <span class="hid" id="forDeleteFxn" data-mtitle="Delete" data-mbody="Are you sure you want to delete this subscriber?" data-myes="deleteRow();"></span> </div>
+</div>
+{/if}

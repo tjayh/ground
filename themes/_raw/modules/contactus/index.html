@@ -1,0 +1,54 @@
+<form id='contactusForm' onsubmit="return false;">
+	<p><input type="text" id="contactName" class="validate[required]" placeholder="Enter Name" name="data[name]" ></p>
+	<p><input type="email" id="contactEmail" class="validate[required,custom[email]]" placeholder="Enter email" name="data[email]" ></p>
+	<p><input type="text" id="contactPhone" placeholder="Enter Contact No." name="data[phone]" ></p>
+	<p><input type="text" id="contactWebsite" placeholder="Enter Website" name="data[website]" ></p>
+	<p><input type="text" id="contactAddress" placeholder="Enter Address" name="data[address]" ></p>
+	<p><input type="text" id="contactSubject" placeholder="Enter Subject" name="data[subject]" ></p>
+	<p><textarea id="contactComment" class="validate[required]" rows="3" name="data[message]" ></textarea></p>
+	<p><img src="img/loading.gif" id="contactLoading" style="display:none;"></p>
+	<p><div id="contactNotif" style='display:none;' ></div></p>
+	<div id="contactusFormBtns">
+		<p><button type="submit">Submit</button></p>
+		<p><button type="reset">Reset</button></p>
+	</div>
+</form>
+
+<!-- CODES FOR RECAPTCHA -->
+<!-- <script type="text/javascript">
+	var RecaptchaOptions = {
+		theme: 'custom',
+		custom_theme_widget: 'recaptcha_widget'
+	};
+</script>
+<div id="recaptcha_widget" style="display:none">
+	<div class="form-group">
+		<label class="control-label col-md-3">reCAPTCHA</label>
+		<div class="col-md-9">
+			<a id="recaptcha_image" href="javascript:;"></a>
+			<div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="recaptcha_only_if_image control-label col-md-3" style="font-size: 12px; line-height: 12px;">Enter the words above:</label>
+		<label class="recaptcha_only_if_audio control-label col-md-3" style="font-size: 12px; line-height: 12px;">Enter the numbers you hear:</label>
+		<div class="controls">
+			<div class="input-append">
+				<div class="col-md-5">
+					<input type="text" id="recaptcha_response_field" class="form-control input-recaptcha" name="recaptcha_response_field" required/> <a class="btn" style="padding:5px" href="javascript:Recaptcha.reload()"><i class="fa fa-refresh"></i></a> <a class="btn recaptcha_only_if_image" style="padding:5px" href="javascript:Recaptcha.switch_type('audio')"><i title="Get an audio CAPTCHA" class="fa fa-headphones"></i></a> <a class="btn recaptcha_only_if_audio" style="padding:5px" href="javascript:Recaptcha.switch_type('image')"><i title="Get an image CAPTCHA" class="fa fa-picture"></i></a> <a class="btn" style="padding:5px" href="javascript:Recaptcha.showhelp()"><i class="fa fa-question-circle"></i></a>
+					<a href="javascript:;" id="incorrect_captcha" rel="popover" data-placement="right" data-original-title="Incorrect CAPTCHA. Please try again."></a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="https://www.google.com/recaptcha/api/challenge?k={$RECAPTCHA_PUBLIC_KEY}"></script>
+		<noscript>
+			<iframe src="https://www.google.com/recaptcha/api/noscript?k={$RECAPTCHA_PUBLIC_KEY}" height="300" width="500" frameborder="0"></iframe>
+			<br>
+			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+			<input type="hidden" name="recaptcha_response_field" value="manual_challenge"> </noscript>
+	</div>
+	<div class="alert alert-error alert-danger" id="alert_recaptcha" style="display:none; width: auto; text-align: center; padding: 5px; margin-bottom: 10px;">
+		<button type="button" class="close" data-dismiss="alert"> x </button> <strong>Please input the recaptcha code.</strong>
+		<div id="alert-content"></div>
+	</div>
+</div> -->

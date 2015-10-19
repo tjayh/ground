@@ -1,0 +1,272 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+:-moz-any-link:focus , :-moz-any-link:active{
+  outline: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+div.start{
+	text-align:center;
+	position: fixed;
+	width: 60%;
+	height: 80%;
+	left:20%;
+	top: 35%;
+}
+
+div.start p{
+	font-size:34px;
+}
+
+a#buttonStart{
+	background: #62a8d1;
+}
+
+div#wizardContainer{
+	position:fixed;
+	width: 56%;
+	height: 70%;
+	left:22%;
+	top:50px;
+	background: #fff;
+	color:#5c5c5c;
+	display:none;
+}
+a#closeWizard{
+	position:absolute;
+	top:6%;
+	left:93.8%;
+}
+
+div#head{
+	position:relative;
+	width:100%;
+	height:14%;
+}
+div#body{
+	position:relative;
+	width:100%;
+	height:86%;
+}
+
+div.leftSide{
+	position:relative;
+	float:left;
+	width:35%;
+	height:100%;
+}
+div.rightSide{
+	position:relative;
+	float:right;
+	width:65%;
+	height:100%;
+}
+
+div#head p.heading{
+	font-size: 26px;
+	margin-left:10px;
+	margin-top:19px;
+}
+
+
+
+div#sideguide{
+	position:relative;
+	width:100%;
+	height:100%;
+	background:#f5f5f5;
+}
+div#sideguide ul,li{
+	margin:0;
+    padding:0;
+	color:#d3beb4;
+}
+
+p.progressSmiley{
+	text-align:center;
+	color:#676767;
+}
+i.progressActive{
+	color:#62a8d1;
+}
+i.posicon{
+	float:right;
+	margin-top:20px;
+	margin-right:10px;
+}
+div#sideguide li p{
+	margin-left:10px;
+}
+
+
+li.active{
+	color:#5a5139;
+	background:#62a8d1;
+}
+
+div#maincontainer{
+	position:relative;
+	width:100%;
+	height:80%;
+	
+}
+
+div.container{
+	position:relative;
+	width:100%;
+	display:none;
+	
+}
+
+div.containerModule{
+	position:relative;
+	left:2.8%;
+	width:92.8%;
+	height:100%;
+}
+
+ul.generated{
+
+	padding: 0px;
+	list-style: none outside none;
+	border: 0px none;
+	font:inherit;
+	vertical-align:baseline;
+	color: rgb(92,92,92);
+	margin:0px 0px 10px;
+}
+
+li.generated{
+
+	margin:0px;
+	padding:0px;
+	color: rgb(211,190,180);
+	border: 0px none;
+	font:inherit;
+	vertical-align:baseline;
+	line-height: 50px;
+}
+
+p.generated{
+	margin:0px;
+	padding:0px;
+	border: 0px none;
+	font:inherit;
+	vertical-align:baseline;
+	color:rgb(51,51,51);
+	
+}
+
+
+
+div.containerLeft{
+	position:relative;
+	float:left;
+	width:50%;
+	height:100%;	
+}
+div.containerRight{
+	position:relative;
+	float:right;
+	width:50%;
+	height:100%;
+}
+i.activated{
+	color: #107127;
+}
+
+div#notification{
+	position:relative;
+	height:10%;
+	text-align:center;
+	border-radius: 5px;
+}
+div#notification p {
+	padding-top:5px;
+	color:#fff;
+
+}
+div#notification img{
+	margin-top:8px;
+	display:none;
+}
+div#buttonControl{
+	position:relative;
+	width:100%;
+	height:10%;
+}
+div#buttonControl button{
+	display:none;
+}
+div#buttonControl .leftSide button{
+	margin-top:5px;
+	margin-left:10px;
+}
+div#buttonControl .rightSide{
+	text-align:right;
+}
+div#buttonControl .rightSide button#nextStep{
+	margin-top:5px;
+	margin-right:18px;
+}
+div#buttonControl .rightSide button#viewError{
+	margin-top:5px;
+}
+
+button#viewError{
+	background:#8D0202;
+	color:white;
+	border-bottom: #8D0202;
+}
+
+button#viewError:hover{
+	background:#8D0202;
+	color:white;
+}

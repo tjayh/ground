@@ -1,0 +1,71 @@
+<div class="page-content-area">
+	<div class="page-header">
+		<h1>
+			SEO Settings
+			<small style="display: none;">
+				<i class="ace-icon fa fa-angle-double-right"></i>
+			</small>
+		</h1> </div>
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Content Starts Here -->
+			<div class="widget-box widget-color-blue" id="widge">
+				<div class="widget-header">
+					<div class="widget-toolbar no-border widgeToolRemSpace" id="widgetItemActions">
+						<button id="btnEditForm" class="btn btn-success btn-xs"> <i class="fa fa-pencil"></i> Edit </button>
+					</div>
+				</div>
+				<div class="widget-body">
+					<form id="genSettingsForm" class="form-horizontal" role="form">
+						<div class="widget-main">
+							<!-- Widget Content / Editor Form -->
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="step-pane" id="step1">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="meta_title"> Site Meta Title </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Site Meta Title" class="col-xs-12 col-sm-8 fieldEditable" id="meta_title" name="data[meta_title]" disabled="disabled" value="{$meta_title}" /> </div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="meta_tags"> Site Meta Keyword </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Site Meta Keyword" class="col-xs-12 col-sm-8 fieldEditable" id="meta_tags" name="data[meta_tags]" disabled="disabled" value="{$meta_tags}" /> </div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="meta_description"> Site Meta Description </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Site Meta Description" class="col-xs-12 col-sm-8 fieldEditable" id="meta_description" name="data[meta_description]" disabled="disabled" value="{$meta_description}" /> </div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="meta_author"> Site Meta Author </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Site Meta Author" class="col-xs-12 col-sm-8 fieldEditable" id="meta_author" name="data[meta_author]" disabled="disabled" value="{$meta_author}" /> </div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="meta_robots"> Site Meta Robots </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Site Meta Robots" class="col-xs-12 col-sm-8 fieldEditable" id="meta_robots" name="data[meta_robots]" disabled="disabled" value="{$meta_robots}" /> </div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="seo_google_ua"> Google Analytics </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Google Analytics" class="col-xs-12 col-sm-8 fieldEditable" id="seo_google_ua" name="data[seo_google_ua]" disabled="disabled" value="{$seo_google_ua}" /> </div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Widget End -->
+						</div>
+						<div class="widget-toolbox padding-8 clearfix hid" id="formActions">
+							<a class="btn btn-xs btn-danger closeWidge ignore"> <i class="ace-icon fa fa-times"></i> <span class="bigger-110">Cancel</span> </a>
+							<input type="reset" id="resetForm" class="hid">
+							<button class="btn btn-xs btn-success" data-last="Finish"> <span class="bigger-110">Submit</span> <i class="ace-icon fa fa-arrow-right icon-on-right"></i> </button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- Content Ends Here -->
+		</div>
+	</div>
+</div>

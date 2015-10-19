@@ -1,0 +1,37 @@
+<!-- <div class="flexslider">
+	<ul class="slides">
+		{foreach from=$_banner key=key item=item}
+		<li> 
+			<p>{$key}</p>
+			<img src="{$item.image_src}"/>
+			<h1><img src="{$item.image_src2}" style="max-height: 150px; max-width: 150px;"/></h1>
+			<h2>{$item.image_title}</h2>
+			<h3>{$item.image_sub_title}</h3>
+			<h4>{$item.image_sub_title2}</h4>
+			<h5>{$item.image_desc}</h5>
+			<h6>{$item.date|date_format}</h6>
+			<h7><a href="{$item.image_link}">{$item.image_link}</a></h7>
+		</li>
+		{/foreach}
+	</ul>
+</div>
+ -->
+
+<section class="slider">
+    <div class="flexslider">
+        <ul class="slides">
+            {foreach from=$_banner key=key item=item}
+            <li style="background: url('{$item.image_src}') center center no-repeat">
+                <div class="slide-bg-container">
+                    <img class="slide-bg hidden-lg" src="{$item.image_src}" />
+                </div>
+                <!--<p class="flex-caption">Adventurer Cheesecake Brownie</p>-->
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+</section>
+
+
+
+

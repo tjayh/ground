@@ -1,0 +1,95 @@
+<!-- accordion_with_title_caption_description_image_1 -->
+
+<div class="theme-showcase" role="main">
+	<div class="page-header text-center">
+		<h3>{$item.section_title} </h3>
+		<h5>{$item.section_subtitle}</h5>
+	</div>
+</div>
+
+
+
+<div class="panel-group" id="accordion{$item.key_section}" role="tablist" aria-multiselectable="true">
+
+{if $item.pages.0.title}
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingZero{$item.key_section}">
+      <h4 class="panel-title">
+        {if $item.pages.0.title}
+		<a role="button" data-toggle="collapse" data-parent="#accordion{$item.key_section}" href="#collapseZero{$item.key_section}" aria-expanded="true" aria-controls="collapseZero{$item.key_section}">
+		{$item.pages.0.title}
+	    </a>
+      {/if}
+      </h4>
+    </div>
+	
+    <div id="collapseZero{$item.key_section}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero{$item.key_section}">
+      <div class="panel-body">
+			{if $item.pages.0.caption}<h4>{$item.pages.0.caption}</h4>{/if}
+			{if $item.pages.0.content}<p>{$item.pages.0.content}</p>{/if}
+			{if $item.pages.0.image_src}<img src="{$item.pages.0.image_src}" class="img-responsive" class="img-thumbnail">{/if}
+      </div>
+    </div>
+	</div>
+	
+  {/if}
+	
+{if $item.pages.1.title}
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne{$item.key_section}">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion{$item.key_section}" href="#collapseOne{$item.key_section}" aria-expanded="false" aria-controls="collapseOne{$item.key_section}">
+            {$item.pages.1.title}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne{$item.key_section}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne{$item.key_section}">
+      <div class="panel-body">
+			{if $item.pages.1.caption}<h4>{$item.pages.1.caption}</h4>{/if}
+			{if $item.pages.1.content}<p>{$item.pages.1.content}</p>{/if}
+			{if $item.pages.1.image_src}<img src="{$item.pages.1.image_src}" class="img-responsive" class="img-thumbnail">{/if}
+      </div>
+    </div>
+  </div>
+    {/if}
+  
+  {if $item.pages.2.title}
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo{$item.key_section}">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion{$item.key_section}" href="#collapseTwo{$item.key_section}" aria-expanded="false" aria-controls="collapseTwo{$item.key_section}">
+            {$item.pages.2.title}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo{$item.key_section}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo{$item.key_section}">
+      <div class="panel-body">
+			{if $item.pages.2.caption}<h4>{$item.pages.2.caption}</h4>{/if}
+			{if $item.pages.2.content}<p>{$item.pages.2.content}</p>{/if}
+			{if $item.pages.2.image_src}<img src="{$item.pages.2.image_src}" class="img-responsive" class="img-thumbnail">{/if}
+      </div>
+    </div>
+  </div>
+    {/if}
+  
+  {if $item.pages.3.title}
+    <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree{$item.key_section}">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion{$item.key_section}" href="#collapseThree{$item.key_section}" aria-expanded="false" aria-controls="collapseThree{$item.key_section}">
+            {$item.pages.3.title}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree{$item.key_section}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree{$item.key_section}">
+      <div class="panel-body">
+			{if $item.pages.3.caption}<h4>{$item.pages.3.caption}</h4>{/if}
+			{if $item.pages.3.content}<p>{$item.pages.3.content}</p>{/if}
+			{if $item.pages.3.image_src}<img src="{$item.pages.3.image_src}" class="img-responsive" class="img-thumbnail">{/if}
+      </div>
+    </div>
+  </div>
+  {/if}
+
+  
+</div>

@@ -1,0 +1,131 @@
+body {
+	border-top: 3px solid #ee151b;
+}
+
+.textCapitalize{ 
+	text-transform:capitalize !important;
+}
+
+
+.color {
+	color: #ee151b;
+}
+
+a, a:visited {
+	color: #ee151b;
+}
+
+a:hover {
+	color: #d01216;
+}
+
+.navbar {
+	background: #ee151b !important;
+	border-top: 1px solid #d01216 !important;
+	border-bottom: 1px solid #d01216 !important;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+	border-color: #d71317;
+}
+
+.navbar button {
+	background: #d01216 !important;
+}
+
+.navbar button:hover {
+	background: #d01216 !important;
+}
+
+.navbar .nav {
+	border-right: 1px solid #d71317;
+}
+
+.navbar .nav > li > a {
+	background: #ee151b;
+	border-left: 1px solid #d71317;
+}
+
+.navbar .nav > li > a:hover {
+	background: #d01216 !important;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover,
+.navbar .nav .active > a:focus {
+	background: #d01216 !important;
+}
+
+.dropdown-toggle {
+	background: #ee151b !important;
+}
+
+.dropdown-menu {
+	background: #ee151b !important;
+	border: 1px solid #d01216;
+}
+
+.dropdown-menu a {
+	background: #ee151b !important;
+	border-bottom: 1px solid #d01216;
+}
+
+.dropdown-menu a:hover,.dropdown-menu a:focus {
+	background: #d01216 !important;
+}
+
+.flex-caption {
+	border-left: 4px solid #ee151b;
+}
+
+.service i {
+	color: #ee151b;
+}
+
+.button a, .button a:visited {
+	background: #ee151b;
+	border-bottom: 2px solid #d01216;
+}
+
+.button a:hover {
+	background: #d01216;
+}
+
+footer {
+	border-top: 3px solid #ee151b;
+}
+
+.gsc-input {
+	width: 100%;
+	padding: 2px !important;
+}
+
+.gsc-search-box {
+	padding: 0 !important;
+}
+
+.gsc-resultsHeader {
+	display: none !important;
+}
+
+.gsc-cursor-page, .gsc-cursor-current-page {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+	border: 1px solid #DDDDDD !important;
+	font-weight: normal !important;
+	padding: 8px !important;
+	text-decoration: none !important;
+}
+
+.gsc-control-cse.gsc-control-cse-en {
+	background: none repeat scroll 0 0 #FCFCFC !important;
+	border: medium none #FCFCFC!important;
+}
+
+.gsc-webResult.gsc-result {
+	padding: 0px!important;
+}
+
+.gsc-table-cell-snippet-close:hover {
+	box-shadow: 1px 2px 2px 0 #DDDDDD!important;
+	border-left: none!important;
+}

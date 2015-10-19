@@ -1,0 +1,46 @@
+<p>Dear Administrator,</p>
+<p>Please be advised that <strong>{$data.name}</strong> sent a Contact Us Message on {$data.date_add|date_format}.</p>
+<table border="1">
+    {if $data.name}
+    <tr>
+        <td><strong>Name:</strong>
+        </td>
+        <td>{$data.name}</td>
+    </tr>
+    {/if}
+    {if $data.email}
+    <tr>
+        <td><strong>Email:</strong>
+        </td>
+        <td>{$data.email}</td>
+    </tr>
+    {/if}
+    {if $data.phone}
+    <tr>
+        <td><strong>Phone:</strong>
+        </td>
+        <td>{$data.phone}</td>
+    </tr>
+    {/if}
+     {if $data.address}
+    <tr>
+        <td><strong>Address:</strong>
+        </td>
+        <td>{$data.address}</td>
+    </tr>
+    {/if}
+    {if $data.subject}
+    <tr>
+        <td><strong>Subject:</strong>
+        </td>
+        <td>{$data.subject}</td>
+    </tr>
+    {/if}
+    {if $data.message}
+    <tr>
+        <td><strong>Message:</strong>
+        </td>
+        <td>{$data.message|strip_tags}</td>
+    </tr>
+    {/if}
+</table>
