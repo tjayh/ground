@@ -17,10 +17,17 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
+
+role :app, %w{viihub@viihub.com}
+role :web, %w{viihub@viihub.com}
+role :db,  %w{viihub@viihub.com}
+
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
+
+server 'viihub.com', :app, :web, :primary => true
 
 
 # Configuration
@@ -60,5 +67,4 @@
 #     # password: 'please use keys'
 #   }
 
-server 'viihub.com', :app, :web, :db, :primary => true
 set :deploy_to, '/home/viihub/public_html/'

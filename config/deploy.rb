@@ -3,10 +3,9 @@
 lock '3.4.0'
 
 set :application, 'viihub'
-set :repo_url, 'git@github.com:viiworks/Viiworks-CMS.git'
-set :scm_passphrase, ''
-
+set :repo_url, 'https://github.com/viiworks/Viiworks-CMS.git'
 set :user, 'viihub'
+set :password, 'aTv0!=8E@Lgw'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -18,13 +17,18 @@ set :user, 'viihub'
 set :scm, :git
 
 # Default value for :format is :pretty
-# set :format, :pretty
+set :format, :pretty
+
+set :deploy_via, :remote_cache
+
+set :use_sudo, false
+
 
 # Default value for :log_level is :debug
 # set :log_level, :debug
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
@@ -40,6 +44,9 @@ set :scm, :git
 
 set :stages, ['staging', 'production']
 set :default_stage, 'staging'
+
+server 'viihub.com', roles: %w{web app db assets}, user: 'viihub'
+
 
 namespace :deploy do
 
