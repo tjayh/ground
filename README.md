@@ -5,7 +5,7 @@
 
 ## Usage Note
 ### Production / Project
-* DO NOT PUSH TO THIS REPOSITORY IF FOR DIFFERENCE PRODUCTION / PROJECT so the following instruction
+* DO NOT PUSH TO THIS REPOSITORY IF FOR DIFFERENT PRODUCTION / PROJECT so the following instruction
 * remove .git folder
 * run on your git-bash the command `git init` inside the production folder
 * Every success edit please run `git add --all`
