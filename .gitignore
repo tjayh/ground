@@ -4,3 +4,4 @@ config.php
 robots.txt
 .htaccess
 skin/vii_ChangeThisToProjectName
+application/cache/compile
