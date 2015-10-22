@@ -1,11 +1,9 @@
-# require 'capistrano/ext/multistage'
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
 set :application, 'viihub'
-set :repo_url, 'https://github.com/viiworks/Viiworks-CMS.git'
+set :repo_url, 'git@github.com:viiworks/Viiworks-CMS.git'
 set :user, 'viihub'
-set :password, 'aTv0!=8E@Lgw'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -22,7 +20,6 @@ set :format, :pretty
 set :deploy_via, :remote_cache
 
 set :use_sudo, false
-
 
 # Default value for :log_level is :debug
 # set :log_level, :debug
@@ -45,7 +42,7 @@ set :pty, true
 set :stages, ['staging', 'production']
 set :default_stage, 'staging'
 
-server 'viihub.com', roles: %w{web app db assets}, user: 'viihub'
+# server 'viihub.com', roles: %w{web app db assets}, user: 'viihub'
 
 
 namespace :deploy do

@@ -4,7 +4,7 @@
 # You can define all roles on a single server, or split them:
 
 # server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
+server 'viihub.com', user: 'viihub', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
 
@@ -27,7 +27,8 @@ role :db,  %w{viihub@viihub.com}
 # role :db,  %w{deploy@example.com}
 
 
-server 'viihub.com', :app, :web, :primary => true
+# server 'viihub.com', :app, :web, :primary => true
+set :deploy_to, '/home/viihub/public_html'
 
 
 # Configuration
@@ -48,23 +49,21 @@ server 'viihub.com', :app, :web, :primary => true
 #
 # Global options
 # --------------
-#  set :ssh_options, {
-#    keys: %w(/home/viihub/.ssh/id_rsa),
-#    forward_agent: false,
-#    auth_methods: %w(password)
-#  }
+ set :ssh_options, {
+   keys: %w(/home/viihub/.ssh/id_rsa),
+   forward_agent: false,
+   auth_methods: %w(password)
+ }
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
 # server 'viihub.com',
-#   user: 'viihub',
-#   roles: %w{web app},
-#   ssh_options: {
-#     user: 'viihub', # overrides user setting above
-#     keys: %w(/home/viihub/.ssh/id_rsa),
-#     forward_agent: false,
-#     auth_methods: %w(publickey password)
-#     # password: 'please use keys'
-#   }
-
-set :deploy_to, '/home/viihub/public_html/'
+  # user: 'viihub',
+  # roles: %w{web app},
+  # ssh_options: {
+    # # user: 'viihub', # overrides user setting above
+    # keys: %w(/home/viihub/.ssh/id_rsa),
+    # forward_agent: false,
+    # auth_methods: %w(publickey password)
+    # # password: 'please use keys'
+  # }
