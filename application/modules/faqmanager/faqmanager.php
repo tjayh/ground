@@ -32,7 +32,7 @@ class Faqmanager extends MX_Controller
 	}
 	function category()
 	{
-		$category_list = $this->faq->_getCategoryList(false,true);
+		$category_list = $this->faq->_getCategoryList();
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
 		}

@@ -33,52 +33,23 @@ class Manage_navigation_model extends CI_Model
 			return false;
 		}
 	}
-	function _getNavHTMLInactive($menuData, $parentID = 0)
-	{
-		$result = null;
-		foreach($menuData as $item) {
-				if($item['id_parent'] == $parentID && $item['id_parent'] == 0){
-					$aaa =  'dd-handle dd3-handle';
-				}
-				$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
-					<div class='dd-handle dd3-handle'></div>
-					<div class='dd3-content'>
-						<span>" . $item['title'] . "</span>
-						<div class='pull-right'>";
-				if ($item['isActive'] == '0') {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				else {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				$result.= '</div></div>' . '</li>';
-		}
-		
-		return $result ? '<ol class="dd-list">' . $result . '</ol>' : null;
-	}
 	function _getNavHTML($menuData, $parentID = 0)
 	{
 		$result = null;
 		foreach($menuData as $item) {
 			if ($item['id_parent'] == $parentID) {
-				if($item['id_parent'] == $parentID && $item['id_parent'] == 0){
-					$aaa =  'dd-handle dd3-handle';
-				}
-				$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
-					<div class='dd-handle dd3-handle'></div>
-					<div class='dd3-content'>
-						<span>" . $item['title'] . "</span>
-						<div class='pull-right'>";
-				if ($item['isActive'] == '0') {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				else {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				$result.= '</div></div>' . $this->_getNavHTML($menuData, $item['id_page']) . '</li>';
+				$result.= '<li class="dd-item dd3-item" data-id="' . $item['id_page'] . '">
+					<div class="dd-handle dd3-handle"></div>
+					<div class="dd3-content">
+						<span>' . $item['title'] . '</span>
+						<div class="pull-right">';
+				if ($item['isActive'] == '0') $result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
+				else $result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
+				$result.= '</div>
+					</div>' . $this->_getNavHTML($menuData, $item['id_page']) . '
+				</li>';
 			}
 		}
-		
 		return $result ? '<ol class="dd-list">' . $result . '</ol>' : null;
 	}
 	function parseNavJsonArray($jsonArray, $parentID = 0)

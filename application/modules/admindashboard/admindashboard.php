@@ -26,14 +26,6 @@ class AdminDashboard extends MX_Controller
 	}*/
 	function index()
 	{
-		$contacts = $this->dashboard->_getContacts();
-		if ($contacts) {
-			$this->template->assign('contacts', $contacts);
-		}
-		$subscribers = $this->dashboard->_getSubscribers();
-		if ($subscribers) {
-			$this->template->assign('subscribers', $subscribers);
-		}
 	}
 	function error()
 	{
@@ -115,8 +107,6 @@ class AdminDashboard extends MX_Controller
 	}
 	function logout()
 	{
-		$this->load->model('cms/cms_model', 'cms');
-		$this->cms->refreshRoutes();
 		$this->session->unset_userdata('adminLogged');
 		$this->session->unset_userdata('adminData');
 		redirect(base_url() . 'administrator');

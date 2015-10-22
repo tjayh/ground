@@ -1,59 +1,77 @@
 <div class="page-content-area">
-	<div class="page-header">
-		<h1>
+<div class="page-header">
+  <h1>
     Newsletter Email Configuration
     <small>
     <i class="ace-icon fa fa-angle-double-right"></i>
     {$bc_name}
     </small>
-  </h1> </div>
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="widget-box widget-color-blue" id="widge">
-				<div class="widget-header">
-					<div class="widget-toolbar widgeToolRemSpace" id="widgetItemActions">
-						<button id="btnEditForm" class="btn btn-xs btn-success "> <i class="fa fa-pencil"></i> Edit </button>
-					</div>
-				</div>
-				<div class="widget-body">
-					<form id="genSettingsForm" class="form-horizontal">
-						<div class="widget-main">
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="step-pane" id="step1">
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Newsletter Email</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="newsletter_email" name="data[newsletter_email]" value="{$newsletter_email}" disabled="disabled" required/> </div>
-										</div>
-										<div class="form-group" style="display:none;">
-											<label class="col-sm-2 control-label">Password</label>
-											<div class="col-sm-10">
-												<input type="password" class="col-xs-10 col-sm-5 fieldEditable" id="newsletter_password" name="data[newsletter_password]" value="{$newsletter_password}" disabled="disabled" required/> </div>
-										</div>
-										<div class="form-group" style="display:none;">
-											<label class="col-sm-2 control-label">SMTP Host</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="newsletter_smtp_host" name="data[newsletter_smtp_host]" value="{$newsletter_smtp_host}" disabled="disabled" required/> </div>
-										</div>
-										<div class="form-group" style="display:none;">
-											<label class="col-sm-2 control-label">SMTP PORT</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="newsletter_smtp_port" name="data[newsletter_smtp_port]" value="{$newsletter_smtp_port}" disabled="disabled" required/> </div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="widget-toolbox padding-8 clearfix hid" id="formActions">
-							<a class="btn btn-prev btn-small closeWidge ignore"> <i class="ace-icon fa fa-times"></i> <span class="bigger-110">Cancel</span> </a>
-							<button class="btn btn-success btn-next btn-small" data-last="Finish " id="submit"> <span class="bigger-110">Submit</span> <i class="ace-icon fa fa-arrow-right icon-on-right"></i> </button> <img src="img/loading_whitebg.gif" id="sgLoading_whitebg" class="hid" style="vertical-align:bottom !Important;" />&nbsp;&nbsp;&nbsp; <img src="img/admin_submit_loader.gif" id="sgLoader_whitebg" class="hid" /> </div>
-				</div>
-				</form>
-				<!--/widget-main-->
-			</div>
-			<!--/widget-body-->
-		</div>
-	</div>
+  </h1>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="widget-box widget-color-blue" id = "widge">
+      <div class="widget-header">
+        <div class="widget-toolbar widgeToolRemSpace" id = "widgetItemActions">
+          <button id = "btnEditForm" class="btn btn-xs btn-success ">
+          <i class="fa fa-pencil"></i>
+          Edit
+          </button>
+        </div>
+      </div>
+      <div class="widget-body">
+        <form  id = "genSettingsForm" class="form-horizontal">
+          <div class="widget-main">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="step-pane" id="step1">
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label">Newsletter Email</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="newsletter_email" name = "data[newsletter_email]" value="{$newsletter_email}" disabled = "disabled" required/>
+                      </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                      <label class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input type="password" class = "col-xs-10 col-sm-5 fieldEditable" id="newsletter_password" name = "data[newsletter_password]" value="{$newsletter_password}" disabled = "disabled" required/>
+                      </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                      <label class="col-sm-2 control-label">SMTP Host</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="newsletter_smtp_host" name = "data[newsletter_smtp_host]" value="{$newsletter_smtp_host}" disabled = "disabled" required/>
+                      </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                      <label class="col-sm-2 control-label">SMTP PORT</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="newsletter_smtp_port" name = "data[newsletter_smtp_port]" value="{$newsletter_smtp_port}" disabled = "disabled" required/>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              </div>
+			   </div>
+              <div class="widget-toolbox padding-8 clearfix hid" id="formActions">
+                <a class="btn btn-prev btn-small closeWidge ignore">
+                <i class="ace-icon fa fa-times"></i>
+                <span class="bigger-110">Cancel</span>
+                </a>
+                <button class="btn btn-success btn-next btn-small" data-last="Finish " id="submit">
+                <span class="bigger-110">Submit</span>
+                <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+                </button>
+                <img src = "img/loading_whitebg.gif" id = "sgLoading_whitebg" class ="hid" style = "vertical-align:bottom !Important;"/>&nbsp;&nbsp;&nbsp;
+                <img src = "img/3d_whitebg.gif" id = "sgLoader_whitebg" class ="hid"/>
+              </div>
+            </div>
+         
+        </form>
+        <!--/widget-main-->
+      </div>
+      <!--/widget-body-->
+    </div>
+  </div>
 </div>
 </div>

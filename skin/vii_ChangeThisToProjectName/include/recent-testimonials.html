@@ -1,0 +1,51 @@
+ <h4>Recent Testimonials Per Item</h4>
+<!-- <div class="row">
+	{foreach from=$_testimonials key=key item=item}
+	<div class="col-md-3">
+	<p>{$key}</p>
+	<p>{$item.name}</p>
+	<p>{$item.email}</p>
+	<p>{$item.message}</p>
+	</div>
+	{/foreach}
+</div> -->
+<div class="row">
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {foreach from=$_testimonials key=key item=item}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading{$key}">
+                <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{$key}" aria-expanded="true" aria-controls="collapse{$key}">
+            {$item.name}
+          </a>
+        </h4>
+            </div>
+            <div id="collapse{$key}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{$key}">
+                <div class="panel-body">
+                    <h4>
+            {$item.email}
+          </h4>
+                    <p>
+                        {$item.message}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {/foreach}
+    </div>
+
+    <a href="{$base_url}testimonial" class="btn btn-primary">
+    View All Testimonials
+  </a>
+
+</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		

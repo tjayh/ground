@@ -1,0 +1,15 @@
+<!---------- List ---------->
+<p>{$gallery_category.category_title}</p>
+<p>{$gallery_category.category_sub_title}</p>
+<p>{$gallery_category.category_desc}</p>
+<p>{if $gallery_category.image_src}<img src="{$gallery_category.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+<p>{if $gallery_category.image_src_thumb}<img src="{$gallery_category.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+
+=================================================================================================
+<!---------- List ---------->
+	<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+	<p>{if $data.image_src_thumb}<img src="{$data.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+	<p>{$data.id_item}<!--please delete this code if not needed and this comment. used if unique class or id is needed, check if slider, pop-up, etc. would need unique identifier--></p>
+	<p>{$data.image_title}</p>
+	<p>{$data.image_desc}</p>
+ <!---------- List ----------> 

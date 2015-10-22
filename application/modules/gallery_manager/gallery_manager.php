@@ -16,76 +16,66 @@ class Gallery_manager extends MX_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('gallery_manager_model', 'gallery_manager');
+		$this->load->model('gallery_manager_model', 'gallery');
 	}
 	function index()
 	{
-		$category_list = $this->gallery_manager->_getCategoryHeirarchy();
+		$category_list = $this->gallery->_getCategoryHeirarchy();
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
 		}
-		$gallery = $this->gallery_manager->_getItems();
+		$gallery = $this->gallery->_getItems();
 		$this->template->assign('gallery', $gallery);
-		$this->template->assign('images_path', base_url().'upload/images/gallery/');
+		$this->template->assign('images_path', 'upload/images/gallery/');
 	}
 	function category()
 	{
-		$category_list_parent = $this->gallery_manager->_getCategoryList(1);
-		$category_list = $this->gallery_manager->_getCategoryList();
-		usort($category_list, function ($a, $b)
-		{
-			return strcmp(strtoupper($a['parent_title']) , strtoupper($b['parent_title']));
-		});
-		if ($category_list_parent) {
-			$this->template->assign('category_list_parent', $category_list_parent);
-		}
+		$category_list = $this->gallery->_getCategoryList();
+		$category_list_select = $this->gallery->_getCategoryList(1);
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
+			$this->template->assign('category_list_select', $category_list_select);
 		}
-		$this->template->assign('images_path', base_url().'upload/images/gallery/');
+		$this->template->assign('images_path', 'upload/images/gallery/');
 	}
 	function process()
 	{
 		$action = $this->uri->segment(4);
 		switch ($action) {
 		case 'add-category':
-			$result = $this->gallery_manager->_addCategory();
+			$result = $this->gallery->_addCategory();
 			break;
 
 		case 'edit-category':
-			$result = $this->gallery_manager->_editCategory();
+			$result = $this->gallery->_editCategory();
 			break;
 
 		case 'delete-category':
-			$result = $this->gallery_manager->_deleteCategory();
+			$result = $this->gallery->_deleteCategory();
 			break;
 
 		case 'add-item':
-			$result = $this->gallery_manager->_addItem();
+			$result = $this->gallery->_addItem();
 			break;
 
 		case 'edit-item':
-			$result = $this->gallery_manager->_editItem();
+			$result = $this->gallery->_editItem();
 			break;
 
 		case 'delete-item':
-			$result = $this->gallery_manager->_deleteItem();
+			$result = $this->gallery->_deleteItem();
 			break;
 
-		case 'upload-image':
-			$result = $this->gallery_manager->_uploadImage($this->uri->segment(5));
+		case 'upload-banner':
+			$result = $this->gallery->_uploadBanner($this->uri->segment(5));
 			break;
 
 		case 'change-status':
-			$result = $this->gallery_manager->_changeStatus();
+			$result = $this->gallery->_changeStatus();
 			break;
 
-		case 'change-category-status':
-			$result = $this->gallery_manager->_changeCategoryStatus();
-			break;
-
-		case 'upload-cms-image':
-			$result = $this->gallery_manager->_uploadCMSImage();
+		case 'upload-image':
+			$result = $this->gallery->_uploadImage();
 			break;
 
 		default:

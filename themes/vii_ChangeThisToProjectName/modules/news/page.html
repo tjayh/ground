@@ -1,118 +1,40 @@
-<div class="row">
-    <!-- Blog Entries Column -->
-    <div class="col-md-8">
-
-
-        <!-- First Blog Post -->
-        {if $news} {foreach from=$news key=key item=item}
-
-        <h2>
-							<a  href="{$item.image_link}">{$item.image_title}</a>
-						</h2>
-        <p class="lead">
-            by
-            <a href="javacript:;">
-          {$item.image_author}</a>
-        </p>
-        <p>
-            <span class="glyphicon glyphicon-time"></span> Posted on {$item.date|date_format}
-		<a href="http://www.facebook.com/sharer.php?u={$item.image_link}" target="_blank">
-			<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
-		</a>
-		<a href="https://twitter.com/share?url={$item.image_link}&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank">
-			<img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
-		</a>
-		<a href="https://plus.google.com/share?url={$item.image_link}" target="_blank">
-			<img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
-		</a>
-		<a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">
-			<img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
-		</a>
-            <!-- at 10:00 PM  -->
-        </p>
-        <hr>
-        <a href="{$item.image_link}"><img class="img-responsive" src="{$item.image_src_thumb}" alt="{$item.image_title}" style="width:100%"></a>
-        <hr>
-        <p>{$item.image_desc|strip_tags:true|truncate:1000}</p>
-        <a class="btn btn-primary" href="{$item.image_link}">Read More 
-										<span class="glyphicon glyphicon-chevron-right"></span>
-									</a>
-        <hr> {/foreach} {/if}
-
-        <!-- Pager -->
-        {if $news}
-        <ul class="pager">
-            <li class="previous">
-                {if $int_page gt 1}<a href="{$base_url}{$thisModule}/page/{$int_page - 1}">&larr; Older</a>{/if}
-            </li>
-            <li class="next">
-                {if $int_page lt $num_pages}<a href="{$base_url}{$thisModule}/page/{$int_page + 1}">Newer &rarr;</a>{/if}
-            </li>
-        </ul>
-        {/if}
-
-        <!-- Pagination -->
-        {if $news}
-        <ul class="pagination">
-            {if $int_page gt 1}
-            <li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if} {for $page=1 to $num_pages} {if $int_page eq $page}
-            <li><span class="current">{$page}</span></li>
-            {else}
-            <li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
-            {/if} {/for} {if $int_page lt $num_pages}
-            <li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
-        </ul>
-        {/if}
-
-
-
-
-
-    </div>
-    <!-- Blog Sidebar Widgets Column -->
-    <div class="col-md-4">
-        <!-- Blog Search Well -->
-        <div class="well">
-            <h4>Blog Search</h4>
-
-
-            <form role="form" id="searchForm" action="{$base_url}search" method="get">
-                <div class="form-group input-group">
-                    <input type="text" name="search" placeholder="Search" class="form-control">
-                    <input type="hidden" name="k" value="{$thisModule}">
-                    <span class="input-group-btn">
-						<button type="submit"  class="btn btn-default" id="searchBtn"><i class="fa fa-search"></i>
-							<img src="img/loading.gif" class="loadingGif" style="display:none;">
-							<div id="subNotif"></div>
-						</button>
-					</span>
-                </div>
-            </form>
-
-
-            <!-- /.input-group -->
-        </div>
-        <!-- Blog Categories Well -->
-        <div class="well">
-            <h4>Recent News</h4>
-            <div class="row">
-                <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
-                    <ul class="list-unstyled">
-                        {foreach from=$recent_news key=key item=item}
-                        <li><a href="{$item.image_link}">{$item.image_title|ucwords}</a></li>
-                        {if $key eq 4}{break}{/if} {/foreach}
-
-                    </ul>
-                </div>
-                <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- Side Widget Well -->
-        <div class="well">
-            <h4>Side Widget Well</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-        </div>
-    </div>
-</div>
+<!---------- All ---------->
+{foreach from=$recent_news key=key item=item}
+	<p>{$key}</p>
+	{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
+	{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+	<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+	{if $key eq 4}{break}{/if} 
+{/foreach}
+<!---------- All ---------->
+------------------------------------------------------------------------------------------------------------------------<br><br>
+<!---------- List ---------->
+{if $news}
+	{foreach from=$news key=key item=item}
+	{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+		<p>{$key}</p>
+		<p>{$item.id_news_item}</p>
+		<p>{$item.image_sub_title}</p>
+		<p><a  href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+		<p>{if $item.image_src_thumb}<img src="{$item.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+		<p>{$item.date|date_format}</p>
+		<p>{$item.image_desc|strip_tags:true|truncate:1000}</p>
+	{/foreach}
+{/if}
+<!---------- List ---------->
+------------------------------------------------------------------------------------------------------------------------<br><br>
+<!---------- Pagination ---------->
+{if $news}
+<ul class="pagination">
+	{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if}
+		{for $page=1 to $num_pages}
+			{if $int_page eq $page}
+				<li><span class="current">{$page}</span></li>
+			{else}
+				<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
+			{/if}
+		{/for}
+	{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
+</ul>
+{/if}
+<!---------- Pagination ---------->

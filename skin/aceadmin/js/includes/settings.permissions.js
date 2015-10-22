@@ -9,21 +9,22 @@ CMS.initPage = function() {
 			$(this).attr('selected', 'selected');
 		}
 	});
+	
 	var details = new Array();
+	
 	var dtElement = $('#DT_Generic').dataTable({
 		"iDisplayLength": 50,
-		"aLengthMenu": [
-			[50, 100, -1],
-			[50, 100, "All"]
-		],
+		"aLengthMenu": [[50, 100, -1], [50, 100, "All"]],
 		"aaSorting": []
 	});
 	$('#DT_Generic').wrap('<div class="table-responsive"></div>');
 	$('#DT_Generic').show();
-	$('#DT_Generic tfoot th').each(function() {
-		var title = $('#DT_Generic thead th').eq($(this).index()).text();
-		if (title != '') $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-		else $(this).html('');
+	$('#DT_Generic tfoot th').each( function () {
+		var title = $('#DT_Generic thead th').eq( $(this).index() ).text();
+		if(title != '')
+			$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+		else
+			$(this).html('');
 	});
 	var table = $('#DT_Generic').DataTable();
 	CMS.common(details); //include the active data table (for delete function)
@@ -60,51 +61,49 @@ CMS.initPage = function() {
 		});
 	});
 }
-
 function changeStatus() {
-	if (enableModule) enableModule = 1;
-	else enableModule = 0;
-	var keyAndVal = "data%5Bwhr_id_admin_permission%5D=" + itemID + "&data%5Bclmn_isActive%5D=" + enableModule;
-	$('#globalModal .hideWhile').each(function() {
-		$(this).hide();
-	});
-	$('img#sgLoader').removeClass('hid');
-	$.post(thisURL + thisModule + "/process/change-permission", keyAndVal, function(data) {
-		setTimeout(function() {
-			$('img#sgLoader').addClass('hid');
-			$('#globalModal .hideWhile').each(function() {
-				$(this).show();
-			});
-			$('#globalModal').fadeOut(1000);
-			$('#globalModal').modal('hide');
-		}, 1000);
-		setTimeout(function() {
-			if (data != 'false') {
-				var dataJ = $.parseJSON(data);
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
-					var $dataA = $('a#stat' + itemID);
-					if (enableModule == 1) {
-						CMS.showNotification('success', 'Module was successfully activated for this user');
-						$('#permActive' + itemID).removeAttr('style');
-						$('#permInactive' + itemID).attr('style', 'display:none;');
-						$dataA.data('data-getDetails', 'disableFxn');
-						$dataA.attr('data-getDetails', 'disableFxn');
-					} else {
-						CMS.showNotification('success', 'Module was successfully deactivated for this user');
-						$('#permActive' + itemID).attr('style', 'display:none;');
-						$('#permInactive' + itemID).removeAttr('style');
-						$dataA.data('data-getDetails', 'enableFxn');
-						$dataA.attr('data-getDetails', 'enableFxn');
+		if (enableModule) enableModule = 1;
+		else enableModule = 0;
+		var keyAndVal = "data%5Bwhr_id_admin_permission%5D=" + itemID + "&data%5Bclmn_isActive%5D=" + enableModule;
+		$('#globalModal .hideWhile').each(function() {
+			$(this).hide();
+		});
+		$('img#sgLoader').removeClass('hid');
+		$.post(thisURL + thisModule + "/process/change-permission", keyAndVal, function(data) {
+			setTimeout(function() {
+				$('img#sgLoader').addClass('hid');
+				$('#globalModal .hideWhile').each(function() {
+					$(this).show();
+				});
+				$('#globalModal').fadeOut(1000);
+				$('#globalModal').modal('hide');
+			}, 1000);
+			setTimeout(function() {
+				if (data != 'false') {
+					var dataJ = $.parseJSON(data);
+					if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
+					else {
+						var $dataA = $('a#stat' + itemID);
+						if (enableModule == 1) {
+							CMS.showNotification('success', 'Module was successfully activated for this user');
+							$('#permActive' + itemID).removeAttr('style');
+							$('#permInactive' + itemID).attr('style', 'display:none;');
+							$dataA.data('data-getDetails', 'disableFxn');
+							$dataA.attr('data-getDetails', 'disableFxn');
+						} else {
+							CMS.showNotification('success', 'Module was successfully deactivated for this user');
+							$('#permActive' + itemID).attr('style', 'display:none;');
+							$('#permInactive' + itemID).removeAttr('style');
+							$dataA.data('data-getDetails', 'enableFxn');
+							$dataA.attr('data-getDetails', 'enableFxn');
+						}
 					}
+				} else {
+					CMS.showNotification('error', 'Network Problem. Please try again.');
 				}
-			} else {
-				CMS.showNotification('error', 'Network Problem. Please try again.');
-			}
-		}, 1200);
-	});
-}
-
+			}, 1200);
+		});
+	}
 function disableMod() {
 	enableModule = false;
 	changeStatus();

@@ -1,69 +1,90 @@
 <div class="page-content-area">
-	<div class="page-header">
-		<h1>Settings</h1> 
-	</div>
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="widget-box widget-color-blue" id="widge">
-				<div class="widget-header">
-					<div class="widget-toolbar widgeToolRemSpace" id="widgetItemActions">
-						<button id="btnEditForm" class="btn btn-xs btn-success "> <i class="fa fa-pencil"></i> Edit </button>
-					</div>
-				</div>
-				<div class="widget-body">
-					<form id="genSettingsForm" class="form-horizontal" role="form">
-						<div class="widget-main">
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="step-pane" id="step1">
-										<div class="form-group">
-											<label class="col-sm-2 control-label">Contact Us Email</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="contact_email" name="data[contact_email]" value="{$contact_email}" disabled="disabled" required/> </div>
-										</div>
-										<div class="form-group ">
-											<label class="col-sm-2 control-label">Contact No.</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="contact_no" name="data[contact_no]" value="{$contact_no}" disabled="disabled" /> </div>
-										</div>
-										<div class="form-group ">
-											<label class="col-sm-2 control-label">Contact Address</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="contact_address" name="data[contact_address]" value="{$contact_address}" disabled="disabled" /> </div>
-										</div>
-										<div class="form-group ">
-											<label class="col-sm-2 control-label">Google Map</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="google_map" name="data[google_map]" value='<iframe src="{$google_map}"></iframe>' placeholder='latitude' disabled="disabled" />  </div>
-										</div>
-										<div class="form-group hid">
-											<label class="col-sm-2 control-label">Password</label>
-											<div class="col-sm-10">
-												<input type="password" class="col-xs-10 col-sm-5 fieldEditable" id="contact_password" name="data[contact_password]" value="{$contact_password}" disabled="disabled" /> </div>
-										</div>
-										<div class="form-group hid">
-											<label class="col-sm-2 control-label">SMTP Host</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="contact_smtp_host" name="data[contact_smtp_host]" value="{$contact_smtp_host}" disabled="disabled" /> </div>
-										</div>
-										<div class="form-group hid">
-											<label class="col-sm-2 control-label">SMTP PORT</label>
-											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="contact_smtp_port" name="data[contact_smtp_port]" value="{$contact_smtp_port}" disabled="disabled" /> </div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="widget-toolbox padding-8 clearfix hid" id="formActions">
-							<a class="btn btn-xs btn-danger closeWidge ignore"> <i class="ace-icon fa fa-times"></i> <span class="bigger-110">Cancel</span> </a>
-							<input type='reset' id="resetForm" class="hid" />
-							<button class="btn btn-xs btn-success" data-last="Finish" id="submit"> <span class="bigger-110">Submit</span> <i class="ace-icon fa fa-arrow-right icon-on-right"></i> </button> <img src="img/loading_whitebg.gif" id="sgLoading_whitebg" class="hid loaderGif" style="vertical-align:bottom !Important;" />&nbsp;&nbsp;&nbsp; <img src="img/admin_submit_loader.gif" id="sgLoader_whitebg" class="hid loaderGif" /> </div>
-					</form>
-					<!--/widget-main-->
-					<!--/widget-body-->
-				</div>
-			</div>
+  <div class="page-header">
+    <h1>
+      Contact Us Email Configuration
+      <small>
+      <i class="ace-icon fa fa-angle-double-right"></i>
+      {$bc_name}
+      </small>
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="widget-box widget-color-blue" id = "widge">
+        <div class="widget-header">
+          <div class="widget-toolbar widgeToolRemSpace" id = "widgetItemActions">
+            <button id = "btnEditForm" class="btn btn-xs btn-success ">
+            <i class="fa fa-pencil"></i>
+            Edit
+            </button>
+          </div>
+        </div>
+        <div class="widget-body">
+          <form  id = "genSettingsForm" class="form-horizontal" role="form">
+            <div class="widget-main">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="step-pane" id="step1">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Contact Us Email</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_email" name = "data[contact_email]" value="{$contact_email}" disabled = "disabled" required/>
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <label class="col-sm-2 control-label">Contact No.</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_no" name = "data[contact_no]" value="{$contact_no}" disabled = "disabled" />
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <label class="col-sm-2 control-label">Contact Address</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_address" name = "data[contact_address]" value="{$contact_address}" disabled = "disabled" />
+                      </div>
+                    </div>
+                    <div class="form-group hid">
+                      <label class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input type="password" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_password" name = "data[contact_password]" value="{$contact_password}" disabled = "disabled" />
+                      </div>
+                    </div>
+                    <div class="form-group hid">
+                      <label class="col-sm-2 control-label">SMTP Host</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_smtp_host" name = "data[contact_smtp_host]" value="{$contact_smtp_host}" disabled = "disabled" />
+                      </div>
+                    </div>
+                    <div class="form-group hid">
+                      <label class="col-sm-2 control-label">SMTP PORT</label>
+                      <div class="col-sm-10">
+                        <input type="text" class = "col-xs-10 col-sm-5 fieldEditable" id="contact_smtp_port" name = "data[contact_smtp_port]" value="{$contact_smtp_port}" disabled = "disabled" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            	</div>
 		</div>
-	</div>
+            <div class="widget-toolbox padding-8 clearfix hid" id="formActions">
+              <a class="btn btn-xs btn-danger closeWidge ignore">
+              <i class="ace-icon fa fa-times"></i>
+              <span class="bigger-110">Cancel</span>
+              </a>
+              <input type = 'reset' id = "resetForm" class = "hid"/>
+              <button class="btn btn-xs btn-success" data-last="Finish" id="submit">
+              <span class="bigger-110">Submit</span>
+              <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+              </button>
+              <img src = "img/loading_whitebg.gif" id = "sgLoading_whitebg" class ="hid loaderGif" style = "vertical-align:bottom !Important;"/>&nbsp;&nbsp;&nbsp;
+              <img src = "img/3d_whitebg.gif" id = "sgLoader_whitebg" class ="hid loaderGif"/>
+            </div>
+			
+		
+          </form>
+          <!--/widget-main-->
+        <!--/widget-body-->
+      </div>
+    </div>
+  </div>
+</div>
 </div>

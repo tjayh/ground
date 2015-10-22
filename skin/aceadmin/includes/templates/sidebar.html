@@ -37,12 +37,12 @@
 						Admin
 					</a>
 				</li>
-				<!-- {if $_admin.id_admin_group eq 1}<li id = "bcBcDash">
+				<!-- <li id = "bcBcDash">
 					<a href="{$admin_base}breadcrumbs/dashboard">
 						<i class="fa fa-double-angle-right"></i>
 						Dashboard
 					</a>
-				</li>{/if} -->
+				</li> -->
 			</ul>
 		</li>
 		{/if}
@@ -62,7 +62,7 @@
 				<span class="menu-text"> Blog Manager </span>
 			</a>
 		</li>
-		<!-- {if $_admin.id_admin_group eq 1}<li id="bcBlog">
+		<!-- <li id="bcBlog">
 			<a href="{$admin_base}" class="dropdown-toggle">	
 				<i class="menu-icon fa fa-comments-o"></i>		
 				<span class="menu-text"> Blog Manager </span>		
@@ -80,7 +80,7 @@
 				</a>
 				</li>
 			</ul>
-		</li>{/if} -->
+		</li> -->
 		{/if}
 		{if $bcCMS}		
 		<li id = "bcCMS">
@@ -114,6 +114,12 @@
 		</li>
 		{/if}
 		{if $bcContactIndex}
+		<!-- <li id = "bcContactIndex">
+			<a href="{$admin_base}contactus">
+				<i class="menu-icon fa fa-phone"></i>
+				<span class="menu-text"> Contact Us </span>
+			</a>
+		</li> -->
 		<li id = "bcContact">
 			<a href="javascript:;"  class="dropdown-toggle">
 				<i class="menu-icon fa fa-envelope-o"></i>
@@ -143,7 +149,7 @@
 				<span class="menu-text"> Events Manager </span>
 			</a>
 		</li>
-		<!-- {if $_admin.id_admin_group eq 1}<li id="bcEvents">
+		<!-- <li id="bcEvents">
 			<a href="{$admin_base}" class="dropdown-toggle">	
 				<i class="menu-icon fa fa-bullhorn"></i>		
 				<span class="menu-text"> Events Manager </span>		
@@ -161,7 +167,7 @@
 				</a>
 				</li>
 			</ul>
-		</li>{/if} -->
+		</li> -->
 		{/if}
 		{if $bcFAQItems}
 		<li id = "bcFAQManager">
@@ -217,7 +223,7 @@
 				<span class="menu-text"> News Manager </span>
 			</a>
 		</li>
-		<!-- {if $_admin.id_admin_group eq 1}<li id="bcNews">
+		<!-- <li id="bcNews">
 			<a href="{$admin_base}" class="dropdown-toggle">	
 				<i class="menu-icon fa fa-bullhorn"></i>		
 				<span class="menu-text"> News Manager </span>		
@@ -235,7 +241,7 @@
 				</a>
 				</li>
 			</ul>
-		</li>{/if} -->
+		</li> -->
 		{/if}
 		{if $bcNewsSub}
 		<li id = "bcNews">
@@ -251,11 +257,10 @@
 						Subscribers
 					</a>
 				</li>
-				{if $_admin.id_admin_group eq 1}
-				<li id = "bcNewsCampaigns">
-					<a href="{$admin_base}newsletter/campaigns">
+				<li id = "bcNewsArchive">
+					<a href="{$admin_base}newsletter/archive">
 						<i class="fa fa-double-angle-right"></i>
-						Campaigns
+						Archive
 					</a>
 				</li>
 				<li id = "bcNewsSettings">
@@ -264,7 +269,6 @@
 						Settings
 					</a>
 				</li>
-				{/if}
 			</ul>
 		</li>
 		{/if}
@@ -275,7 +279,7 @@
 				<span class="menu-text"> Promo Manager </span>
 			</a>
 		</li>
-		<!-- {if $_admin.id_admin_group eq 1}<li id="bcPromo">
+		<!-- <li id="bcPromo">
 			<a href="{$admin_base}" class="dropdown-toggle">	
 				<i class="menu-icon fa fa-tag"></i>		
 				<span class="menu-text"> Promo Manager </span>		
@@ -293,7 +297,7 @@
 				</a>
 				</li>
 			</ul>
-		</li>{/if} -->
+		</li> -->
 		{/if}
 		{if $bcTestimonialItems}
 		<li id = "bcTestimonialItems">
@@ -374,12 +378,12 @@
 						Permissions
 					</a>
 				</li>
-				<!-- {if $_admin.id_admin_group eq 1}<li id = "bcSettingsServer">
+				<!-- <li id = "bcSettingsServer">
 					<a href="{$admin_base}settings/server">
 						<i class="fa fa-double-angle-right"></i>
 						Server
 					</a>
-				</li>{/if} -->
+				</li> -->
 			</ul>
 		</li>
 		{/if}

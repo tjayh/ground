@@ -27,21 +27,15 @@ class Promo_manager extends MX_Controller
 		}
 		$promo = $this->promo_manager->_getItems();
 		$this->template->assign('promo', $promo);
-		$this->template->assign('images_path', base_url() . 'upload/images/promo/');
+		$this->template->assign('images_path', 'upload/images/promo/');
 	}
 	function category()
 	{
-		$category_list_parent = $this->promo_manager->_getCategoryList(1);
 		$category_list = $this->promo_manager->_getCategoryList();
-		usort($category_list, function ($a, $b)
-		{
-			return strcmp(strtoupper($a['parent_title']) , strtoupper($b['parent_title']));
-		});
-		if ($category_list_parent) {
-			$this->template->assign('category_list_parent', $category_list_parent);
-		}
+		$category_list_select = $this->promo_manager->_getCategoryList(1, 1);
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
+			$this->template->assign('category_list_select', $category_list_select);
 		}
 	}
 	function process()
@@ -72,8 +66,8 @@ class Promo_manager extends MX_Controller
 			$result = $this->promo_manager->_deleteItem();
 			break;
 
-		case 'upload-cms-image':
-			$result = $this->promo_manager->_uploadCMSImage();
+		case 'upload-banner':
+			$result = $this->promo_manager->_uploadBanner();
 			break;
 
 		case 'upload-image':
@@ -81,11 +75,7 @@ class Promo_manager extends MX_Controller
 			break;
 
 		case 'change-status':
-			$result = $this->promo_manager->_changeStatus();
-			break;
-
-		case 'change-category-status':
-			$result = $this->promo_manager->_changeCategoryStatus();
+			$result = $this->bannermanager->_changeStatus();
 			break;
 
 		default:

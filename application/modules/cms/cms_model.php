@@ -14,15 +14,11 @@ class Cms_model extends CI_Model
 
 {
 	var $error = array();
-	var $temp_dir = './temp/images/banner/';
-	var $temp_thumb_dir = './temp/images/banner/thumb/';
-	var $upload_dir = './upload/images/banner/';
-	var $upload_thumb_dir = './upload/images/banner/thumb/';
 	function __construct()
 	{
 		parent::__construct();
 	}
-	function getPages($id_page = false, $home = false)
+	function getPages($id_page = false)
 	{
 		$this->db->select('p.*,pt.*, p.class as module_name, p.function as function_name, m.id_module');
 		$this->db->from('page p');
@@ -30,9 +26,6 @@ class Cms_model extends CI_Model
 		$this->db->join('module m', ' m.module_class = p.class', 'left');
 		$this->db->where('p.isAdmin', 0);
 		$this->db->where('m.isActive', 1);
-		if ($home) {
-			$this->db->where('p.title !=', 'home');
-		}
 		if ($id_page) {
 			$this->db->where('p.id_page', $id_page);
 		}
@@ -67,27 +60,77 @@ class Cms_model extends CI_Model
 			$result['sections'] = $sections_decoded;
 			$result['layout'] = $layout_decoded;
 			$result['layout']['html_file'] = '/default/includes/layout_templates/' . $result['layout']['filename'] . '.html';
-			$col = 0;
-			while ($col != 4) {
-				foreach($result['sections']['col' . $col] as $key => $item) { // get section details
-					$item['key_section'] = $key;
-					if ($item['content_type'] == 'module') {
-						$pull_temp = 'module_templates';
-					}
-					else {
-						$pull_temp = 'section_templates';
-					}
-					$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
-					foreach($item['pages'] as $key2 => $item2) {
-						$page_data = $this->getPages($item2);
-						unset($page_data['json']);
-						$item['pages'][$key2] = $page_data;
-					}
-					$item['id_page'] = $result['id_page'];
-					$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
-					$return['col' . $col][] = $item;
+			foreach($result['sections']['col0'] as $key => $item) { // get section details
+				$item['key_section'] = $key;
+				if ($item['content_type'] == 'module') {
+					$pull_temp = 'module_templates';
 				}
-				$col++;
+				else {
+					$pull_temp = 'section_templates';
+				}
+				$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+				foreach($item['pages'] as $key2 => $item2) {
+					$page_data = $this->getPages($item2);
+					unset($page_data['json']);
+					$item['pages'][$key2] = $page_data;
+				}
+				$item['id_page'] = $result['id_page'];
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return['col0'][] = $item;
+			}
+			foreach($result['sections']['col1'] as $key => $item) { // get section details
+				$item['key_section'] = $key;
+				if ($item['content_type'] == 'module') {
+					$pull_temp = 'module_templates';
+				}
+				else {
+					$pull_temp = 'section_templates';
+				}
+				$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+				foreach($item['pages'] as $key2 => $item2) {
+					$page_data = $this->getPages($item2);
+					unset($page_data['json']);
+					$item['pages'][$key2] = $page_data;
+				}
+				$item['id_page'] = $result['id_page'];
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return['col1'][] = $item;
+			}
+			foreach($result['sections']['col2'] as $key => $item) { // get section details
+				$item['key_section'] = $key;
+				if ($item['content_type'] == 'module') {
+					$pull_temp = 'module_templates';
+				}
+				else {
+					$pull_temp = 'section_templates';
+				}
+				$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+				foreach($item['pages'] as $key2 => $item2) {
+					$page_data = $this->getPages($item2);
+					unset($page_data['json']);
+					$item['pages'][$key2] = $page_data;
+				}
+				$item['id_page'] = $result['id_page'];
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return['col2'][] = $item;
+			}
+			foreach($result['sections']['col3'] as $key => $item) { // get section details
+				$item['key_section'] = $key;
+				if ($item['content_type'] == 'module') {
+					$pull_temp = 'module_templates';
+				}
+				else {
+					$pull_temp = 'section_templates';
+				}
+				$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+				foreach($item['pages'] as $key2 => $item2) {
+					$page_data = $this->getPages($item2);
+					unset($page_data['json']);
+					$item['pages'][$key2] = $page_data;
+				}
+				$item['id_page'] = $result['id_page'];
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return['col3'][] = $item;
 			}
 			$result['sections'] = $return;
 			return $result;
@@ -102,7 +145,6 @@ class Cms_model extends CI_Model
 		$this->db->join('page_tree pt', 'p.id_page = pt.id_page', 'left');
 		$this->db->where('pt.id_parent', $id_parent);
 		$this->db->where('p.isAdmin', 0);
-		$this->db->where('p.title !=', 'home');
 		$this->db->where('p.id_page !=', $id_page);
 		$query = $this->db->get();
 		$pages = $query->result_array();
@@ -143,12 +185,8 @@ class Cms_model extends CI_Model
 		foreach($themes as $theme) {
 			if ($theme != 'email_templates' && $theme != 'admin' && $theme != _ADMIN_THEME_) {
 				$files = directory_map(_SKIN_URL_ . $theme, 1);
-				if (strpos($theme,'vii_') !== false) {
-					foreach($files as $file) {
-						if (is_file(_SKIN_URL_ . $theme . '/' . $file) && $file != 'index.html') {
-							$templates[] = $theme . '/' . $file;
-						}
-					}
+				foreach($files as $file) {
+					if (is_file(_SKIN_URL_ . $theme . '/' . $file) && $file != 'index.html') $templates[] = $theme . '/' . $file;
 				}
 			}
 		}
@@ -243,7 +281,6 @@ class Cms_model extends CI_Model
 			list($data['clmn_custom_theme'], $data['clmn_custom_layout']) = explode('/', $data['clmn_custom_layout']);
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
-			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}
@@ -263,37 +300,25 @@ class Cms_model extends CI_Model
 					$params['includeDates'] = null;
 					$result = $this->dbtm->add($params);
 					if (!$result) $this->error[] = "Failed to insert at page_tree table.";
-					if (!file_exists($this->upload_dir . $data['clmn_image_src'])) {
-						if (!copy($this->temp_dir . $data['clmn_image_src'], $this->upload_dir . $data['clmn_image_src'])) {
+					if (!file_exists('./upload/images/banner/' . $data['clmn_image_src'])) {
+						if (!is_dir('./upload/images/banner/')) {
+							mkdir('./upload/images/banner/', 0777, TRUE);
+						}
+						if (!copy('./temp/images/banner/' . $data['clmn_image_src'], './upload/images/banner/' . $data['clmn_image_src'])) {
 							$result['error'][] = "Failed to copy image to active folder.";
 						}
-						if (!unlink($this->temp_dir . $data["clmn_image_src"])) {
-							$result['error'][] = "Failed to delete image to temporary folder.";
-						}
-						if (!copy($this->temp_thumb_dir . $data['clmn_image_src'], $this->upload_thumb_dir . $data['clmn_image_src'])) {
-							$result['error'][] = "Failed to copy image to active folder.";
-						}
-						if (!unlink($this->temp_thumb_dir . $data["clmn_image_src"])) {
+						if (!unlink('./temp/images/banner/' . $data["clmn_image_src"])) {
 							$result['error'][] = "Failed to delete image to temporary folder.";
 						}
 					}
-					if (!file_exists($this->upload_dir . $data['clmn_meta_image'])) {
-						if (!is_dir($this->upload_dir)) {
-							mkdir($this->upload_dir, 0777, TRUE);
+					if (!file_exists('./upload/images/banner/' . $data['clmn_meta_image'])) {
+						if (!is_dir('./upload/images/banner/')) {
+							mkdir('./upload/images/banner/', 0777, TRUE);
 						}
-						if (!is_dir($this->upload_thumb_dir)) {
-							mkdir($this->upload_thumb_dir, 0777, TRUE);
-						}
-						if (!copy($this->temp_dir . $data['clmn_meta_image'], $this->upload_dir . $data['clmn_meta_image'])) {
+						if (!copy('./temp/images/banner/' . $data['clmn_meta_image'], './upload/images/banner/' . $data['clmn_meta_image'])) {
 							$result['error'][] = "Failed to copy image to active folder.";
 						}
-						if (!unlink($this->temp_dir . $data["clmn_meta_image"])) {
-							$result['error'][] = "Failed to delete image to temporary folder.";
-						}
-						if (!copy($this->temp_thumb_dir . $data['clmn_meta_image'], $this->upload_thumb_dir . $data['clmn_meta_image'])) {
-							$result['error'][] = "Failed to copy image to active folder.";
-						}
-						if (!unlink($this->temp_thumb_dir . $data["clmn_meta_image"])) {
+						if (!unlink('./temp/images/banner/' . $data["clmn_meta_image"])) {
 							$result['error'][] = "Failed to delete image to temporary folder.";
 						}
 					}
@@ -321,7 +346,6 @@ class Cms_model extends CI_Model
 			list($data['clmn_custom_theme'], $data['clmn_custom_layout']) = explode('/', $data['clmn_custom_layout']);
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
-			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}
@@ -453,7 +477,6 @@ class Cms_model extends CI_Model
 					$sections_decoded[$column][$key_section]['section_title'] = $data['section_title'];
 					$sections_decoded[$column][$key_section]['section_subtitle'] = $data['section_subtitle'];
 					$sections_decoded[$column][$key_section]['template_name'] = $data['template_name'];
-					$sections_decoded[$column][$key_section]['section_class'] = $data['section_class'];
 					$sections_decoded[$column][$key_section]['pages'] = $data['pages'];
 					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
 					$this->db->flush_cache();
@@ -467,34 +490,22 @@ class Cms_model extends CI_Model
 	}
 	function _deletePage()
 	{
-		$deleteid = $this->input->post('id_page');
-		if ($deleteid) {
-			$this->load->model('core/dbtm_model', 'dbtm');
-			$this->db->where('id_page', $deleteid);
-			$to_delete = $this->db->get('page');
-			$data = $to_delete->row_array();
-			if (file_exists($this->upload_dir . $data['image_src'])) {
-				if (!unlink($this->upload_dir . $data['image_src'])) {
-					$result['error'][] = "Failed to delete image to temporary folder.";
-				}
-				if (!unlink($this->upload_thumb_dir . $data['image_src'])) {
-					$result['error'][] = "Failed to delete thumb image to temporary folder.";
-				}
-			}
-			$result = $this->dbtm->deleteItem('id_page', $deleteid, 'page_tree');
-			$result = $this->dbtm->deleteItem('id_page', $deleteid, 'page');
-			if ($result) {
-				return true;
-			}
-			else {
-				$result = array();
-				$result['error'] = array();
-				$result['error'][] = "Failed to delete item.";
-				return $result;
+		$where['id_page'] = $this->input->post('id_page');
+		if ($this->db->delete('page', $where)) {
+			if (!$this->db->delete('page_tree', $where)) {
+				$this->error[] = "Failed to delete page from page table.";
 			}
 		}
-		else { //direct link access
-			header('Location: ' . _BASE_URL_);
+		else {
+			$this->error[] = "Failed to delete page from page table.";
+		}
+		if (count($this->error)) {
+			$result['error'] = $this->error;
+			return $result;
+		}
+		else {
+			$this->refreshRoutes();
+			return true;
 		}
 	}
 	function _deleteSection()
@@ -671,15 +682,69 @@ class Cms_model extends CI_Model
 		}
 		return $pages;
 	}
-	function _uploadCMSImage()
-	{
-		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadCMSImage();
-	}
 	function _uploadImage()
 	{
-		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false);
+		$allowed = array(
+			'jpeg',
+			'jpg',
+			'png'
+		);
+		$result = array();
+		if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+			$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			if (!in_array(strtolower($extension) , $allowed)) {
+				$result['error'] = array();
+				$result['error'][] = "Invalid file type. '.jpg' and '.png' are allowed.";
+				return $result;
+			}
+			if ($_FILES['file']['size'] > 1000000) {
+				$result['error'] = array();
+				$result['error'][] = "File size should not exceed to 50KB.";
+				return $result;
+			}
+			$file_name = crypt(strtotime(date('Y-m-d H:i:s')) , random_string('alnum', 32)) . '.' . $extension;
+			if (move_uploaded_file($_FILES['file']['tmp_name'], './upload/images/cms/' . $file_name)) {
+				echo '../../upload/images/cms/' . $file_name;
+				exit(0);
+			}
+		}
+		echo 'false';
+		exit(0);
+	}
+	function _uploadBanner()
+	{
+		$config['upload_path'] = './temp/images/banner/';
+		$config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
+		$config['encrypt_name'] = TRUE;
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0777, TRUE);
+		}
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload('userfile')) {
+			$data['error'][] = $this->upload->display_errors('', '');
+			echo json_encode($data);
+			exit(0);
+		}
+		else {
+			$details = $this->upload->data();
+			$data['file_name'] = $details['file_name'];
+		}
+		$config2['image_library'] = 'gd2';
+		$config2['source_image'] = './temp/images/banner/' . $details['file_name'];
+		$config2['new_image'] = './temp/images/banner/';
+		$size = getimagesize('./temp/images/banner/' . $this->upload->file_name);
+		$config2['maintain_ratio'] = TRUE;
+		$config2['width'] = 1366;
+		$config2['height'] = 1366;
+		$this->load->library('image_lib', $config2);
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		else {
+			$data['file_name'] = $details['file_name'];
+		}
+		echo json_encode($data);
+		exit(0);
 	}
 }
 /* End of file Cms_model.php */

@@ -59,7 +59,6 @@ class Globals
 		$this->CI->template->assign('base_url', _BASE_URL_);
 		$this->CI->template->assign('skin_url', _SKIN_URL_);
 		$this->CI->template->assign('_site_title', $this->getConfig('SITE_NAME'));
-		$this->CI->template->assign('_theme_css', $this->getConfig('THEME_CSS'));
 		$this->CI->template->assign('_site_css', $this->getConfig('SITE_CSS'));
 		$this->CI->template->assign('_meta_keywords', $this->getConfig('META_TAGS'));
 		$this->CI->template->assign('_meta_title', $this->getConfig('META_TITLE'));
@@ -85,16 +84,15 @@ class Globals
 		$this->CI->template->assign('_events', $this->getItems_events());
 		$this->CI->template->assign('_promo', $this->getItems_promo());
 		$this->CI->template->assign('_blog', $this->getItems_blog());
-		$this->CI->template->assign('_gallery', $this->getCategory_gallery());
+		$this->CI->template->assign('_gallery', $this->getItems_gallery());
 		$this->CI->template->assign('_testimonials', $this->getItems_testimonials());
-		$this->CI->template->assign('_faqs', $this->getItems_faqs());
 		$this->CI->template->assign('thisModule', $this->module);
 		$this->CI->template->assign('admin_base', _BASE_URL_ . _ADMIN_BASE_ . '/');
 		$this->CI->template->assign('admin_theme', _ADMIN_THEME_);
 		$this->CI->template->assign('navItems', $this->_getNav());
 		$_cms_pages = $this->getPages();
 		foreach($_cms_pages as $item) {
-			$this->CI->template->assign('_page_' . $item['absolute_link'], $item['content']);
+			$this->CI->template->assign('_page_' . $item['link_rewrite'], $item['content']);
 		}
 		if ($this->CI->session->userdata('adminLogged')) {
 			$this->CI->template->assign('_admin', $this->CI->session->userdata('adminData'));
@@ -144,77 +142,101 @@ class Globals
 		else {
 			$result = $query->row_array();
 			if ($result['module_isActive'] == 1) {
-				$result = $query->row_array();
-				$return = array();
-				$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
-				$layout_decoded = json_decode($result['layout'], JSON_FORCE_OBJECT);
-				$result['image_src'] = base_url() . 'upload/images/banner/' . $result['image_src'];
-				$result['sections'] = $sections_decoded;
-				$result['layout'] = $layout_decoded;
-				$result['layout']['html_file'] = '/default/includes/layout_templates/' . $result['layout']['filename'] . '.html';
-				$col = 0;
-				while ($col != 4) {
-					foreach($result['sections']['col' . $col] as $key => $item) { // get section details
+				$row = $query->row_array();
+				if ($row['image_src']) {
+					$row['image_src'] = base_url() . 'upload/images/banner/' . $row['image_src'];
+				}
+				if ($row['sections']) {
+					$return = array();
+					$sections_decoded = json_decode($row['sections'], JSON_FORCE_OBJECT);
+					$layout_decoded = json_decode($row['layout'], JSON_FORCE_OBJECT);
+					$row['sections'] = $sections_decoded;
+					$row['layout'] = $layout_decoded;
+					$row['layout']['html_file'] = '/default/includes/layout_templates/' . $row['layout']['filename'] . '.html';
+					foreach($row['sections']['col0'] as $key => $item) { // get section details
 						$item['key_section'] = $key;
 						if ($item['content_type'] == 'module') {
-							$pull_temp = 'module_templates';
+							$ctype = 'module';
 						}
 						else {
-							$pull_temp = 'section_templates';
+							$ctype = 'section';
 						}
-						$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+						$item['template_html'] = '/default/includes/' . $ctype . '_templates/' . $item['template_name'] . '.html';
 						foreach($item['pages'] as $key2 => $item2) {
-							$page_data = $this->getSectionPages($item2);
+							$page_data = $this->getPages($item2);
 							unset($page_data['json']);
 							$item['pages'][$key2] = $page_data;
 						}
-						$item['id_page'] = $result['id_page'];
+						$item['id_page'] = $row['id_page'];
 						$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
-						$return['col' . $col][] = $item;
+						$return['col0'][] = $item;
 					}
-					$col++;
+					foreach($row['sections']['col1'] as $key => $item) { // get section details
+						$item['key_section'] = $key;
+						if ($item['content_type'] == 'module') {
+							$ctype = 'module';
+						}
+						else {
+							$ctype = 'section';
+						}
+						$item['template_html'] = '/default/includes/' . $ctype . '_templates/' . $item['template_name'] . '.html';
+						foreach($item['pages'] as $key2 => $item2) {
+							$page_data = $this->getPages($item2);
+							unset($page_data['json']);
+							$item['pages'][$key2] = $page_data;
+						}
+						$item['id_page'] = $row['id_page'];
+						$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+						$return['col1'][] = $item;
+					}
+					foreach($row['sections']['col2'] as $key => $item) { // get section details
+						$item['key_section'] = $key;
+						if ($item['content_type'] == 'module') {
+							$ctype = 'module';
+						}
+						else {
+							$ctype = 'section';
+						}
+						$item['template_html'] = '/default/includes/' . $ctype . '_templates/' . $item['template_name'] . '.html';
+						foreach($item['pages'] as $key2 => $item2) {
+							$page_data = $this->getPages($item2);
+							unset($page_data['json']);
+							$item['pages'][$key2] = $page_data;
+						}
+						$item['id_page'] = $row['id_page'];
+						$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+						$return['col2'][] = $item;
+					}
+					foreach($row['sections']['col3'] as $key => $item) { // get section details
+						$item['key_section'] = $key;
+						if ($item['content_type'] == 'module') {
+							$ctype = 'module';
+						}
+						else {
+							$ctype = 'section';
+						}
+						$item['template_html'] = '/default/includes/' . $ctype . '_templates/' . $item['template_name'] . '.html';
+						foreach($item['pages'] as $key2 => $item2) {
+							$page_data = $this->getPages($item2);
+							unset($page_data['json']);
+							$item['pages'][$key2] = $page_data;
+						}
+						$item['id_page'] = $row['id_page'];
+						$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+						$return['col3'][] = $item;
+					}
+					$row['sections'] = $return;
 				}
-				$result['sections'] = $return;
-				return $result;
+				return $row;
 			}
 			else {
 				redirect(base_url() . 'error');
 			}
 		}
 	}
-	function getSectionPages($id_page = false)
-	{
-		$this->CI->db->select('p.*,pt.*, p.class as module_name, p.function as function_name, m.id_module');
-		$this->CI->db->from('page p');
-		$this->CI->db->join('page_tree pt', 'p.id_page = pt.id_page', 'left');
-		$this->CI->db->join('module m', ' m.module_class = p.class', 'left');
-		$this->CI->db->where('p.isAdmin', 0);
-		$this->CI->db->where('m.isActive', 1);
-		$this->CI->db->where('p.title !=', 'home');
-		if ($id_page) {
-			$this->CI->db->where('p.id_page', $id_page);
-		}
-		$this->CI->db->order_by("pt.absolute_link", "asc");
-		$this->CI->db->order_by("p.title", "asc");
-		$query = $this->CI->db->get();
-		if ($query->num_rows() > 0) {
-			$result = $query->result_array();
-			$return = array();
-			foreach($result as $item) {
-				$item['image_src'] = base_url() . 'upload/images/banner/' . $item['image_src'];
-				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
-				$return[] = $item;
-			}
-			if ($id_page) {
-				return $return[0];
-			}
-			return $return;
-		}
-		return false;
-	}
 	function getPages()
 	{
-		$this->CI->db->select('id_page,title,content,image_src,caption,link_rewrite,absolute_link');
+		$this->CI->db->select('id_page,title,content,image_src,caption,link_rewrite');
 		$this->CI->db->from('page p');
 		$this->CI->db->where('p.isAdmin', '0');
 		$query = $this->CI->db->get();
@@ -496,19 +518,6 @@ class Globals
 		}
 		return false;
 	}
-	function getItems_faqs()
-	{
-		$this->CI->db->select('t.*');
-		$this->CI->db->from('faq_item t');
-		$this->CI->db->where('t.status', 1);
-		$this->CI->db->order_by('t.faq_question ASC');
-		$query = $this->CI->db->get();
-		if ($query->num_rows() > 0) {
-			$result = $query->result_array();
-			return $result;
-		}
-		return false;
-	}
 	function getItems_testimonials()
 	{
 		$this->CI->db->select('t.*');
@@ -535,29 +544,6 @@ class Globals
 			$return = array();
 			foreach($result as $item) {
 				$item['image_link'] = base_url() . 'gallery/view/' . $item['id_gallery_item'] . '/' . $item['link_rewrite'];
-				if ($item['image_src']) {
-					$item['image_src_thumb'] = $this->upload_images . 'gallery/thumb/' . $item['image_src'];
-					$item['image_src'] = $this->upload_images . 'gallery/' . $item['image_src'];
-				}
-				$return[] = $item;
-			}
-			return $return;
-		}
-		return false;
-	}
-	function getCategory_gallery()
-	{
-		$this->CI->db->select('gc.*');
-		$this->CI->db->from('gallery_category gc');
-		$this->CI->db->where('gc.status', 1);
-		$this->CI->db->where('gc.id_gallery_category !=', 1);
-		$this->CI->db->order_by('gc.id_gallery_category DESC');
-		$query = $this->CI->db->get();
-		if ($query->num_rows() > 0) {
-			$result = $query->result_array();
-			$return = array();
-			foreach($result as $item) {
-				$item['image_link'] = base_url() . 'gallery/category/' . $item['id_gallery_category'] . '/' . $item['link_rewrite'];
 				if ($item['image_src']) {
 					$item['image_src_thumb'] = $this->upload_images . 'gallery/thumb/' . $item['image_src'];
 					$item['image_src'] = $this->upload_images . 'gallery/' . $item['image_src'];

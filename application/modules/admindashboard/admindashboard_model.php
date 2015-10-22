@@ -47,37 +47,5 @@ class AdminDashboard_model extends CI_Model
 		}
 		return false;
 	}
-	function _getContacts()
-	{
-		$this->db->order_by('date_add', 'desc');
-		$query = $this->db->get('contact_us', $where);
-		if ($query->num_rows() > 0) {
-			$result = $query->result_array();
-			$return = array();
-			foreach($result as $item) {
-				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
-				$return[] = $item;
-			}
-			return $return;
-		}
-		return false;
-	}
-	function _getSubscribers($isActive = false)
-	{
-		if ($isActive) {
-			$this->db->where('status', 1);
-		}
-		$query = $this->db->get('newsletter_subscribers');
-		if ($query->num_rows() > 0) {
-			$result = $query->result_array();
-			$return = array();
-			foreach($result as $item) {
-				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
-				$return[] = $item;
-			}
-			return $return;
-		}
-		return false;
-	}
 }
 ?>

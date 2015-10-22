@@ -22,9 +22,7 @@ class Contactusmanager extends MX_Controller
 	function index()
 	{
 		$contacts = $this->contactus->_getContacts();
-		if ($contacts) {
-			$this->template->assign('contacts', $contacts);
-		}
+		if ($contacts) $this->template->assign('contacts', $contacts);
 	}
 	function settings()
 	{
@@ -35,7 +33,6 @@ class Contactusmanager extends MX_Controller
 			'contact_email',
 			'contact_no',
 			'contact_address',
-			'google_map',
 			'contact_password',
 			'contact_smtp_host',
 			'contact_smtp_port'
@@ -89,8 +86,6 @@ class Contactusmanager extends MX_Controller
 				if ($data['contact_password']) {
 					$data['contact_password'] = $this->dbtm->processData2($data['contact_password'], 'encrypt-pass');
 				}
-				$google_iframe = explode('"',$data['google_map']);
-				$data['google_map'] = $google_iframe[1];
 				foreach($data as $name => $value) {
 					$data2 = array();
 					$data2['whr_name'] = $name;
@@ -111,12 +106,8 @@ class Contactusmanager extends MX_Controller
 			break;
 		}
 		if ($result) {
-			if (count($this->error)) {
-				$result['error'] = $this->error;
-			}
-			echo {
-				json_encode($result);
-			}
+			if (count($this->error)) $result['error'] = $this->error;
+			echo json_encode($result);
 		}
 		else echo 'false';
 		exit(0);

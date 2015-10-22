@@ -14,12 +14,10 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
 class Gallery_manager_model extends CI_Model
 
 {
-	var $image_dir = 'upload/images/gallery/';
-	var $image_thumb_dir = 'upload/images/gallery/thumb/';
-	var $temp_dir = './temp/images/gallery/';
-	var $temp_thumb_dir = './temp/images/gallery/thumb/';
 	var $upload_dir = './upload/images/gallery/';
+	var $temp_dir = './temp/images/gallery/';
 	var $upload_thumb_dir = './upload/images/gallery/thumb/';
+	var $temp_thumb_dir = './temp/images/gallery/thumb/';
 	function __construct()
 	{
 		parent::__construct();
@@ -59,35 +57,30 @@ class Gallery_manager_model extends CI_Model
 	{
 		$this->db->select('gc.*');
 		$this->db->from('gallery_category gc');
-		$this->db->where('id_gallery_category !=', 1);
+		// $this->db->join('gallery_category gcp', 'gc.id_parent = gcp.id_gallery_category');
 		if ($has_no_parent) $this->db->where('id_parent', 0);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
 			$return = array();
 			foreach($result as $k => $item) {
-				$result[$k]['parent_title'] = $item['category_title'];
-				$category_title = $item['category_title'];
-				if ($item['id_parent'] == 0) {
-					continue;
-				}
-				$this->db->flush_cache();
+				if ($item['id_parent'] == 0) continue;
 				$this->db->select('*');
 				$this->db->from('gallery_category');
 				$this->db->where('id_gallery_category', $item['id_parent']);
 				$parent_query = $this->db->get();
-				if ($parent_query->num_rows() == 0) {
-					continue;
-				}
+				if ($parent_query->num_rows() == 0) continue;
 				$parent = $parent_query->row_array();
-				if ($parent['category_title']) {
-					$result[$k]['parent_title'] = $parent['category_title'] . ' ' . $item['category_title'];
-				}
+				$result[$k]['parent_title'] = $parent['category_title'];
 				$result[$k]['parent_desc'] = $parent['category_desc'];
 			}
 			foreach($result as $item) {
-				$item['image_src_thumb_link'] = base_url() . $this->image_thumb_dir . $item['image_src'];
-				$item['image_src_link'] = base_url() . $this->image_dir . $item['image_src'];
+				$item['image_desc'] = htmlspecialchars_decode($item['image_desc']);
+				$item['item_link'] = base_url() . 'gallery/category/' . $item['id_gallery_category'] . '/' . $item['link_rewrite'];
+				if ($item['image_src']) {
+					$item['image_src_thumb'] = base_url() . 'upload/images/gallery/thumb/' . $item['image_src'];
+					$item['image_src'] = base_url() . 'upload/images/gallery/' . $item['image_src'];
+				}
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
 				$return[] = $item;
 			}
@@ -107,9 +100,10 @@ class Gallery_manager_model extends CI_Model
 			$return = array();
 			foreach($result as $item) {
 				$item['image_desc'] = htmlspecialchars_decode($item['image_desc']);
+				$item['item_link'] = base_url() . 'gallery/view/' . $item['id_gallery_item'] . '/' . $item['link_rewrite'];
 				if ($item['image_src']) {
-					$item['image_src_thumb_link'] = base_url() . $this->image_thumb_dir . $item['image_src'];
-					$item['image_src_link'] = base_url() . $this->image_dir . $item['image_src'];
+					$item['image_src_thumb'] = base_url() . 'upload/images/gallery/thumb/' . $item['image_src'];
+					$item['image_src'] = base_url() . 'upload/images/gallery/' . $item['image_src'];
 				}
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
 				$return[] = $item;
@@ -214,7 +208,7 @@ class Gallery_manager_model extends CI_Model
 			else {
 				$result = array();
 				$result['error'] = array();
-				$result['error'][] = "Failed to update gallery item.";
+				$result['error'][] = "Failed to update faq item.";
 				return $result;
 			}
 		}
@@ -222,11 +216,9 @@ class Gallery_manager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
-	function _deleteItem($deleteid)
+	function _deleteItem()
 	{
-		if($this->input->post('id_gallery_item')){
-			$deleteid = $this->input->post('id_gallery_item');
-		}
+		$deleteid = $this->input->post('id_gallery_item');
 		if ($deleteid) {
 			$this->load->model('core/dbtm_model', 'dbtm');
 			$this->db->where('id_gallery_item', $deleteid);
@@ -236,9 +228,6 @@ class Gallery_manager_model extends CI_Model
 				if (!unlink($this->upload_dir . $data['image_src'])) {
 					$result['error'][] = "Failed to delete image to temporary folder.";
 				}
-				if (!unlink($this->upload_thumb_dir . $data['image_src'])) {
-					$result['error'][] = "Failed to delete thumb image to temporary folder.";
-				}
 			}
 			$result = $this->dbtm->deleteItem('id_gallery_item', $deleteid, 'gallery_item');
 			if ($result) {
@@ -247,7 +236,7 @@ class Gallery_manager_model extends CI_Model
 			else {
 				$result = array();
 				$result['error'] = array();
-				$result['error'][] = "Failed to delete gallery item.";
+				$result['error'][] = "Failed to delete faq item.";
 				return $result;
 			}
 		}
@@ -259,7 +248,6 @@ class Gallery_manager_model extends CI_Model
 	{
 		$data = $this->input->post('data');
 		if ($data) {
-			$data['clmn_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['clmn_category_title']));
 			$params['table'] = 'gallery_category';
 			$params['post_data'] = $data;
 			$params['includeDates'] = null;
@@ -287,7 +275,7 @@ class Gallery_manager_model extends CI_Model
 			else {
 				$result = array();
 				$result['error'] = array();
-				$result['error'][] = "Failed to add gallery item.";
+				$result['error'][] = "Failed to add faq item.";
 				return $result;
 			}
 		}
@@ -299,7 +287,6 @@ class Gallery_manager_model extends CI_Model
 	{
 		$data = $this->input->post('data');
 		if ($data) {
-			$data['clmn_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['clmn_category_title']));
 			$params['table'] = 'gallery_category';
 			$params['post_data'] = $data;
 			$params['includeDates'] = null;
@@ -327,7 +314,7 @@ class Gallery_manager_model extends CI_Model
 			else {
 				$result = array();
 				$result['error'] = array();
-				$result['error'][] = "Failed to update gallery item.";
+				$result['error'][] = "Failed to update faq item.";
 				return $result;
 			}
 		}
@@ -350,9 +337,13 @@ class Gallery_manager_model extends CI_Model
 				$params['includeDates'] = null;
 				$query = $this->db->get();
 				if ($query->num_rows() > 0) {
+					unset($data);
+					$data['clmn_id_gallery_category'] = 1;
 					$result = $query->result_array();
 					foreach($result as $item) {
-						$this->_deleteItem($item['id_gallery_item']);
+						$data['whr_id_gallery_item'] = $item[id_gallery_item];
+						$params['post_data'] = $data;
+						$this->dbtm->update($params);
 					}
 				}
 				return true;
@@ -360,13 +351,101 @@ class Gallery_manager_model extends CI_Model
 			else {
 				$result = array();
 				$result['error'] = array();
-				$result['error'][] = "Failed to delete gallery category.";
+				$result['error'][] = "Failed to delete faq category.";
 				return $result;
 			}
 		}
 		else { //direct link access
 			header('Location: ' . _BASE_URL_);
 		}
+	}
+	function _uploadBanner($multiple = false)
+	{
+		$this->load->library('image_lib'); //upload thumb picture
+		$data = array();
+		$config['upload_path'] = $this->temp_dir;
+		$config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
+		$config['encrypt_name'] = TRUE;
+		if (!is_dir($config['upload_path'])) {
+			mkdir($config['upload_path'], 0777, TRUE);
+		}
+		$this->load->library('upload', $config);
+		foreach($_FILES as $file) {
+			$_FILES['file'] = $file;
+			if (!$this->upload->do_upload('file')) {
+				$data['error'][] = $this->upload->display_errors('', '');
+				echo json_encode($data);
+				exit(0);
+			}
+			$details = $this->upload->data();
+			// if smaller than width < 1366 AND height < 768 do not resize
+			if ($details['image_width'] < 1366 AND $details['image_height'] < 768) {
+				$config2['image_library'] = 'gd2';
+				$config2['source_image'] = $this->temp_dir . $details['file_name'];
+				$config2['new_image'] = $this->temp_dir;
+				$size = getimagesize($this->temp_dir . $this->upload->file_name);
+				$config2['maintain_ratio'] = TRUE;
+				$config2['master_dim'] = 'auto';
+				$config2['width'] = 1366;
+				$config2['height'] = 768;
+				$this->image_lib->initialize($config2);
+				if (!$this->image_lib->resize()) {
+					echo $this->image_lib->display_errors();
+				}
+				else {
+					if (ImageJPEG(ImageCreateFromString(file_get_contents($this->temp_dir . $details['file_name'])) , $this->temp_dir . $details['file_name'], 80)) {
+						$flag = true;
+					}
+					else {
+						echo "Failed to resize resolution image.";
+					}
+				}
+				$config3['image_library'] = 'gd2';
+				$config3['source_image'] = $this->temp_dir . $details['file_name'];
+				$config3['new_image'] = $this->temp_thumb_dir;
+				$size = getimagesize($this->temp_dir . $this->upload->file_name);
+				$config3['maintain_ratio'] = TRUE;
+				$config3['width'] = 366;
+				$config3['height'] = 366;
+				$this->image_lib->initialize($config3);
+				if (!$this->image_lib->resize()) {
+					echo $this->image_lib->display_errors();
+				}
+				else {
+					if (ImageJPEG(ImageCreateFromString(file_get_contents($this->temp_thumb_dir . $details['file_name'])) , $this->temp_thumb_dir . $details['file_name'], 80)) {
+						if ($multiple == 'multiple') {
+							$data[] = $details['file_name'];
+						}
+						else {
+							$data['file_name'] = $details['file_name'];
+						}
+					}
+					else {
+						echo "Failed to resize resolution image.";
+					}
+				}
+			}
+			else {
+				if (ImageJPEG(ImageCreateFromString(file_get_contents($this->temp_dir . $details['file_name'])) , $this->temp_dir . $details['file_name'], 80)) {
+					if ($multiple == 'multiple') {
+						$data[] = $details['file_name'];
+					}
+					else {
+						$data['file_name'] = $details['file_name'];
+					}
+				}
+				if (ImageJPEG(ImageCreateFromString(file_get_contents($this->temp_thumb_dir . $details['file_name'])) , $this->temp_thumb_dir . $details['file_name'], 80)) {
+					if ($multiple == 'multiple') {
+						$data[] = $details['file_name'];
+					}
+					else {
+						$data['file_name'] = $details['file_name'];
+					}
+				}
+			}
+		}
+		echo json_encode($data);
+		exit(0);
 	}
 	function _changeStatus()
 	{
@@ -384,31 +463,34 @@ class Gallery_manager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
-	function _changeCategoryStatus()
+	function _uploadImage()
 	{
-		$data = $this->input->post('data');
-		if ($data) {
-			$this->load->model('core/dbtm_model', 'dbtm');
-			$params['table'] = 'gallery_category';
-			$params['post_data'] = $data;
-			$result = $this->dbtm->update($params);
-			if ($result) {
-				return true;
+		$allowed = array(
+			'jpeg',
+			'jpg',
+			'png'
+		);
+		$result = array();
+		if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+			$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			if (!in_array(strtolower($extension) , $allowed)) {
+				$result['error'] = array();
+				$result['error'][] = "Invalid file type. '.jpg' and '.png' are allowed.";
+				return $result;
+			}
+			if ($_FILES['file']['size'] > 1000000) {
+				$result['error'] = array();
+				$result['error'][] = "File size should not exceed to 50KB.";
+				return $result;
+			}
+			$file_name = crypt(strtotime(date('Y-m-d H:i:s')) , random_string('alnum', 32)) . '.' . $extension;
+			if (move_uploaded_file($_FILES['file']['tmp_name'], './upload/images/cms/' . $file_name)) {
+				echo '../../upload/images/cms/' . $file_name;
+				exit(0);
 			}
 		}
-		else { //direct link access
-			header('Location: ' . _BASE_URL_);
-		}
-	}
-	function _uploadImage($multiple = false)
-	{
-		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $multiple);
-	}
-	function _uploadCMSImage()
-	{
-		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadCMSImage();
+		echo 'false';
+		exit(0);
 	}
 }
 ?>

@@ -27,21 +27,15 @@ class News_manager extends MX_Controller
 		}
 		$news = $this->news_manager->_getItems();
 		$this->template->assign('news', $news);
-		$this->template->assign('images_path', base_url() . 'upload/images/news/');
+		$this->template->assign('images_path', 'upload/images/news/');
 	}
 	function category()
 	{
-		$category_list_parent = $this->news_manager->_getCategoryList(1);
 		$category_list = $this->news_manager->_getCategoryList();
-		usort($category_list, function ($a, $b)
-		{
-			return strcmp(strtoupper($a['parent_title']) , strtoupper($b['parent_title']));
-		});
-		if ($category_list_parent) {
-			$this->template->assign('category_list_parent', $category_list_parent);
-		}
+		$category_list_select = $this->news_manager->_getCategoryList(1, 1);
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
+			$this->template->assign('category_list_select', $category_list_select);
 		}
 	}
 	function process()
@@ -72,8 +66,8 @@ class News_manager extends MX_Controller
 			$result = $this->news_manager->_deleteItem();
 			break;
 
-		case 'upload-cms-image':
-			$result = $this->news_manager->_uploadCMSImage();
+		case 'upload-banner':
+			$result = $this->news_manager->_uploadBanner();
 			break;
 
 		case 'upload-image':
@@ -81,11 +75,7 @@ class News_manager extends MX_Controller
 			break;
 
 		case 'change-status':
-			$result = $this->news_manager->_changeStatus();
-			break;
-
-		case 'change-category-status':
-			$result = $this->news_manager->_changeCategoryStatus();
+			$result = $this->bannermanager->_changeStatus();
 			break;
 
 		default:

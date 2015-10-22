@@ -18,16 +18,11 @@ class Faqmanager_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	function _getCategoryList($active = false, $uncategorize = false)
+	function _getCategoryList($active = 0)
 	{
 		$this->db->select('*');
 		$this->db->from('faq_category');
-		if ($active) {
-			$this->db->where('status', 1);
-		}
-		if ($uncategorize) {
-			$this->db->where('id_faq_category !=', 1);
-		}
+		if ($active) $this->db->where('active', $active);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
@@ -42,10 +37,10 @@ class Faqmanager_model extends CI_Model
 	}
 	function _getAllItems()
 	{
-		$this->db->select('i.*,c.id_faq_category, c.category_title');
+		$this->db->select('i.*,c.*');
 		$this->db->from('faq_item i');
 		$this->db->join('faq_category c', 'i.id_faq_category = c.id_faq_category', 'left');
-		$this->db->where('c.status', 1);
+		$this->db->where('c.active', 1);
 		$this->db->order_by('c.category_title ASC');
 		$this->db->order_by('i.faq_question ASC');
 		$query = $this->db->get();

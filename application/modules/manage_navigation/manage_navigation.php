@@ -21,7 +21,7 @@ class Manage_navigation extends MX_Controller
 	function index()
 	{
 		$nItemsInactive = $this->magnav->_getNav(0);
-		$mResultInactive = $this->magnav->_getNavHTMLInactive($nItemsInactive);
+		$mResultInactive = $this->magnav->_getNavHTML($nItemsInactive);
 		$this->template->assign('mResultInactive', $mResultInactive);
 		$navItems = $this->magnav->_getNav();
 		$menuResult = $this->magnav->_getNavHTML($navItems);

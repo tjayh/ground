@@ -24,7 +24,6 @@ class Contactus extends MX_Controller
 	{
 		$this->template->assign('RECAPTCHA_PUBLIC_KEY', $this->config_model->get('RECAPTCHA_PUBLIC_KEY'));
 		$this->template->assign('RECAPTCHA_PRIVATE_KEY', $this->config_model->get('RECAPTCHA_PRIVATE_KEY'));
-		$this->template->assign('google_map', $this->config_model->get('GOOGLE_MAP'));
 	}
 	function process()
 	{
