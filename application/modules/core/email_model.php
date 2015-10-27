@@ -21,7 +21,6 @@ class Email_model extends CI_Model
 	{
 		$this->load->library('email');
 		$this->load->library('encrypt');
-		$fromEmail = $this->config_model->get('ADMIN_EMAIL');
 		$siteName = $this->config_model->get('SITE_NAME');
 		$config = Array(
 			'protocol' => "mail",
@@ -38,7 +37,9 @@ class Email_model extends CI_Model
 		if ($attachment) {
 			$this->email->attach($attachment);
 		}
-		if ($data) $this->template->assign('data', $data);
+		if ($data) {
+			$this->template->assign('data', $data);
+		}
 		if ($template) {
 			$body = $this->template->fetch('email_templates/' . $template);
 			$this->email->message($body);

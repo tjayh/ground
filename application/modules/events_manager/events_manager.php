@@ -27,15 +27,21 @@ class Events_manager extends MX_Controller
 		}
 		$events = $this->events_manager->_getItems();
 		$this->template->assign('events', $events);
-		$this->template->assign('images_path', 'upload/images/events/');
+		$this->template->assign('images_path', base_url() . 'upload/images/events/');
 	}
 	function category()
 	{
+		$category_list_parent = $this->events_manager->_getCategoryList(1);
 		$category_list = $this->events_manager->_getCategoryList();
-		$category_list_select = $this->events_manager->_getCategoryList(1, 1);
+		usort($category_list, function ($a, $b)
+		{
+			return strcmp(strtoupper($a['parent_title']) , strtoupper($b['parent_title']));
+		});
+		if ($category_list_parent) {
+			$this->template->assign('category_list_parent', $category_list_parent);
+		}
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
-			$this->template->assign('category_list_select', $category_list_select);
 		}
 	}
 	function process()
@@ -66,16 +72,20 @@ class Events_manager extends MX_Controller
 			$result = $this->events_manager->_deleteItem();
 			break;
 
+		case 'upload-cms-image':
+			$result = $this->events_manager->_uploadCMSImage();
+			break;
+
 		case 'upload-image':
 			$result = $this->events_manager->_uploadImage();
 			break;
 
-		case 'upload-banner':
-			$result = $this->events_manager->_uploadBanner();
-			break;
-
 		case 'change-status':
 			$result = $this->events_manager->_changeStatus();
+			break;
+
+		case 'change-category-status':
+			$result = $this->events_manager->_changeCategoryStatus();
 			break;
 
 		default:

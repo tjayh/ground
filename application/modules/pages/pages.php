@@ -28,12 +28,6 @@ class Pages extends MX_Controller
 	function error()
 	{
 	}
-	/**
-	 * Ajax Process
-	 *
-	 * @access	public
-	 * @return	string/json
-	 */
 	function process()
 	{
 		$action = $this->uri->segment(3);

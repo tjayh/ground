@@ -27,13 +27,19 @@ class Settings extends MX_Controller
 			'admin_email',
 			'site_css',
 			'site_logo',
-			'site_favicon'
+			'site_favicon',
+			'theme_css',
+			'image_dimensions'
 		);
 		foreach($fields as $value) {
 			$item = $this->settings->get(strtoupper($value));
+			if($value == 'image_dimensions'){
+				$item = json_decode($item, true);
+			}
 			$this->template->assign($value, $item);
 		}
 		$this->template->assign('themes', $this->settings->getThemes());
+		$this->template->assign('css_lists', $this->settings->getThemeCss());
 		$this->template->assign('current_theme', constant('_THEME_'));
 	}
 	function users()
@@ -275,6 +281,8 @@ class Settings extends MX_Controller
 
 		case 'upd-general':
 			$data = $this->input->post('data');
+			$data2 = $this->input->post('data2');
+			$data['image_dimensions'] = json_encode(array_filter($data2, 'strlen')); 
 			$theme = $this->input->post('new_theme');
 			/* if($theme != constant('_THEME_')){
 			$this->settings->_changeTheme($theme);
@@ -445,6 +453,14 @@ class Settings extends MX_Controller
 
 		case 'upload-favicon':
 			$result = $this->settings->_uploadFavicon();
+			break;
+
+		case 'change-status':
+			$result = $this->settings->_changeStatus();
+			break;
+
+		case 'upd-style':
+			$result = $this->settings->_updateStyle();
 			break;
 
 		default:

@@ -18,8 +18,11 @@ class Newslettermanager_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	function _getSubscribers()
+	function _getSubscribers($isActive = false)
 	{
+		if ($isActive) {
+			$this->db->where('status', 1);
+		}
 		$query = $this->db->get('newsletter_subscribers');
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
@@ -37,11 +40,15 @@ class Newslettermanager_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('newsletter');
 		$this->db->order_by('date_add', 'desc');
-		if ($id_newsletter) $this->db->where('id_newsletter', $id_newsletter);
+		if ($id_newsletter) {
+			$this->db->where('id_newsletter', $id_newsletter);
+		}
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
-			if ($id_newsletter) return $result;
+			if ($id_newsletter) {
+				return $result;
+			}
 			else {
 				$return = array();
 				foreach($result as $item) {
@@ -58,8 +65,12 @@ class Newslettermanager_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('newsletter');
 		$query = $this->db->get();
-		if ($query->num_rows()) return $query->last_row('array');
-		else return false;
+		if ($query->num_rows()) {
+			return $query->last_row('array');
+		}
+		else {
+			return false;
+		}
 	}
 	function getActiveSubscribers()
 	{
@@ -83,8 +94,8 @@ class Newslettermanager_model extends CI_Model
 				$this->load->library('email');
 				$this->load->library('encrypt');
 				$this->load->model('settings/settings_model', 'settings');
-				$newsletterEmail = $this->config_model->get('ADMIN_EMAIL');
-				$siteName = $this->config_model->get('SITE_NAME');
+				$newsletterEmail = $this->settings->get('ADMIN_EMAIL');
+				$siteName = $this->settings->get('SITE_NAME');
 				$config = Array(
 					'protocol' => "mail",
 					'charset' => "utf-8",
@@ -167,11 +178,15 @@ class Newslettermanager_model extends CI_Model
 		$content = file_get_contents(base_url() . "/skin/aceadmin/includes/newsletters/" . $data['id_newsletter'] . ".txt", FILE_USE_INCLUDE_PATH);
 		foreach($result as $item) {
 			$to = $item['email'];
-			$replyTo = $this->config_model->get('ADMIN_EMAIL');
-			$fromName = $this->config_model->get('SITE_NAME');
+			$this->load->model('settings/settings_model', 'settings');
+			$replyTo = $this->settings->get('NEWSLETTER_EMAIL');
+			$fromName = $this->settings->get('SITE_NAME');
 			$subject = $newsletters[0]['title'];
+			$this->load->model('core/email_model', 'email_model');
 			$this->email_model->sendEmail($to, $subject, $content, false, false, $data, $replyTo, $fromName);
+			// (to,  subject,  message,  attachment, template, data, replyTo, fromName)
 		}
+		return true;
 	}
 	function _editNewsletter()
 	{
@@ -179,8 +194,8 @@ class Newslettermanager_model extends CI_Model
 		$data = $this->input->post('data');
 		if ($data) {
 			$title = $data['clmn_title'];
-			$content = $data['content'];
-			unset($data['content']);
+			$content = $data['clmn_content'];
+			unset($data['clmn_content']);
 			$params['table'] = 'newsletter';
 			$params['post_data'] = $data;
 			$params['includeDates'] = null;
@@ -229,12 +244,12 @@ class Newslettermanager_model extends CI_Model
 					$dbr = fopen(_SKIN_URL_ . _ADMIN_THEME_ . '/includes/newsletters/' . $lastRow['id_newsletter'] . '.txt', 'w');
 					fwrite($dbr, $content);
 					fclose($dbr);
-					if ($this->_sendNewsletter($title, $content)) {
-						return true;
+					/* if ($this->_sendNewsletter($title, $content)) {
+					return true;
 					}
 					else {
-						$this->error[] = 'Failed to send newsletters.';
-					}
+					$this->error[] = 'Failed to send newsletters.';
+					} */
 				}
 				else {
 					$this->error[] = 'Database Error: Failed to update filename at content column.';
@@ -251,6 +266,73 @@ class Newslettermanager_model extends CI_Model
 			return $result;
 		}
 		else return true;
+	}
+	function _deleteSubscriber()
+	{
+		$deleteid = $this->input->post('id_subscriber');
+		if ($deleteid) {
+			$this->load->model('core/dbtm_model', 'dbtm');
+			$result = $this->dbtm->deleteItem('id_subscriber', $deleteid, 'newsletter_subscribers');
+			if ($result) {
+				$result = true;
+			}
+			else $this->error[] = "Failed to delete subscriber.";
+		}
+		else {
+			return false;
+		}
+	}
+	function _deleteNewsletter()
+	{
+		$deleteid = $this->input->post('id_newsletter');
+		if ($deleteid) {
+			$this->load->model('core/dbtm_model', 'dbtm');
+			$result = $this->dbtm->deleteItem('id_newsletter', $deleteid, 'newsletter');
+			if ($result) {
+				if (file_exists(BASEPATH . 'skin/' . _ADMIN_THEME_ . '/includes/newsletters/' . $deleteid . '.txt')) {
+					$this->error[] = BASEPATH . 'skin/' . _ADMIN_THEME_ . '/includes/newsletters/' . $deleteid . '.txt';
+				}
+				$result = true;
+			}
+			else $this->error[] = "Failed to delete newsletter.";
+		}
+		else {
+			return false;
+		}
+	}
+	function _updateSettings()
+	{
+		$data = $this->input->post('data');
+		if ($data) {
+			$this->load->model('core/dbtm_model', 'dbtm');
+			$data['newsletter_password'] = $this->dbtm->processData2($data['newsletter_password'], 'encrypt-pass');
+			foreach($data as $name => $value) {
+				$data2 = array();
+				$data2['whr_name'] = $name;
+				$data2['clmn_value'] = $value;
+				$params['table'] = 'config';
+				$params['post_data'] = $data2;
+				$result = $this->dbtm->update($params);
+				unset($data2);
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	function _uploadCMSImage()
+	{
+		$this->load->model('core/uploader_model', 'uploader');
+		$this->uploader->_uploadCMSImage();
+	}
+	function generate_subscribe_report()
+	{
+		/* $date_range = str_replace("%20", " ", $this->uri->segment(4)); */
+		$this->load->model('core/excel_model', 'excel');
+		$this->load->model('settings/settings_model', 'settings');
+		$data['site_name'] = $this->settings->get('SITE_NAME');
+		$data['list'] = $this->_getSubscribers(1);
+		$this->excel->subscriber_lists_report($data);
 	}
 }
 /* End of file pages_model.php */

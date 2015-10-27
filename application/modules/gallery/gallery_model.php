@@ -44,12 +44,18 @@ class Gallery_model extends CI_Model
 		}
 		return false;
 	}
-	function _getItemsCategory($id = false)
+	function _getItemsCategory($id = false, $id_parent = false)
 	{
 		$this->db->select('gc.*');
 		$this->db->from('gallery_category gc');
 		$this->db->where('gc.status', 1);
-		if ($id) $this->db->where('gc.id_gallery_category', $id);
+		if (!$id_parent) {
+			$this->db->where('gc.id_parent', 0);
+		}
+		if ($id) {
+			$this->db->where('gc.id_gallery_category', $id);
+		}
+		$this->db->where('gc.id_gallery_category !=', 0);
 		$this->db->order_by('gc.id_gallery_category ASC');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {

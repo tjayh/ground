@@ -13,6 +13,12 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Settings_model extends CI_Model
 
 {
+	var $upload_favicon_dir = './upload/images/favicon/';
+	var $upload_logo_dir = './upload/images/logo/';
+	var $upload_thumb_logo_dir = './upload/images/logo/thumb/';
+	var $temp_logo_dir = './temp/images/logo/';
+	var $temp_thumb_logo_dir = './temp/images/logo/thumb/';
+	var $temp_favicon_dir = './temp/images/favicon/';
 	function __construct()
 	{
 		parent::__construct();
@@ -27,7 +33,13 @@ class Settings_model extends CI_Model
 			return false;
 		}
 		$row = $query->row_array();
-		return $row['value'];
+		if($name) {
+			return $row['value'];
+		}
+		else{
+			return $row;
+		}
+		
 	}
 	function set($name, $value)
 	{
@@ -40,10 +52,14 @@ class Settings_model extends CI_Model
 			$data['value'] = $value;
 			$data['date_add'] = date('Y-m-d H:i:s');
 			$data['date_upd'] = $data['date_add'];
-			if ($this->db->insert('config', $data)) return true;
+			if ($this->db->insert('config', $data)) {
+				return true;
+			}
 		}
 		else {
-			if ($this->update($name, $value)) return true;
+			if ($this->update($name, $value)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -107,8 +123,12 @@ class Settings_model extends CI_Model
 		if ($id_module) {
 			$this->db->where('id_module', $id_module);
 			$query = $this->db->get();
-			if ($query->num_rows()) return $query->row_array();
-			return false;
+			if ($query->num_rows()) {
+				return $query->row_array();
+			}
+			else{
+				return false;
+			}
 		}
 		$this->db->order_by('isAdmin');
 		$this->db->order_by('module_name');
@@ -126,6 +146,7 @@ class Settings_model extends CI_Model
 	}
 	function getPermissions($id_admin_group = false)
 	{
+		$adminData = $this->session->userdata('adminData');
 		$this->db->select('*');
 		$this->db->from('module');
 		$this->db->where('isAdmin', 1);
@@ -138,7 +159,9 @@ class Settings_model extends CI_Model
 			$this->db->where('id_admin_group', $id_admin_group);
 			$this->db->where('id_module', $item['id_module']);
 			$module = $this->db->get();
-			if ($module->num_rows()) $item = array_merge($item, $module->row_array());
+			if ($module->num_rows()) {
+				$item = array_merge($item, $module->row_array());
+			}
 			else {
 				$data['id_admin_group'] = $id_admin_group;
 				$data['id_module'] = $item['id_module'];
@@ -150,6 +173,9 @@ class Settings_model extends CI_Model
 		$this->db->select('m.*, m.isActive as isActive, ap.*, ap.isActive as enabled');
 		$this->db->from('module m');
 		$this->db->join('admin_permission ap', 'm.id_module = ap.id_module', 'left');
+		if ($adminData['id_admin_group'] != 1) {
+			$this->db->where('m.link_rewrite !=', 'breadcrumbs');
+		}
 		$this->db->where('m.isAdmin', 1);
 		$this->db->where('m.isActive', 1);
 		$this->db->where('ap.id_admin_group', $id_admin_group);
@@ -363,6 +389,18 @@ class Settings_model extends CI_Model
 		}
 		return $templates;
 	}
+	function getThemeCss()
+	{
+		$this->load->helper('directory');
+		$themes = directory_map(_SKIN_URL_ . constant('_THEME_') . '/style', 1);
+		$theme_css = array();
+		foreach($themes as $theme) {
+			if (strpos($theme, 'theme_') !== false) {
+				$theme_css[] = $theme;
+			}
+		}
+		return $theme_css;
+	}
 	function _changeTheme($theme)
 	{
 		$this->load->helper('directory');
@@ -427,8 +465,12 @@ class Settings_model extends CI_Model
 		// copy files and folders from skin if it exists
 		if (is_dir($source . 'skin/')) {
 			$source = $source . 'skin/';
-			if ($isAdmin) $dest = './skin/' . _ADMIN_THEME_ . '/modules/' . $moduleClass . '/';
-			else $dest = './skin/' . _THEME_ . '/modules/' . $moduleClass . '/';
+			if ($isAdmin) {
+				$dest = './skin/' . _ADMIN_THEME_ . '/modules/' . $moduleClass . '/';
+			}
+			else {
+				$dest = './skin/' . _THEME_ . '/modules/' . $moduleClass . '/';
+			}
 			$result['error'] = $this->copyFiles($source, $dest, $result['error']);
 			if (is_dir($dest . 'js_includes')) {
 				$source = $dest . 'js_includes';
@@ -517,107 +559,119 @@ class Settings_model extends CI_Model
 	}
 	function _uploadLogo()
 	{
-		$data = array();
-		$data['error'] = array();
-		$config['upload_path'] = './temp/images/logo/';
-		$config['allowed_types'] = 'jpg|png';
-		$config['encrypt_name'] = TRUE;
-		$config['max_size'] = '2000';
-		$this->load->library('upload', $config);
-		if (!$this->upload->do_upload('userfile')) {
-			$data['error'][] = $this->upload->display_errors('', '');
-			echo json_encode($data);
-			exit(0);
-		}
-		else {
-			$details = $this->upload->data();
-			$data['file_name'] = $details['file_name'];
-		}
-		$config2['image_library'] = 'gd2';
-		$config2['source_image'] = './temp/images/logo/' . $details['file_name'];
-		$config2['new_image'] = './temp/images/logo/';
-		$config2['maintain_ratio'] = TRUE;
-		$config2['width'] = 2732;
-		$config2['height'] = 1536;
-		$this->load->library('image_lib', $config2);
-		if ($details['image_width'] > 2732 AND $details['image_height'] > 1536) {
-			if (!ImageJPEG(ImageCreateFromString(file_get_contents('./temp/images/logo/' . $details['file_name'])) , './temp/images/logo/' . $details['file_name'], 99)) {
-				$data['error'][] = "Failed to resize resolution image";
-			}
-			if (!$this->image_lib->resize()) {
-				$data['error'][] = "Failed to resize image";
-			}
-		}
-		if (count($data['error']) == 0) unset($data['error']);
-		echo json_encode($data);
-		exit(0);
+		$this->load->model('core/uploader_model', 'uploader');
+		$this->uploader->_uploadImage($this->temp_logo_dir, $this->temp_thumb_logo_dir, false, false);
 	}
 	function _uploadFavicon()
 	{
-		$data = array();
-		$data['error'] = array();
-		$config['upload_path'] = './temp/images/favicon/';
-		$config['allowed_types'] = 'ico|png';
-		$config['encrypt_name'] = TRUE;
-		$config['max_size'] = '2000';
-		$this->load->library('upload', $config);
-		if (!$this->upload->do_upload('userfile')) {
-			$details = $this->upload->data();
-			$data['error'][] = $this->upload->display_errors('', '');
-			echo json_encode($data);
-			exit(0);
-		}
-		else {
-			$details = $this->upload->data();
-			$data['file_name'] = $details['file_name'];
-		}
-		$config2['image_library'] = 'gd2';
-		$config2['source_image'] = './temp/images/favicon/' . $details['file_name'];
-		$config2['new_image'] = './temp/images/favicon/';
-		$config2['maintain_ratio'] = TRUE;
-		$config2['width'] = 32;
-		$config2['height'] = 32;
-		$this->load->library('image_lib', $config2);
-		if ($details['image_width'] > 32 AND $details['image_height'] > 32) {
-			if (!ImageJPEG(ImageCreateFromString(file_get_contents('./temp/images/favicon/' . $details['file_name'])) , './temp/images/favicon/' . $details['file_name'], 99)) {
-				$data['error'][] = "Failed to resize resolution image";
-			}
-		}
-		if (count($data['error']) == 0) unset($data['error']);
-		echo json_encode($data);
-		exit(0);
+		$this->load->model('core/uploader_model', 'uploader');
+		$this->uploader->_uploadFavicon($this->temp_favicon_dir);
 	}
 	function _moveLogoImages()
 	{
 		$result = array();
 		$result['error'] = array();
 		$data = $this->input->post('data');
-		if (!file_exists('./upload/images/logo/' . $data['site_logo'])) {
-			if (!copy('./temp/images/logo/' . $data['site_logo'], './upload/images/logo/' . $data['site_logo'])) {
-				$result['error'][] = "Failed to copy logo image to active folder.";
+		if (!file_exists($this->upload_logo_dir . $data['site_logo'])) {
+			if (!copy($this->temp_logo_dir . $data['site_logo'], $this->upload_logo_dir . $data['site_logo'])) {
+				$result['error'][] = "Failed to copy image to active folder.";
 			}
-			unlink('./temp/images/logo/' . $data["site_logo"]);
+			if (!unlink($this->temp_logo_dir . $data["site_logo"])) {
+				$result['error'][] = "Failed to delete image to temporary folder.";
+			}
+			if (!copy($this->temp_thumb_logo_dir . $data['image_src'], $this->upload_thumb_logo_dir . $data['image_src'])) {
+				$result['error'][] = "Failed to copy image to active folder.";
+			}
+			if (!unlink($this->temp_thumb_logo_dir . $data["site_logo"])) {
+				$result['error'][] = "Failed to delete image to temporary folder.";
+			}
 		}
 		if (count($result['error']) > 0) {
 			return $result;
 		}
-		return true;;
+		return true;
 	}
 	function _moveFaviconImages()
 	{
 		$result = array();
 		$result['error'] = array();
 		$data = $this->input->post('data');
-		if (!file_exists('./upload/images/favicon/' . $data['site_favicon'])) {
-			if (!copy('./temp/images/favicon/' . $data['site_favicon'], './upload/images/favicon/' . $data['site_favicon'])) {
-				$result['error'][] = "Failed to copy favicon image to active folder.";
+		if (!file_exists($this->upload_favicon_dir . $data['site_favicon'])) {
+			if (!copy($this->temp_favicon_dir . $data['site_favicon'], $this->upload_favicon_dir . $data['site_favicon'])) {
+				$result['error'][] = "Failed to copy image to active folder.";
 			}
-			unlink('./temp/images/favicon/' . $data["site_logo"]);
+			if (!unlink($this->temp_favicon_dir . $data["site_favicon"])) {
+				$result['error'][] = "Failed to delete image to temporary folder.";
+			}
 		}
 		if (count($result['error']) > 0) {
 			return $result;
 		}
-		return true;;
+		return true;
+	}
+	function _changeStatus()
+	{
+		$data = $this->input->post('data');
+		if ($data) {
+			$this->load->model('core/dbtm_model', 'dbtm');
+			$params['table'] = 'admin';
+			$params['post_data'] = $data;
+			$result = $this->dbtm->update($params);
+			if ($result) {
+				return true;
+			}
+		}
+		else { //direct link access
+			header('Location: ' . _BASE_URL_);
+		}
+	}
+	function _updateStyle()
+	{
+		$data = array();
+		if($this->input->cookie('style', TRUE)){
+			$data['color_schemes'] = $this->input->cookie('style', TRUE);
+		}
+		else{
+			$data['color_schemes'] = '';
+		}
+		if($this->input->cookie('color_skin', TRUE)){
+			$data['color_skin'] = $this->input->cookie('color_skin', TRUE);
+		}
+		else{
+			$data['color_skin'] = '';
+		}
+		if($this->input->cookie('is_boxed', TRUE)){
+			$data['layout_style'] = $this->input->cookie('is_boxed', TRUE);
+		}
+		else{
+			$data['layout_style'] = '';
+		}
+		if($this->input->cookie('_direction', TRUE)){
+			$data['layout_rtl'] = $this->input->cookie('_direction', TRUE);
+		}
+		else{
+			$data['layout_rtl'] = '';
+		}
+		if($this->input->cookie('pattern_switch', TRUE)){
+			$data['patterns'] = $this->input->cookie('pattern_switch', TRUE);
+		}
+		else{
+			$data['patterns'] = '';
+		}
+		if($this->input->cookie('background_switch', TRUE)){
+			$data['boxed_background'] = $this->input->cookie('background_switch', TRUE);
+		}
+		else{
+			$data['boxed_background'] = '';
+		}
+		$where['id_config_style'] = 1;
+		if ($data) {
+			$this->db->where($where);
+			$result = $this->db->update('config_style', $data);
+			if ($result) {
+				return true;
+			}
+		}
 	}
 }
 ?>

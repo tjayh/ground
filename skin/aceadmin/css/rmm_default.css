@@ -6,8 +6,8 @@
 	src:url('../font/fontawesome.eot');
 	src:url('../font/fontawesome.eot?#iefix') format('embedded-opentype'),
 		url('../font/fontawesome.svg#fontawesome') format('svg'),
-		url('../font/fontawesome.woff') format('woff'),
-		url('../font/fontawesome.ttf') format('truetype');
+		url('../font/fontawesome-webfont.woff') format('woff'),
+		url('../font/fontawesome-webfont.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }

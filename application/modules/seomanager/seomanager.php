@@ -35,7 +35,11 @@ class SeoManager extends MX_Controller
 	function index()
 	{
 		$this->load->library('encrypt');
-		$this->encrypt->encode('');
+		$p = '';
+		if($p) {
+			print_r($this->encrypt->encode($p));
+			exit;
+		}
 	}
 	function generateStat()
 	{

@@ -20,10 +20,10 @@ class Faqs_model extends CI_Model
 	}
 	function _getAllItems()
 	{
-		$listCategory = $this->_getItemsCategory();;
+		$listCategory = $this->_getItemsCategory();
 		$this->db->select('i.*');
 		$this->db->from('faq_item i');
-		$this->db->where('i.active', 1);
+		$this->db->where('i.status', 1);
 		$this->db->order_by('i.faq_question ASC');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -46,7 +46,7 @@ class Faqs_model extends CI_Model
 	{
 		$this->db->select('c.*');
 		$this->db->from('faq_category c');
-		$this->db->where('c.active', 1);
+		$this->db->where('c.status', 1);
 		$this->db->order_by('c.id_faq_category ASC');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {

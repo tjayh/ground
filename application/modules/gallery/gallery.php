@@ -31,6 +31,10 @@ class Gallery extends MX_Controller
 		$category = $this->gallery->_getItemsCategory($id);
 		$this->template->assign('gallery_lists', $gallery);
 		$this->template->assign('gallery_category', $category);
+		if ($category['category_meta_title']) $this->template->assign('_meta_title', $category['category_meta_title']);
+		if ($category['category_meta_description']) $this->template->assign('_meta_description', $category['category_meta_description']);
+		if ($category['category_meta_keywords']) $this->template->assign('_meta_keywords', $category['category_meta_keywords']);
+		if ($category['category_src']) $this->template->assign('_meta_category', $category['category_src']);
 	}
 	function view()
 	{

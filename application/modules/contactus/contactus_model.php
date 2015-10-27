@@ -36,7 +36,7 @@ class Contactus_model extends CI_Model
 	}
 	function notifyStaff($data)
 	{
-		$to = $this->config_model->get('ADMIN_EMAIL');
+		$to = $this->config_model->get('CONTACT_EMAIL');
 		$replyTo = $data['email'];
 		$fromName = $data['name'];
 		if ($data['subject']) {
@@ -49,7 +49,7 @@ class Contactus_model extends CI_Model
 	function notifySender($data)
 	{
 		$to = $data['email'];
-		$replyTo = $this->config_model->get('ADMIN_EMAIL');
+		$replyTo = $this->config_model->get('CONTACT_EMAIL');
 		$fromName = $this->config_model->get('SITE_NAME');
 		$subject = $this->config_model->get('SITE_NAME') . ' :: Thank you for contacting us';
 		$this->email_model->sendEmail($to, $subject, 'Message', false, 'contact-us-sender.html', $data, $replyTo, $fromName);

@@ -578,6 +578,7 @@ div.chosnSelect {
 
 .dd-handle.dd3-handle {
 	min-height: 30px !important;
+	float: left !important;
 }
 
 @media (max-width:422px) {
@@ -590,4 +591,9 @@ div.chosnSelect {
 .table-responsive {
 	overflow-x: auto!important;
 	width: auto;
+}
+
+body.modal-open {
+    overflow-y: auto !important;
+    padding-right: 0 !important;
 }

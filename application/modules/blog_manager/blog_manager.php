@@ -25,18 +25,23 @@ class Blog_manager extends MX_Controller
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
 		}
-		// echo 'Hello this is a new module';
 		$blog = $this->blog_manager->_getItems();
 		$this->template->assign('blog', $blog);
-		$this->template->assign('images_path', 'upload/images/blog/');
+		$this->template->assign('images_path', base_url() . 'upload/images/blog/');
 	}
 	function category()
 	{
+		$category_list_parent = $this->blog_manager->_getCategoryList(1);
 		$category_list = $this->blog_manager->_getCategoryList();
-		$category_list_select = $this->blog_manager->_getCategoryList(1, 1);
+		usort($category_list, function ($a, $b)
+		{
+			return strcmp(strtoupper($a['parent_title']) , strtoupper($b['parent_title']));
+		});
+		if ($category_list_parent) {
+			$this->template->assign('category_list_parent', $category_list_parent);
+		}
 		if ($category_list) {
 			$this->template->assign('category_list', $category_list);
-			$this->template->assign('category_list_select', $category_list_select);
 		}
 	}
 	function process()
@@ -67,16 +72,20 @@ class Blog_manager extends MX_Controller
 			$result = $this->blog_manager->_deleteItem();
 			break;
 
+		case 'upload-cms-image':
+			$result = $this->blog_manager->_uploadCMSImage();
+			break;
+
 		case 'upload-image':
 			$result = $this->blog_manager->_uploadImage();
 			break;
 
-		case 'upload-banner':
-			$result = $this->blog_manager->_uploadBanner();
-			break;
-
 		case 'change-status':
 			$result = $this->blog_manager->_changeStatus();
+			break;
+
+		case 'change-category-status':
+			$result = $this->blog_manager->_changeCategoryStatus();
 			break;
 
 		default:

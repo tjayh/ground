@@ -78,8 +78,9 @@ CMS.checkAll = function() {
 	});
 }
 CMS.initDatePicker = function() {
-	$('.date-picker').datepicker().next().on(ace.click_event, function() {
-		$(this).prev().focus();
+	$('.date-picker').datepicker({
+		format: "MM dd, yyyy",
+		autoclose: true
 	});
 }
 CMS.enableFields = function(formID) {
@@ -238,6 +239,7 @@ CMS.common = function(details) {
 		if (!$('#widgetItemActions').is(":visible")) {
 			$('#widgetItemActions').show();
 		}
+		$('#widgetListBack').hide();
 		CMS.disableFields(details[0]);
 		CMS.showWidge();
 		if (!$('#btnEditForm').is(":visible")) {
@@ -246,6 +248,7 @@ CMS.common = function(details) {
 	});
 	$('.addReset').on('click', function() {
 		$('#widgetItemActions').hide();
+		$('#widgetListBack').show();
 		$(this).addClass('hid');
 		CMS.clearFields(details[0]);
 		CMS.enableFields(details[0]);
@@ -254,6 +257,7 @@ CMS.common = function(details) {
 	});
 	$('#dtAddRow').on('click', function() {
 		$('#widgetItemActions').hide();
+		$('#widgetListBack').show();
 		$(this).addClass('hid');
 		CMS.clearFields(details[0]);
 		CMS.enableFields(details[0]);
@@ -277,24 +281,20 @@ CMS.common = function(details) {
 	});
 	$('#' + details[8]).wrap('<div class="table-responsive"></div>');
 	$('#' + details[8]).show();
-	$('#DT_Generic tfoot th').each( function () {
-		var title = $('#DT_Generic thead th').eq( $(this).index() ).text();
-		if(title != '')
-			$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-		else
-			$(this).html('');
+	$('#DT_Generic tfoot th').each(function() {
+		var title = $('#DT_Generic thead th').eq($(this).index()).text();
+		if (title != '') $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+		else $(this).html('');
 	});
 	var table = $('#DT_Generic').DataTable();
 	if ($('#DT_Generic').is(":visible")) {
-		table.columns().eq( 0 ).each( function ( colIdx ) {
-			$('input', table.column( colIdx ).footer() ).on('keyup change', function () {
-				table
-				.column( colIdx )
-				.search( this.value )
-				.draw();
+		table.columns().eq(0).each(function(colIdx) {
+			$('input', table.column(colIdx).footer()).on('keyup change', function() {
+				table.column(colIdx).search(this.value).draw();
 			});
 		});
-	}	
+	}
+
 	function clickTD() {
 		$('#' + details[8] + ' tbody td').click(function() {
 			var aPos = dtElement.fnGetPosition(this); // Get the position of the current data from the node
@@ -355,6 +355,7 @@ CMS.common = function(details) {
 		var fxnName = $(this).attr('data-yesFxn');
 		eval(fxnName);
 	});
+	CMS.initDatePicker();
 }
 
 function sendFile(file, editor, welEditable) {
@@ -363,7 +364,7 @@ function sendFile(file, editor, welEditable) {
 	$.ajax({
 		data: data,
 		type: "POST",
-		url: thisURL + thisModule + "/process/upload-image",
+		url: thisURL + thisModule + "/process/upload-cms-image",
 		cache: false,
 		contentType: false,
 		processData: false,

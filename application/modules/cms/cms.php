@@ -23,7 +23,7 @@ class Cms extends MX_Controller
 	}
 	function index()
 	{
-		$pages = $this->cms->getPages();
+		$pages = $this->cms->getPages(false,true);
 		if ($pages) $this->template->assign('pages', $pages);
 		$tree = $this->cms->getPagesTree();
 		if ($tree) $this->template->assign('tree', $tree);
@@ -31,10 +31,11 @@ class Cms extends MX_Controller
 		if ($modules) $this->template->assign('modules', $modules);
 		$templates = $this->cms->getTemplates();
 		if ($templates) $this->template->assign('templates', $templates);
+		$this->template->assign('images_path', base_url().'upload/images/banner/');
 	}
 	function section()
 	{
-		$pages = $this->cms->getPages();
+		$pages = $this->cms->getPages(false,false);
 		if ($pages) $this->template->assign('pages', $pages);
 		$tree = $this->cms->getPagesTree();
 		if ($tree) $this->template->assign('tree', $tree);
@@ -51,7 +52,7 @@ class Cms extends MX_Controller
 			$this->template->assign('page', $page);
 			$this->template->assign('page_sections', $page['sections']);
 		}
-		$pages = $this->cms->getPages();
+		$pages = $this->cms->getPages(false,true);
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}
@@ -77,7 +78,7 @@ class Cms extends MX_Controller
 			break;
 
 		case 'get-specific-page':
-			$result['page'] = $this->cms->getPages($this->input->post('id_page'));
+			$result['page'] = $this->cms->getPages($this->input->post('id_page'),true);
 			break;
 
 		case 'add-page':
@@ -88,12 +89,12 @@ class Cms extends MX_Controller
 			$result = $this->cms->_editPage();
 			break;
 
-		case 'upload-image':
-			$result = $this->cms->_uploadImage();
+		case 'upload-cms-image':
+			$result = $this->cms->_uploadCMSImage();
 			break;
 
-		case 'upload-banner':
-			$result = $this->cms->_uploadBanner();
+		case 'upload-image':
+			$result = $this->cms->_uploadImage();
 			break;
 
 		case 'add-section':

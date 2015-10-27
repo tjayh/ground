@@ -1,59 +1,96 @@
-CMS.initPageUnbind = function(){
+CMS.initPageUnbind = function() {
 	CMS.commonUnbind();
 	$('button.addReset').unbind();
 }
-CMS.initPage = function(){
-	$('a.setFormValues').on('click',function(){
-		itemID = $(this).closest( "td" ).attr('id');
-		itemID = itemID.replace("jdata","")
-		var json = $('div#jd'+itemID).html();
+CMS.initPage = function() {
+	$('a.setFormValues').on('click', function() {
+		itemID = $(this).closest("td").attr('id');
+		itemID = itemID.replace("jdata", "")
+		var json = $('div#jd' + itemID).html();
 		var data = $.parseJSON(json);
 		$('[name="data[whr_id_events_category]"]').val(data.id_events_category);
-		$('#id_events_category').val(data.id_parent);
-		$('input#category_title').val(data.category_title);
-		$('textarea#category_desc').val(data.category_desc);
-		if(data.status == 1)
-			$('input#status').prop('checked', true);
-		else
-			$('input#status').prop('checked', false);
-		if(!$('button#dtAddRow').is(":visible")){
+		$('#id_parent').val(data.id_parent);
+		$('#category_title').val(data.category_title);
+		$('#category_desc').val(data.category_desc);
+		if (data.status == 1) {
+			$('#clmn_status').prop('checked', true);
+		} else {
+			$('#clmn_status').prop('checked', false);
+		}
+		if (!$('button#dtAddRow').is(":visible")) {
 			$('button#dtAddRow').removeClass('hid');
 		}
-		if(!$(this).hasClass('editItem')){
-			$("#id_events_category").prop('disabled', true);
+		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
-		}else{
-			$("#id_events_category").prop('disabled', false);
 		}
-		$("#id_events_category").trigger("liszt:updated");
 		CMS.showWidge();
 	});
-	$('#btnEditForm').click(function(){
-		$("#id_events_category").prop('disabled', false);
-		$("#id_events_category").trigger("liszt:updated");
-	});
+	$('#btnEditForm').click(function() {});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
-	details[1] = thisURL+thisModule+"/process/add-category/"; //post url for add
+	details[1] = thisURL + thisModule + "/process/add-category/"; //post url for add
 	details[2] = 'Events category was successfully created.'; //success message for add
-	details[3] = thisURL+thisModule+"/process/edit-category/"; //post url for edit
+	details[3] = thisURL + thisModule + "/process/edit-category/"; //post url for edit
 	details[4] = 'Events category was successfully updated.'; //success message for edit
-	details[5] = thisURL+thisModule+"/process/delete-category/"; //post url for delete
-	details[6] = 'Events category was successfully deleted.'; //success message for delete
+	details[5] = thisURL + thisModule + "/process/delete-category/"; //post url for delete
+	details[6] = 'Events category and sub categories was successfully deleted. All eventss items affected are moved to "Uncategorized" category. '; //success message for delete
 	details[7] = 'id_events_category'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	
-	$("#id_events_category").chosen({allow_single_deselect: true});
-	$("#id_events_category_chzn").css('width','300px');
-	$('button.addReset').on('click',function(){
-		var flag = true;
-		$('select#id_events_category option').each(function(){
-			if(flag){
-				$("#id_events_category").val(0);
-				$("#id_events_category").trigger("liszt:updated");
-				flag=false;
-			}
-		});	
-	});
+	$('button.addReset').on('click', function() {});
 };
+
+function changeStatus() {
+	if (enableModule) enableModule = 1;
+	else enableModule = 0;
+	var keyAndVal = "data%5Bwhr_id_events_category%5D=" + itemID + "&data%5Bclmn_status%5D=" + enableModule;
+	$.post(thisURL + thisModule + "/process/change-category-status", keyAndVal, function(data) {
+		setTimeout(function() {
+			$('img#sgLoader').addClass('hid');
+			$('#globalModal .hideWhile').each(function() {
+				$(this).show();
+			});
+			$('#globalModal').fadeOut(1000);
+			$('#globalModal').modal('hide');
+		}, 1000);
+		setTimeout(function() {
+			if (data != 'false') {
+				var dataJ = $.parseJSON(data);
+				var text = $('div#jd' + itemID).text();
+				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
+				else {
+					var $dataA = $('a#stat' + itemID);
+					if (enableModule == 1) {
+						CMS.showNotification('success', 'Category is successfully Enabled');
+						$('a#stat' + itemID).html('<span class="label label-success"> Active </span>');
+						$('a#stat' + itemID).attr('title', 'Disable item status');
+						$dataA.data('data-getDetails', 'disableFxn');
+						$dataA.attr('data-getDetails', 'disableFxn');
+						text = text.replace('"status":"0"', '"status":"1"');
+						$('div#jd' + itemID).text(text);
+					} else {
+						CMS.showNotification('success', 'Category is successfully Disabled');
+						$('a#stat' + itemID).html('<span class="label label-danger">InActive</span>');
+						$('a#stat' + itemID).attr('title', 'Enable item status');
+						$dataA.data('data-getDetails', 'enableFxn');
+						$dataA.attr('data-getDetails', 'enableFxn');
+						text = text.replace('"status":"1"', '"status":"0"');
+						$('div#jd' + itemID).text(text);
+					}
+				}
+			} else {
+				CMS.showNotification('error', 'Network Problem. Please try again.');
+			}
+		}, 1200);
+	});
+}
+
+function disableMod() {
+	enableModule = false;
+	changeStatus();
+}
+
+function enableMod() {
+	enableModule = true;
+	changeStatus();
+}

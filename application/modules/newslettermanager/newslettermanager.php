@@ -22,12 +22,16 @@ class Newslettermanager extends MX_Controller
 	function index()
 	{
 		$subscribers = $this->newsletter->_getSubscribers();
-		if ($subscribers) $this->template->assign('subscribers', $subscribers);
+		if ($subscribers) {
+			$this->template->assign('subscribers', $subscribers);
+		}
 	}
-	function archive()
+	function campaigns()
 	{
 		$newsletters = $this->newsletter->_getNewsletters();
-		if ($newsletters) $this->template->assign('newsletters', $newsletters);
+		if ($newsletters) {
+			$this->template->assign('newsletters', $newsletters);
+		}
 	}
 	function settings()
 	{
@@ -53,112 +57,49 @@ class Newslettermanager extends MX_Controller
 		$action = $this->uri->segment(4);
 		switch ($action) {
 		case 'upd-settings':
-			$data = $this->input->post('data');
-			if ($data) {
-				$this->load->model('core/dbtm_model', 'dbtm');
-				$data['newsletter_password'] = $this->dbtm->processData2($data['newsletter_password'], 'encrypt-pass');
-				foreach($data as $name => $value) {
-					$data2 = array();
-					$data2['whr_name'] = $name;
-					$data2['clmn_value'] = $value;
-					$params['table'] = 'config';
-					$params['post_data'] = $data2;
-					$result = $this->dbtm->update($params);
-					unset($data2);
-				}
-				// $result = true;
-			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_updateSettings();
 			break;
 
 		case 'delete-subscriber':
-			$deleteid = $this->input->post('id_subscriber');
-			if ($deleteid) {
-				$this->load->model('core/dbtm_model', 'dbtm');
-				$result = $this->dbtm->deleteItem('id_subscriber', $deleteid, 'newsletter_subscribers');
-				if ($result) {
-					$result = true;
-				}
-				else $this->error[] = "Failed to delete subscriber.";
-			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_deleteSubscriber();
 			break;
 
 		case 'add-newsletter':
-			if ($this->input->post('data')) {
-				$result = $this->newsletter->_addNewsletter();
-				if ($result['error']) {
-					$this->error = $result['error'];
-				}
-				else {
-					$result = true;
-				}
-			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_addNewsletter();
 			break;
 
 		case 'edit-newsletter':
-			if ($this->input->post('data')) {
-				$result = $this->newsletter->_editNewsletter();
-				if ($result['error']) {
-					$this->error = $result['error'];
-				}
-				else {
-					$result = true;
-				}
-			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_editNewsletter();
 			break;
 
 		case 'delete-newsletter':
-			$deleteid = $this->input->post('id_newsletter');
-			if ($deleteid) {
-				$this->load->model('core/dbtm_model', 'dbtm');
-				$result = $this->dbtm->deleteItem('id_newsletter', $deleteid, 'newsletter');
-				if ($result) {
-					if (file_exists(BASEPATH . 'skin/' . _ADMIN_THEME_ . '/includes/newsletters/' . $deleteid . '.txt')) {
-						$this->error[] = BASEPATH . 'skin/' . _ADMIN_THEME_ . '/includes/newsletters/' . $deleteid . '.txt';
-					}
-					$result = true;
-				}
-				else $this->error[] = "Failed to delete newsletter.";
-			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_deleteNewsletter();
 			break;
 
 		case 'send-newsletter':
-			if ($this->input->post('data')) {
-				$result = $this->newsletter->_notifySubscriber();
-				if ($result['error']) {
-					$this->error = $result['error'];
-				}
-				else {
-					$result = true;
-				}
-			}
-			else {
-				header('Location: ' . _BASE_URL_);
-			}
+			$result = $this->newsletter->_notifySubscriber();
+			break;
+
+		case 'upload-cms-image':
+			$result = $this->newsletter->_uploadCMSImage();
+			break;
+
+		case 'export-subscribers-list':
+			$result = $this->newsletter->generate_subscribe_report();
 			break;
 
 		default:
 			break;
 		}
 		if ($result) {
-			if (count($this->error)) $result['error'] = $this->error;
+			if (count($this->error)) {
+				$result['error'] = $this->error;
+			}
 			echo json_encode($result);
 		}
-		else echo 'false';
+		else {
+			echo 'false';
+		}
 		exit(0);
 	}
 }

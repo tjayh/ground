@@ -20,8 +20,9 @@ class Bannermanager extends MX_Controller
 	}
 	function index()
 	{
-		$this->template->assign('banner', $this->bannermanager->_getItems());
-		$this->template->assign('images_path', 'upload/images/banner/');
+		$banner = $this->bannermanager->_getItems();
+		$this->template->assign('banner', $banner);
+		$this->template->assign('images_path', base_url() . 'upload/images/banner/');
 	}
 	function process()
 	{
@@ -39,12 +40,12 @@ class Bannermanager extends MX_Controller
 			$result = $this->bannermanager->_deleteItem();
 			break;
 
-		case 'upload-banner':
-			$result = $this->bannermanager->_uploadBanner();
-			break;
-
 		case 'upload-image':
 			$result = $this->bannermanager->_uploadImage();
+			break;
+
+		case 'upload-cms-image':
+			$result = $this->bannermanager->_uploadCMSImage();
 			break;
 
 		case 'change-status':

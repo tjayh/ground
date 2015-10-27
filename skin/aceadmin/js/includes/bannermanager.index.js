@@ -1,13 +1,13 @@
-CMS.initPageUnbind = function(){
+CMS.initPageUnbind = function() {
 	CMS.commonUnbind();
 	$('button.addReset').unbind();
 }
-CMS.initPage = function(){
+CMS.initPage = function() {
 	var textedit = ['image_desc']; /* place the fields that needs to have text editor */
-	$('a.setFormValues').on('click',function(){
-		itemID = $(this).closest( "td" ).attr('id');
-		itemID = itemID.replace("jdata","")
-		var json = $('div#jd'+itemID).text();
+	$('a.setFormValues').on('click', function() {
+		itemID = $(this).closest("td").attr('id');
+		itemID = itemID.replace("jdata", "")
+		var json = $('div#jd' + itemID).text();
 		var data = $.parseJSON(json);
 		$('[name="where[id_banner]"]').val(data.id_banner);
 		$('#image_title').val(data.image_title);
@@ -18,93 +18,90 @@ CMS.initPage = function(){
 		$('#image_src2').val(data.image_src2);
 		$('#image_desc').val(data.image_desc);
 		$('#image_link').val(data.image_link);
-		if(data.status == 1)
+		if (data.status == 1) {
 			$('input#status').prop('checked', true);
-		else
+		} else {
 			$('input#status').prop('checked', false);
-		if(!$(this).hasClass('editItem')){
+		}
+		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
 			$('.content_display').destroy();
-			$.each(textedit, function( index, value ) {
-				$('#'+value).summernote();
+			$.each(textedit, function(index, value) {
+				$('#' + value).summernote();
 			});
-			$('div.note-editable').attr( 'contenteditable','false');
-		}
-		else{
+			$('div.note-editable').attr('contenteditable', 'false');
+		} else {
 			$('.content_display').destroy();
-			$.each(textedit, function( index, value ) {
-				$('#'+value).summernote({
+			$.each(textedit, function(index, value) {
+				$('#' + value).summernote({
 					onblur: function(e) {
-						$("#"+value).val($('#'+value).code());
+						$("#" + value).val($('#' + value).code());
 					},
 					onImageUpload: function(files, editor, $editable) {
 						sendFile(files[0], editor, $editable);
 					}
 				});
 			});
-			$('div.note-editable').attr( 'contenteditable','true');
+			$('div.note-editable').attr('contenteditable', 'true');
 		}
-		
 		var txt = document.createElement("textarea");
 		$('#image_src').imgupload('refresh');
 		$('#image_src2').imgupload('refresh');
-		
 		$('#image_meta_title').val(data.image_meta_title);
 		$('#image_meta_description').val(data.image_meta_description);
 		$('#image_meta_keywords').val(data.image_meta_keywords);
 		CMS.showWidge();
 	});
-	$('button#dtAddRow').on('click', function () {
+	$('button#dtAddRow').on('click', function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function( index, value ) {
-			$('#'+value).summernote({
+		$.each(textedit, function(index, value) {
+			$('#' + value).summernote({
 				onblur: function(e) {
-					$("#"+value).val($('#'+value).code());
+					$("#" + value).val($('#' + value).code());
 				},
 				onImageUpload: function(files, editor, $editable) {
 					sendFile(files[0], editor, $editable);
 				}
 			});
 		});
-		$('div.note-editable').attr( 'contenteditable','true');
+		$('div.note-editable').attr('contenteditable', 'true');
 	});
-	$('button#btnEditForm').on('click', function () {
+	$('button#btnEditForm').on('click', function() {
 		$('.content_display').destroy();
-		$.each(textedit, function( index, value ) {
-			$('#'+value).summernote({
+		$.each(textedit, function(index, value) {
+			$('#' + value).summernote({
 				onblur: function(e) {
-					$("#"+value).val($('#'+value).code());
+					$("#" + value).val($('#' + value).code());
 				},
 				onImageUpload: function(files, editor, $editable) {
 					sendFile(files[0], editor, $editable);
 				}
 			});
 		});
-		$('div.note-editable').attr( 'contenteditable','true');
+		$('div.note-editable').attr('contenteditable', 'true');
 	});
-	$('#submit').on('click', function () {
-		$.each(textedit, function( index, value ) { /* event if submit button is clicked */
-			$('#'+value).val($('#'+value).code());
+	$('#submit').on('click', function() { /* event if submit button is clicked */
+		$.each(textedit, function(index, value) {
+			$('#' + value).val($('#' + value).code());
 		});
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
-	details[1] = thisURL+thisModule+"/process/add-item/"; //post url for add
+	details[1] = thisURL + thisModule + "/process/add-item/"; //post url for add
 	details[2] = 'Banner item was successfully created.'; //success message for add
-	details[3] = thisURL+thisModule+"/process/edit-item/"; //post url for edit
+	details[3] = thisURL + thisModule + "/process/edit-item/"; //post url for edit
 	details[4] = 'Banner item was successfully updated.'; //success message for edit
-	details[5] = thisURL+thisModule+"/process/delete-item/"; //post url for delete
+	details[5] = thisURL + thisModule + "/process/delete-item/"; //post url for delete
 	details[6] = 'Banner item was successfully deleted.'; //success message for delete
 	details[7] = 'id_banner'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	$('#date').datepicker({format:"MM dd, yyyy", autoclose:true});
-	$('input.imgupload').each(function(){
+	$('input.imgupload').each(function() {
 		$(this).imgupload();
 	});
-	$('button.addReset').on('click',function(){
+	$('button.addReset').on('click', function() {
 		var flag = true;
 		$('#image_src').val('');
 		$('#image_src').imgupload('refresh');
@@ -113,55 +110,54 @@ CMS.initPage = function(){
 	});
 }
 
-
 function changeStatus() {
-    if (enableModule) enableModule = 1;
-    else enableModule = 0;
-    var keyAndVal = "data%5Bwhr_id_banner%5D=" + itemID + "&data%5Bclmn_status%5D=" + enableModule;
-    $.post(thisURL + thisModule + "/process/change-status", keyAndVal, function(data) {
-        setTimeout(function() {
-            $('img#sgLoader').addClass('hid');
-            $('#globalModal .hideWhile').each(function() {
-                $(this).show();
-            });
-            $('#globalModal').fadeOut(1000);
-            $('#globalModal').modal('hide');
-        }, 1000);
-        setTimeout(function() {
-            if (data != 'false') {
-                var dataJ = $.parseJSON(data);
-                var text = $('div#jd' + itemID).text();
-                if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-                else {
-                    var $dataA = $('a#stat' + itemID);
-                    if (enableModule == 1) {
-                        CMS.showNotification('success', 'Banner is successfully Enabled');
-                        $('a#stat' + itemID).html('<span class="label btn-success"> Active </span>');
-                        $('a#stat' + itemID).attr('title', 'Disable item status');
-                        $dataA.data('data-getDetails', 'disableFxn');
-                        $dataA.attr('data-getDetails', 'disableFxn');
-                        text = text.replace('"status":"0"', '"status":"1"');
-                        $('div#jd' + itemID).text(text);
-                    } else {
-                        CMS.showNotification('success', 'Banner is successfully Disabled');
-                        $('a#stat' + itemID).html('<span class="label btn-danger">InActive</span>');
-                        $('a#stat' + itemID).attr('title', 'Enable item status');
-                        $dataA.data('data-getDetails', 'enableFxn');
-                        $dataA.attr('data-getDetails', 'enableFxn');
-                        text = text.replace('"status":"1"', '"status":"0"');
-                        $('div#jd' + itemID).text(text);
-                    }
-                }
-            } else {
-                CMS.showNotification('error', 'Network Problem. Please try again.');
-            }
-        }, 1200);
-    });
+	if (enableModule) enableModule = 1;
+	else enableModule = 0;
+	var keyAndVal = "data%5Bwhr_id_banner%5D=" + itemID + "&data%5Bclmn_status%5D=" + enableModule;
+	$.post(thisURL + thisModule + "/process/change-status", keyAndVal, function(data) {
+		setTimeout(function() {
+			$('img#sgLoader').addClass('hid');
+			$('#globalModal .hideWhile').each(function() {
+				$(this).show();
+			});
+			$('#globalModal').fadeOut(1000);
+			$('#globalModal').modal('hide');
+		}, 1000);
+		setTimeout(function() {
+			if (data != 'false') {
+				var dataJ = $.parseJSON(data);
+				var text = $('div#jd' + itemID).text();
+				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
+				else {
+					var $dataA = $('a#stat' + itemID);
+					if (enableModule == 1) {
+						CMS.showNotification('success', 'Banner is successfully Enabled');
+						$('a#stat' + itemID).html('<span class="label label-success"> Active </span>');
+						$('a#stat' + itemID).attr('title', 'Disable item status');
+						$dataA.data('data-getDetails', 'disableFxn');
+						$dataA.attr('data-getDetails', 'disableFxn');
+						text = text.replace('"status":"0"', '"status":"1"');
+						$('div#jd' + itemID).text(text);
+					} else {
+						CMS.showNotification('success', 'Banner is successfully Disabled');
+						$('a#stat' + itemID).html('<span class="label label-danger">InActive</span>');
+						$('a#stat' + itemID).attr('title', 'Enable item status');
+						$dataA.data('data-getDetails', 'enableFxn');
+						$dataA.attr('data-getDetails', 'enableFxn');
+						text = text.replace('"status":"1"', '"status":"0"');
+						$('div#jd' + itemID).text(text);
+					}
+				}
+			} else {
+				CMS.showNotification('error', 'Network Problem. Please try again.');
+			}
+		}, 1200);
+	});
 }
 
 function disableMod() {
-    enableModule = false;
-    changeStatus();
+	enableModule = false;
+	changeStatus();
 }
 
 function enableMod() {

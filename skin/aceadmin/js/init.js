@@ -25,6 +25,7 @@ CMS.initPS = function() {
 	$.getScript('js/includes/' + thisModule + '.' + thisMethod + '.js').done(function(script, textStatus) {
 		if (typeof(CMS.initPage) === "function") {
 			CMS.initPage();
+			$('#sidebar').attr('class','sidebar responsive');
 		}
 	}).fail(function(jqxhr, settings, exception) {});
 	CMS.initShowGlobal();
@@ -63,6 +64,6 @@ $('body').pushState({
 	}
 });
 CMS.initPS();
-$(window).load(function(){
+$(window).load(function() {
 	$("#pageLoader").fadeOut("fast");
 });
