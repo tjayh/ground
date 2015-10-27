@@ -13,8 +13,8 @@
 * to be continue: ask [@jestherthejoker](https://github.com/jestherthejoker) for more
 
 ### Development / Improvement
-* Duplicate Installation folder
-* Install then rename the duplicated installation folder to its original name
+* Duplicate `installation` folder and `index.html`
+* Install then rename the duplicated `installation` folder and `index.html` to its original name
 * skin edits
   * after editing the editing the skin files `(/skin/vii_ChangeThisToProjectName)` transfer the files to `(/themes/vii_ChangeThisToProjectName)`
 * Updates
