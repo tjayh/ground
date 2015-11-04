@@ -27,7 +27,14 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcName"> Title </label>
 											<div class="col-sm-10">
-												<input type="text" id="inputTitle" name="data[clmn_title]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' required/> </div>
+												<input type="text" id="inputTitle" name="data[clmn_title]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' required/> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="title_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_title_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
+											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcHtmlId"> Link Rewrite </label>
@@ -38,13 +45,26 @@
 											<label class="col-sm-2 control-label no-padding-right" for="image_src"> Banner Image</label>
 											<div class="col-sm-10">
 												<div style="width:200px;">
-													<input class="span8 fieldEditable imgupload" type="hidden" id="image_src" name="data[clmn_image_src]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/banner" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}pages/process/upload-image" /> </div>
+													<input class="span8 fieldEditable imgupload" type="hidden" id="image_src" name="data[clmn_image_src]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/banner" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}pages/process/upload-image" /> 
+												</div>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="image_src_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_image_src_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcMethod"> Caption </label>
 											<div class="col-sm-10">
 												<textarea placeholder="" name="data[clmn_caption]" id="inputPageCaption" class="input-xxlarge content_display"></textarea>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="caption_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_caption_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
@@ -62,7 +82,13 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcMethod"> Content </label>
 											<div class="col-sm-10">
-												<textarea placeholder="Default Meta Description" name="data[clmn_content]" id="inputPageContent" class="input-xxlarge content_display"></textarea>
+												<textarea placeholder="Content" name="data[clmn_content]" id="inputPageContent" class="input-xxlarge content_display"></textarea>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="content_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_content_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group {if $_admin.id_admin_group neq 1}hid{/if}">
@@ -90,23 +116,51 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcMethod"> Meta Title </label>
 											<div class="col-sm-10">
-												<input type="text" id="inputMetaTitle" name="data[clmn_meta_title]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> </div>
+												<input type="text" id="inputMetaTitle" name="data[clmn_meta_title]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="meta_title_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_meta_title_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
+											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcMethod"> Meta Keywords </label>
 											<div class="col-sm-10">
-												<input type="text" id="inputMetaKeywords" name="data[clmn_meta_keywords]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> </div>
+												<input type="text" id="inputMetaKeywords" name="data[clmn_meta_keywords]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="meta_keywords_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_meta_keywords_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
+											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="inputBcMethod"> Meta Description </label>
 											<div class="col-sm-10">
-												<input type="text" id="inputMetaDesc" name="data[clmn_meta_description]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> </div>
+												<input type="text" id="inputMetaDesc" name="data[clmn_meta_description]" class="col-xs-10 col-sm-5 fieldEditable" disabled='disabled' /> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="meta_description_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_meta_description_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
+											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label no-padding-right" for="meta_image"> Meta Image</label>
 											<div class="col-sm-10">
 												<div style="width:200px;">
-													<input class="span8 fieldEditable imgupload" type="hidden" id="meta_image" name="data[clmn_meta_image]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/banner" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}pages/process/upload-image" /> </div>
+													<input class="span8 fieldEditable imgupload" type="hidden" id="meta_image" name="data[clmn_meta_image]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/banner" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}pages/process/upload-image" /> 
+												</div>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="meta_image_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[clmn_meta_image_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 									</div>

@@ -42,6 +42,7 @@ $route["newsletter/(.*)"] = "newsletter/$1";
 $route["events"] = "events/index";
 $route["events/(.*)"] = "events/$1";
 
+$route["aaaaatitle"] = "pages/index";
 
 
 ?>

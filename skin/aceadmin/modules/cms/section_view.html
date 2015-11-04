@@ -28,22 +28,40 @@
 											<label class="col-sm-2 control-label" for="form-field-1">Title</label>
 											<div class="col-sm-10">
 												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_title" disabled="disabled" name="data[section_title]" required/> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="section_title_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[section_title_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label" for="form-field-1">Sub Title</label>
 											<div class="col-sm-10">
 												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_subtitle" disabled="disabled" name="data[section_subtitle]" required/> 
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="section_subtitle_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[section_subtitle_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label" for="form-field-1">Custom Class</label>
 											<div class="col-sm-10">
-												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_class" disabled="disabled" name="data[section_class]" /> 
+												<input type="text" class="col-xs-10 col-sm-5 fieldEditable" id="section_class" disabled="disabled" name="data[section_class]" />
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input type="checkbox" id="section_class_active" class="ace ace-checkbox-2 fieldEditable fieldEditable" disabled="disabled" name="data[section_class_active]" >
+														<span class="lbl"> Active </span>
+													</label>
+												</span>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label" for="form-field-1">Active</label>
+											<label class="col-sm-2 control-label" for="form-field-1">Section Active</label>
 											<div class="col-sm-10">
 												<input type="checkbox" class="ace ace-checkbox-2 fieldEditable" disabled="disabled" id="active" name="data[isActive]" /> <span class="lbl"></span>
 											</div>
@@ -65,16 +83,19 @@
 												<!-- pages -->
 												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
 												<div class="col-sm-4">
-													<input type="hidden" value="" name="data[limit]" id="limit"> {foreach from=$section_temp item=item}
-													<label class="section-label"> {assign var="section_html" value="../default/images/sections/`$item`.png"}
-														<input type="radio" class="ace fieldEditable templateList" data-templisttype="page" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
+													<input type="hidden" value="page" name="data[type]" id="type"> 
+													{foreach from=$section_temp item=item}
+													<label class="section-label">
+														<input type="radio" class="ace fieldEditable templateList" data-templisttype="page" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
 														<span class="lbl">
-															<button type="button" class="viewTemplateButton " data-toggle="modal" data-idPage="{$page.id_page}" data-img="{$section_html}" data-target="#viewTemplate">
-																<img class="section-templates"src="{$section_html}" >
+															<button type="button" class="viewTemplateButton " data-toggle="modal" data-idPage="{$page.id_page}" data-img="{$item.image_src}" data-target="#viewTemplate"  title="{$item.title}">
+																<img class="section-templates"src="{$item.image_link}" title="{$item.title}" >
 															</button>
 														</span> 
 													</label>
-													<br/> {/foreach} </div>
+													<br/>
+													{/foreach} 
+												</div>
 												<p>
 													<div id="templateNotif" style='display:none;'></div>
 												</p>
@@ -87,6 +108,7 @@
 													<br> {/foreach} </div>
 											</div>
 										</div>
+										<!-- ==================================================================================================================================== -->
 										<div id="module_type" style="display:none;">
 											<!-- modules -->
 											<div class="form-group">
@@ -101,21 +123,16 @@
 												<!-- templates -->
 												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
 												<div class="col-sm-4">
-													<input type="hidden" value="" name="data[limit]" id="limit"> 
-													{foreach from=$module_temp item=item}
-													<label style="display:none;"> {assign var="module_html" value="../default/images/modules/`$item`.png"} {assign var="filename_array" value="_"|explode:$item}
-														<input type="radio" class="ace fieldEditable" data-templisttype="module" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
+													<input type="hidden" value="module" name="data[type]" id="type"> 
+													{foreach from=$section_temp item=item}
+													<label style="display:none;">
+														<input type="radio" class="ace fieldEditable" data-templisttype="module" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
 														<span class="lbl">	
-															<a class="viewTemplateButton {$filename_array.0} moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$module_html}">
-																<img src="{$module_html}" class="section-templates2">
+															<a class="viewTemplateButton moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$item.image_link}">
+																<img class="section-templates" src="{$item.image_link}" title="{$item.title}" >
 															</a>
 														</span> 
 													</label>
-													<!-- 	<a class="viewTemplateButton {$filename_array.0} moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$module_html}"><img src="{$module_html}" class="img-responsive section-sample-layout"></a>
-													<input type="radio" class="col-sm-2 fieldEditable" data-templisttype="module" id="template_name_{$item}" disabled="disabled" name="data[template_name]" value="{$item}" required/> 
-													<span class="lbl"></span>
-													<br/>
-													<br/> -->
 													{/foreach} 
 												</div>
 												<p>
