@@ -14,6 +14,11 @@ class Cms_model extends CI_Model
 
 {
 	var $error = array();
+	var $temp_file_dir = './temp/images/section/';
+	var $temp_file_thumb_dir = './temp/images/section/thumb/';
+	var $upload_file_dir = './upload/images/section/';
+	var $upload_file_thumb_dir = './upload/images/section/thumb/';
+	
 	var $temp_dir = './temp/images/banner/';
 	var $temp_thumb_dir = './temp/images/banner/thumb/';
 	var $upload_dir = './upload/images/banner/';
@@ -71,13 +76,15 @@ class Cms_model extends CI_Model
 			while ($col != 4) {
 				foreach($result['sections']['col' . $col] as $key => $item) { // get section details
 					$item['key_section'] = $key;
+					$item['type'] = $item['content_type'];
 					if ($item['content_type'] == 'module') {
 						$pull_temp = 'module_templates';
 					}
 					else {
 						$pull_temp = 'section_templates';
 					}
-					$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+					$section_layout = $this->getSectionTemplates($item['id_page_section']);
+					$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $section_layout['file_name'];
 					foreach($item['pages'] as $key2 => $item2) {
 						$page_data = $this->getPages($item2);
 						unset($page_data['json']);
@@ -93,6 +100,40 @@ class Cms_model extends CI_Model
 			return $result;
 		}
 		return false;
+	}
+	
+	function getSectionTemplates($id_page = false, $type = false)
+	{
+		$this->db->select('*');
+		$this->db->from('page_section');
+		if($id_page){
+			$this->db->where('id_page_section', $id_page);
+		}
+		if($type){
+			$this->db->where('type', $type);
+		}
+		$query = $this->db->get();
+		if (!$query->num_rows()) {
+			return false;
+		}
+		else{
+			$result = $query->result_array();
+			foreach($result as $key => $item) {
+				$file_name = base_url().'upload/images/section/'.$item['image_src'];
+				if ($item['image_src']) {
+					$item['image_link'] = $file_name;
+					
+				} else {
+					$item['image_link'] = base_url().'/upload/images/section/default.png';
+				}
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return[] = $item;
+			}
+			return $return;
+		}
+		if($id_page){
+			return $result[0];
+		}
 	}
 	function getPagesTree($id_parent = 0)
 	{
@@ -154,7 +195,7 @@ class Cms_model extends CI_Model
 		}
 		return $templates;
 	}
-	function getSectionTemplates()
+	function getSectionTemplates_old_delete_after_enhancements()
 	{
 		$this->load->helper('directory');
 		$templates = array();
@@ -164,10 +205,19 @@ class Cms_model extends CI_Model
 		foreach($sub as $file) {
 			$temp = pathinfo($file);
 			$file_name = basename($file, '.' . $temp['extension']);
-			$templates[] = $file_name;
+			$data['file_name'] = $file_name;
+			$data['file_title'] = str_replace("_"," ",$file_name);
+			$filename = 'skin/default/images/sections/'.$file_name.'.png';
+			if (file_exists($filename)) {
+				$data['file_image'] = base_url().'skin/default/images/sections/'.$file_name.'.png';
+			} else {
+				$data['file_image'] = base_url().'skin/default/images/sections/default.png';
+			}
+			$templates[] = $data;
 		}
 		return $templates;
 	}
+	
 	function getLayoutTemplates()
 	{
 		$this->load->helper('directory');
@@ -383,6 +433,99 @@ class Cms_model extends CI_Model
 		}
 		else return true;
 	}
+	function _addSectionFile()
+	{
+		$this->db->flush_cache();
+		$data = $this->input->post('data');
+		$where = $this->input->post('where');
+		substr_replace($data['fileFolderName'], '_'.$data['limit'], $pos, 0);
+		$raw_file_name = explode(".", $data['fileFolderName']);
+		$raw_file_name[0] = $raw_file_name[0].'_'.$data['limit'];
+		$data['file_name'] = implode(".", $raw_file_name);
+		$fileFolderName = $data['fileFolderName'];
+		unset($data['fileFolderName']);
+		$result = $this->db->insert('page_section', $data);
+		if ($result) {
+			
+			if (!file_exists($this->upload_file_dir . $data['image_src'])) {
+				/* copy image file */
+				if (!is_dir($this->upload_file_dir)) {
+					mkdir($this->upload_file_dir, 0777, TRUE);
+				}
+				if (!copy($this->temp_file_dir . $data['image_src'], $this->upload_file_dir . $data['image_src'])) {
+					$result['error'][] = "Failed to copy image to active folder.";
+				}
+				if (!unlink($this->temp_file_dir . $data["image_src"])) {
+					$result['error'][] = "Failed to delete image to temporary folder.";
+				}
+				if (!copy($this->temp_file_thumb_dir . $data['image_src'], $this->upload_file_thumb_dir . $data['image_src'])) {
+					$result['error'][] = "Failed to copy image to active folder.";
+				}
+				if (!unlink($this->temp_file_thumb_dir . $data["image_src"])) {
+					$result['error'][] = "Failed to delete image to temporary folder.";
+				}
+				/* copy file */
+				$upload_file_dir = './skin/default/includes/section/';
+				$temp_file_dir = './temp/admin/';
+				
+				if (!is_dir($this->upload_file_dir)) {
+					mkdir($this->upload_file_dir, 0777, TRUE);
+				}
+				if (!copy($temp_file_dir . $fileFolderName, $upload_file_dir . $data['file_name'])) {
+					$result['error'][] = "Failed to copy file to active folder.";
+				}
+				if (!unlink($temp_file_dir . $fileFolderName)) {
+					$result['error'][] = "Failed to delete file to temporary folder.";
+				}
+			}
+			return $result;
+		}
+		else {
+			return $result;
+		}
+		
+		
+		
+		
+		
+		$this->db->select('p.*');
+		$this->db->from('page p');
+		$this->db->where('id_page', $id_page);
+		$query = $this->db->get();
+		if ($data) {
+			if ($query->num_rows() > 0) {
+				$result = $query->row_array();
+				$return = array();
+				if (empty($result['sections'])) { // no section save
+					$sections_encoded[$column] = array(
+						$data
+					);
+					$sections_encoded = json_encode($sections_encoded, JSON_FORCE_OBJECT);
+					$this->db->flush_cache();
+					$data_upd['sections'] = $sections_encoded;
+					$this->db->where('id_page', $id_page);
+					$result = $this->db->update('page', $data_upd);
+					return $result;
+				}
+				else { // update existing section
+					$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
+					$col_sec = $sections_decoded[$column];
+					if ($sections_decoded[$column]) {
+						array_push($sections_decoded[$column], $data);
+					}
+					else {
+						$sections_decoded[$column][] = $data;
+					}
+					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
+					$this->db->flush_cache();
+					$data_upd['sections'] = $sections_encoded;
+					$this->db->where('id_page', $id_page);
+					$result = $this->db->update('page', $data_upd);
+					return $result;
+				}
+			}
+		}
+	}
 	function _addSection()
 	{
 		$this->db->flush_cache();
@@ -452,8 +595,11 @@ class Cms_model extends CI_Model
 					$sections_decoded = json_decode($item['sections'], JSON_FORCE_OBJECT);
 					$sections_decoded[$column][$key_section]['section_title'] = $data['section_title'];
 					$sections_decoded[$column][$key_section]['section_subtitle'] = $data['section_subtitle'];
-					$sections_decoded[$column][$key_section]['template_name'] = $data['template_name'];
 					$sections_decoded[$column][$key_section]['section_class'] = $data['section_class'];
+					$sections_decoded[$column][$key_section]['section_title_active'] = $data['section_title_active'];
+					$sections_decoded[$column][$key_section]['section_subtitle_active'] = $data['section_subtitle_active'];
+					$sections_decoded[$column][$key_section]['section_class_active'] = $data['section_class_active'];
+					$sections_decoded[$column][$key_section]['template_name'] = $data['template_name'];
 					$sections_decoded[$column][$key_section]['pages'] = $data['pages'];
 					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
 					$this->db->flush_cache();
@@ -606,6 +752,12 @@ class Cms_model extends CI_Model
 	{
 		$this->buildRoutesFrontend();
 		$this->buildRoutesBackend();
+		
+		$this->load->helper('directory');
+		$cache_dirctory = directory_map(FCPATH.'application/cache/compile', 1);
+		$dest = './application/cache/compile/';
+		array_map('unlink', glob($dest."*.php"));
+		
 	}
 	function buildRoutesFrontend()
 	{
@@ -676,10 +828,18 @@ class Cms_model extends CI_Model
 		$this->load->model('core/uploader_model', 'uploader');
 		$this->uploader->_uploadCMSImage();
 	}
+	function _uploadFile()
+	{
+		$this->load->model('core/uploader_model', 'uploader');
+		$temp_dir = './temp/admin/';
+		$this->uploader->_uploadFile($temp_dir);
+	}
 	function _uploadImage()
 	{
 		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false);
+		$temp_dir = './temp/images/section/';
+		$temp_thumb_dir = './temp/images/section/thumb/';
+		$this->uploader->_uploadImage($temp_dir, $temp_thumb_dir, false, false);
 	}
 }
 /* End of file Cms_model.php */

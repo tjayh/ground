@@ -156,14 +156,19 @@ class Globals
 				$col = 0;
 				while ($col != 4) {
 					foreach($result['sections']['col' . $col] as $key => $item) { // get section details
+						if(!$item['section_title_active']){
+							unset($item['section_title']);
+						}
+						if(!$item['section_subtitle_active']){
+							unset($item['section_subtitle']);
+						}
+						if(!$item['section_class_active']){
+							unset($item['section_class']);
+						}
 						$item['key_section'] = $key;
-						if ($item['content_type'] == 'module') {
-							$pull_temp = 'module_templates';
-						}
-						else {
-							$pull_temp = 'section_templates';
-						}
-						$item['template_html'] = '/default/includes/' . $pull_temp . '/' . $item['template_name'] . '.html';
+						$section_layout = $this->getSectionLayout($item['id_page_section']);
+						$item['template_html'] = '/default/includes/section/' . $section_layout['file_name'];
+						
 						foreach($item['pages'] as $key2 => $item2) {
 							$page_data = $this->getSectionPages($item2);
 							unset($page_data['json']);
@@ -176,11 +181,26 @@ class Globals
 					$col++;
 				}
 				$result['sections'] = $return;
+				/* print_r($result);exit; */
 				return $result;
 			}
 			else {
 				redirect(base_url() . 'error');
 			}
+		}
+	}
+	function getSectionLayout($id_page = false)
+	{
+		$this->CI->db->select('*');
+		$this->CI->db->from('page_section');
+		$this->CI->db->where('id_page_section', $id_page);
+		$query = $this->CI->db->get();
+		if (!$query->num_rows()) {
+			return false;
+		}
+		else{
+			$result = $query->row_array();
+			return $result;
 		}
 	}
 	function getSectionPages($id_page = false)

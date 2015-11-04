@@ -284,9 +284,9 @@ class Settings extends MX_Controller
 			$data2 = $this->input->post('data2');
 			$data['image_dimensions'] = json_encode(array_filter($data2, 'strlen')); 
 			$theme = $this->input->post('new_theme');
-			/* if($theme != constant('_THEME_')){
-			$this->settings->_changeTheme($theme);
-			} */
+			if($theme != constant('_THEME_')){
+				$this->settings->_changeTheme($theme);
+			}
 			if ($data2['old_color'] && $data2['new_color']) {
 				$this->settings->_changeCss($data2['old_color'], $data2['new_color'], $theme);
 			}

@@ -24,25 +24,41 @@ class Cms extends MX_Controller
 	function index()
 	{
 		$pages = $this->cms->getPages(false,true);
-		if ($pages) $this->template->assign('pages', $pages);
+		if ($pages) {
+			$this->template->assign('pages', $pages);
+		}
 		$tree = $this->cms->getPagesTree();
-		if ($tree) $this->template->assign('tree', $tree);
+		if ($tree) {
+			$this->template->assign('tree', $tree);
+		}
 		$modules = $this->cms->getPublicModules();
-		if ($modules) $this->template->assign('modules', $modules);
+		if ($modules) {
+			$this->template->assign('modules', $modules);
+		}
 		$templates = $this->cms->getTemplates();
-		if ($templates) $this->template->assign('templates', $templates);
+		if ($templates) {
+			$this->template->assign('templates', $templates);
+		}
 		$this->template->assign('images_path', base_url().'upload/images/banner/');
 	}
 	function section()
 	{
 		$pages = $this->cms->getPages(false,false);
-		if ($pages) $this->template->assign('pages', $pages);
+		if ($pages) {
+			$this->template->assign('pages', $pages);
+		}
 		$tree = $this->cms->getPagesTree();
-		if ($tree) $this->template->assign('tree', $tree);
+		if ($tree) {
+			$this->template->assign('tree', $tree);
+		}
 		$modules = $this->cms->getPublicModules();
-		if ($modules) $this->template->assign('modules', $modules);
+		if ($modules) {
+			$this->template->assign('modules', $modules);
+		}
+		if ($templates) {
+			$this->template->assign('templates', $templates);
+		}
 		$templates = $this->cms->getTemplates();
-		if ($templates) $this->template->assign('templates', $templates);
 	}
 	function section_view()
 	{
@@ -59,9 +75,44 @@ class Cms extends MX_Controller
 		$section_temp = $this->cms->getSectionTemplates();
 		$module_temp = $this->cms->getModuleTemplates();
 		$layout_temp = $this->cms->getLayoutTemplates();
+		
 		$this->template->assign('section_temp', $section_temp);
 		$this->template->assign('module_temp', $module_temp);
 		$this->template->assign('layout_temp', $layout_temp);
+	}
+	function section_list()
+	{
+		$sectionLists = $this->cms->getSectionTemplates();
+		$this->template->assign('section_lists', $sectionLists);
+		$this->template->assign('images_path', base_url().'upload/images/section/');
+	}
+	function tempUpload()
+	{
+		$action = $this->uri->segment(4);
+		$this->load->helper('string');
+		$this->load->helper('file');
+		switch ($action) {
+		case 'file':
+			$config['upload_path'] = './temp/admin/';
+			$config['allowed_types'] = 'html';
+			$config['encrypt_name'] = TRUE;
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('userfile')) {
+				$data = array(
+					'error' => $this->upload->display_errors()
+				);
+			}
+			else {
+				$details = $this->upload->data();
+				$data['file_name'] = $details['file_name'];
+			}
+			break;
+		}
+		if ($data) {
+			echo json_encode($data);
+		}
+		else echo 'false';
+		exit(0);
 	}
 	/**
 	 * Ajax Process
@@ -115,6 +166,10 @@ class Cms extends MX_Controller
 
 		case 'update-order-section':
 			$result = $this->cms->_updateOrderSection();
+			break;
+		
+		case 'add-section-file':
+			$result = $this->cms->_addSectionFile();
 			break;
 
 		default:
