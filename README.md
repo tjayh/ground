@@ -5,6 +5,8 @@
 
 ## Usage Note
 ### Production / Project
+* Download [Viiworks CMS v1.0.0](https://github.com/viiworks/Viiworks-CMS/archive/v1.0.0.zip) stable version or clone is to your machine
+* then run the `git checkout tags/v1.0.0` BUUUUUUUUT
 * DO NOT PUSH TO THIS REPOSITORY IF FOR DIFFERENT PRODUCTION / PROJECT so please follow the instructions
 * remove .git folder and .gitignore
 * run on your git-bash the command `git init` inside the production folder
