@@ -4,4 +4,9 @@
 /robots.txt
 /.htaccess
 /skin/vii_ChangeThisToProjectName
+/skin/_raw
+/skin/vii_skeleton
 /application/cache/compile
+/zycure
+/test
+/temp
