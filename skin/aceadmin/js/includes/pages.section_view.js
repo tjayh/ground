@@ -23,10 +23,26 @@ CMS.initPage = function() {
 		$("#" + cont_type + '_type').removeAttr('style');
 		$("#" + cont_type + '_type .fieldEditable').attr('required', 'required');
 		$('.val-page').removeAttr('required');
-		$("#" + cont_type + "_type #sec_" + data.template_name).prop("checked", true);
+		$("#" + cont_type + "_type #sec_" + data.id_page_section).prop("checked", true);
+
+		
 		$.each(data.pages, function(index, value) {
 			$("#" + cont_type + '_type #pages_' + value.id_page).prop("checked", true);
 		});
+		var mod_val = $(".val-module:checked").val();
+		var mod_name = $(".val-module:checked").data('modulename');
+		var mod_id = $(".val-module:checked").data('idmodule');
+		$('a.moduleTempaltes').each(function(index, value) {
+			if (!$(this).hasClass(mod_id)) /* check if class does not have the selected module name */ {
+				$(this).attr("style", "display:none");
+				$(this).closest('label').attr("style", "display:none");
+			} else {
+				$(this).removeAttr('style');
+				$(this).closest('label').removeAttr('style');
+				$(this).closest('label').insertBefore($($(this).closest('label')).siblings('label').first('label'));
+			}
+		});
+		
 		var pages = $('input.val-' + cont_type + ':checked').map(function() {
 			return $(this).val();
 		}).get();
@@ -130,8 +146,9 @@ $(".content-type").on('change', function(e) {
 	});
 });
 $(".templateList").on('change', function(e) {
-	var tltype = $(this).data('templisttype')
-	var temp = $(this).val()
+	var tltype = $(this).data('templisttype');
+	var limit = $(this).data('seclimit');
+	var temp = $(this).val();
 	temp = temp.split("_");
 	var lim = temp[temp.length - 1];
 	$('#limit').val(limit);
@@ -153,12 +170,13 @@ $(".templateList").on('change', function(e) {
 $(".val-page").click(function() {
 	//event if a check box of the pages is checked
 	if ($("input[type='radio']").is(':checked')) { //event if a template name is selected
+	 var limit = $('#limit').val();
 		if ($(this).siblings(':checked').length >= limit) {
 			this.checked = false;
 		}
 	} else { //event if a template name is not selected
 		CMS.showNotification("error", "Please select a template first!", "templateNotif");
-		/* $("input[type='checkbox'].val-page").prop("checked", false); */
+		$("input[type='checkbox'].val-page").prop("checked", false);
 		flag = 0;
 	}
 	var pages = $('input.val-page:checkbox:checked').map(function() {
@@ -166,12 +184,16 @@ $(".val-page").click(function() {
 	}).get();
 	$('#page').val(pages.join(','));
 });
-$(".val-module").click(function() {
+/* $(".val-module").click(function() { */
+$('input[name="modules"]:radio').on('change', function(e) {
+	
 	var mod_val = $(".val-module:checked").val();
 	var mod_name = $(".val-module:checked").data('modulename');
+	var mod_id = $(".val-module:checked").data('idmodule');
 	$('#page').val(mod_val);
+	$('.module_template').prop('checked', false);
 	$('a.moduleTempaltes').each(function(index, value) {
-		if (!$(this).hasClass(mod_name)) /* check if class does not have the selected module name */ {
+		if (!$(this).hasClass(mod_id)) /* check if class does not have the selected module name */ {
 			$(this).attr("style", "display:none");
 			$(this).closest('label').attr("style", "display:none");
 		} else {

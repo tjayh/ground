@@ -73,7 +73,8 @@ class Gallery_manager extends MX_Controller
 			break;
 
 		case 'upload-image':
-			$result = $this->gallery_manager->_uploadImage($this->uri->segment(5));
+			$type = $this->input->get('type');
+			$result = $this->gallery_manager->_uploadImage($this->uri->segment(5), $type);
 			break;
 
 		case 'change-status':

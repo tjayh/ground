@@ -83,12 +83,11 @@
 												<!-- pages -->
 												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
 												<div class="col-sm-4">
-													<input type="hidden" value="page" name="data[type]" id="type"> 
-													{foreach from=$section_temp item=item}
+													{foreach from=$page_temp item=item}
 													<label class="section-label">
-														<input type="radio" class="ace fieldEditable templateList" data-templisttype="page" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
+														<input type="radio" class="ace fieldEditable templateList" data-templisttype="page" data-seclimit="{$item.limit}" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
 														<span class="lbl">
-															<button type="button" class="viewTemplateButton " data-toggle="modal" data-idPage="{$page.id_page}" data-img="{$item.image_src}" data-target="#viewTemplate"  title="{$item.title}">
+															<button type="button" class="viewTemplateButton " data-toggle="modal" data-idPage="{$page.id_page}" data-img="{$item.image_link}" data-target="#viewTemplate"  title="{$item.title}">
 																<img class="section-templates"src="{$item.image_link}" title="{$item.title}" >
 															</button>
 														</span> 
@@ -104,7 +103,7 @@
 												<!-- pages -->
 												<label class="col-sm-2 control-label" for="form-field-1">Pages</label>
 												<div class="col-sm-10"> {foreach from=$pages item=item}
-													<input type="checkbox" class=" ace val-page val-list fieldEditable requiredGroup" disabled="disabled" id="pages_{$item.id_page}" value="{$item.id_page}" minchecked="2" /> <span class="lbl">&nbsp;{$item.title}</span>
+													<input type="checkbox" class=" ace val-page fieldEditable requiredGroup" disabled="disabled" id="pages_{$item.id_page}" value="{$item.id_page}" minchecked="2" /> <span class="lbl">&nbsp;{$item.title}</span>
 													<br> {/foreach} </div>
 											</div>
 										</div>
@@ -113,9 +112,9 @@
 											<!-- modules -->
 											<div class="form-group">
 												<!-- modules -->
-												<label class="col-sm-2 control-label" for="form-field-1">Pages</label>
+												<label class="col-sm-2 control-label" for="form-field-1">Modules</label>
 												<div class="col-sm-3"> {foreach from=$pages item=item} {if $item.module_name neq 'pages'}
-													<input type="radio" class="ace c val-list fieldEditable val-module" id="pages_{$item.id_page}" disabled="disabled" name="modules" data-modulename="{$item.module_name}" value="{$item.id_page}" required/> <span class="lbl">&nbsp;{$item.title}</span>
+													<input type="radio" class="ace c val-list fieldEditable val-module" id="pages_{$item.id_page}" disabled="disabled" name="modules" data-idmodule="{$item.id_module}" data-modulename="{$item.module_name}" value="{$item.id_page}" required/> <span class="lbl">&nbsp;{$item.title}</span>
 													<br>
 													<br/> {/if} {/foreach} </div>
 											</div>
@@ -123,12 +122,11 @@
 												<!-- templates -->
 												<label class="col-sm-2 control-label" for="form-field-1">Template</label>
 												<div class="col-sm-4">
-													<input type="hidden" value="module" name="data[type]" id="type"> 
-													{foreach from=$section_temp item=item}
-													<label style="display:none;">
-														<input type="radio" class="ace fieldEditable" data-templisttype="module" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
+													{foreach from=$module_temp item=item}
+													<label>
+														<input type="radio" class="ace fieldEditable module_template" data-templisttype="module" id="sec_{$item.id_page_section}" disabled="disabled" name="data[id_page_section]" value="{$item.id_page_section}" required/> 
 														<span class="lbl">	
-															<a class="viewTemplateButton moduleTempaltes" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$item.image_link}">
+															<a class="viewTemplateButton moduleTempaltes {$item.id_module}" data-toggle="modal" role="button" href="#viewTemplate" data-img="{$item.image_link}">
 																<img class="section-templates" src="{$item.image_link}" title="{$item.title}" >
 															</a>
 														</span> 

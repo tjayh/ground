@@ -201,7 +201,7 @@ class Newslettermanager_model extends CI_Model
 			$params['includeDates'] = null;
 			$this->load->model('core/dbtm_model', 'dbtm');
 			if ($this->dbtm->update($params)) {
-				$dbr = fopen(_SKIN_URL_ . _ADMIN_THEME_ . '/includes/newsletters/' . $data['whr_id_newsletter'] . '.txt', 'w');
+				$dbr = fopen(_SKIN_PATH_ . _ADMIN_THEME_ . '/includes/newsletters/' . $data['whr_id_newsletter'] . '.txt', 'w');
 				fwrite($dbr, $content);
 				fclose($dbr);
 			}
@@ -241,7 +241,7 @@ class Newslettermanager_model extends CI_Model
 				$params['table'] = 'newsletter';
 				$params['post_data'] = $data;
 				if ($this->dbtm->update($params)) {
-					$dbr = fopen(_SKIN_URL_ . _ADMIN_THEME_ . '/includes/newsletters/' . $lastRow['id_newsletter'] . '.txt', 'w');
+					$dbr = fopen(_SKIN_PATH_ . _ADMIN_THEME_ . '/includes/newsletters/' . $lastRow['id_newsletter'] . '.txt', 'w');
 					fwrite($dbr, $content);
 					fclose($dbr);
 					/* if ($this->_sendNewsletter($title, $content)) {

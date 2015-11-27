@@ -363,10 +363,15 @@ class Blog_manager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
-	function _uploadImage()
+	function _uploadImage($type = false)
 	{
+		/*
+			- type is for category or items 
+			ex:
+				banner_itm - for item image dimensions will be used
+		*/
 		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false);
+		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type);
 	}
 	function _uploadCMSImage()
 	{

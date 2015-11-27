@@ -8,6 +8,24 @@ class Uploader_model extends CI_Model
 		$this->load->database();
 		$this->load->model('core/config_model', 'config_model');
 	}
+	function getConfig($name)
+	{
+		$this->db->select('*');
+		$this->db->from('config');
+		$this->db->where('name', $name);
+		$query = $this->db->get();
+		if (!$query->num_rows()) {
+			return false;
+		}
+		$row = $query->row_array();
+		if($name) {
+			return $row['value'];
+		}
+		else{
+			return $row;
+		}
+		
+	}
 	function _uploadFile($temp_dir)
 	{
 		$config['upload_path'] = $temp_dir;
@@ -51,8 +69,30 @@ class Uploader_model extends CI_Model
 		echo json_encode($data);
 		exit(0);
 	}
-	function _uploadImage($temp_dir = false, $temp_thumb_dir = false, $max_width = 1600, $max_height = 1600, $multiple = false)
+	function _uploadImage($temp_dir = false, $temp_thumb_dir = false, $max_width = false, $max_height = false, $type = false, $multiple = false)
 	{
+		if(!$max_width){
+			$max_width  = 1600;
+		}
+		if(!$max_height){
+			$max_height  = 1600;
+		}
+		if($type){
+			$item = $this->getConfig('IMAGE_DIMENSIONS');
+			$item = json_decode($item, true);
+			if($item[$type.'_wd']){
+				$max_width = $item[$type.'_wd'];
+			}
+			if($item[$type.'_wd']){
+				$max_height = $item[$type.'_hg'];
+			}
+			if($item[$type.'_wd']){
+				$thumb_max_width = $item[$type.'_th_wd'];
+			}
+			if($item[$type.'_wd']){
+				$thumb_max_height = $item[$type.'_th_hg'];
+			}
+		}
 		$config['upload_path'] = $temp_dir;
 		$config['allowed_types'] = 'jpg|png|jpeg';
 		$config['encrypt_name'] = TRUE;
@@ -70,7 +110,7 @@ class Uploader_model extends CI_Model
 				$details = $this->upload->data();
 				$data['file_name'] = $details['file_name'];
 				$this->imageResize($temp_dir, $max_width, $max_height, $details);
-				$this->imageThumb($temp_dir, $temp_thumb_dir, $details);
+				$this->imageThumb($temp_dir, $temp_thumb_dir, $details, $thumb_max_width, $thumb_max_height);
 				/* $this->imageCrop($temp_thumb_dir, $details); */
 			}
 		}
@@ -86,7 +126,7 @@ class Uploader_model extends CI_Model
 					$details = $this->upload->data();
 					$data[] = $details['file_name'];
 					$this->imageResize($temp_dir, $max_width, $max_height, $details);
-					$this->imageThumb($temp_dir, $temp_thumb_dir, $details);
+					$this->imageThumb($temp_dir, $temp_thumb_dir, $details, $thumb_max_width, $thumb_max_height);
 					/* $this->imageCrop($temp_thumb_dir, $details); */
 				}
 			}
@@ -110,29 +150,40 @@ class Uploader_model extends CI_Model
 			exit(0);
 		}
 		else {
+			if ($details['image_type'] == 'jpeg' || $details['image_type'] == 'jpg') {
+				imagejpeg(imagecreatefromstring(file_get_contents($temp_dir . $details['file_name'])) , $temp_dir . $details['file_name'], 90);
+			}
 			return $details['file_name'];
 		}
 		
 	}
-	function imageThumb($temp_dir, $temp_thumb_dir, $details)
+	function imageThumb($temp_dir, $temp_thumb_dir, $details, $max_width = false, $max_height = false)
 	{
+		
+		if(!$max_width){
+			$max_width  = 500;
+		}
+		if(!$max_height){
+			$max_height  = 500;
+		}
 		$config3['image_library'] = 'gd2';
 		$config3['source_image'] = $temp_dir . $details['file_name'];
 		$config3['new_image'] = $temp_thumb_dir;
 		$size = getimagesize($temp_dir . $this->upload->file_name);
 		$config3['maintain_ratio'] = TRUE;
-		$config3['width'] = 500;
-		$config3['height'] = 500;
+		$config3['width'] = $max_width;
+		$config3['height'] = $max_height;
 		$this->image_lib->initialize($config3);
+		
+		if (!is_dir($temp_thumb_dir)) {
+			mkdir($temp_thumb_dir, 0777, TRUE);
+		}
 		if (!$this->image_lib->resize()) {
 			$data['error'][] = $this->image_lib->display_errors();
 			echo json_encode($data);
 			exit(0);
 		}
 		else {
-			if ($details['image_type'] == 'jpeg' || $details['image_type'] == 'jpg') {
-				imagejpeg(imagecreatefromstring(file_get_contents($temp_dir . $details['file_name'])) , $temp_dir . $details['file_name'], 90);
-			}
 			return $details['file_name'];
 		}
 		

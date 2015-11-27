@@ -77,7 +77,8 @@ class Blog_manager extends MX_Controller
 			break;
 
 		case 'upload-image':
-			$result = $this->blog_manager->_uploadImage();
+			$type = $this->input->get('type');
+			$result = $this->blog_manager->_uploadImage($type);
 			break;
 
 		case 'change-status':

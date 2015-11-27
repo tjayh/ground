@@ -26,7 +26,17 @@ CMS.initPage = function() {
 		var data = $.parseJSON(json);
 		$('[name="where[id_page_section]"]').val(data.id_page_section);
 		$('#title').val(data.title);
-		$('#limit').val(data.limit);
+		$('#type').val(data.type);
+		if (data.type == 'page'){
+			$('#limit').removeAttr('style');
+			$('#module').attr('style', 'display:none');
+		}
+		else{
+			$('#limit').attr('style', 'display:none');
+			$('#module').removeAttr('style');
+		}
+		$('#input_limit').val(data.limit);
+		$('#input_module').val(data.id_module);
 		$('#fileNameHolder').html(data.file_name);
 		$('#date').val(data.date);
 		$('#image_src').val(data.image_src);
@@ -65,6 +75,21 @@ CMS.initPage = function() {
 		},
 		onImageUpload: function(files, editor, $editable) {
 			sendFile(files[0], editor, $editable);
+		}
+	});
+	$("#type").on('change', function(e) {
+		var type = $(this).val();
+		if (type == 'page'){
+			$('#limit').removeAttr('style');
+			$('#module').attr('style', 'display:none');
+			$('#input_limit').val('');
+			$('#input_module').val('');
+		}
+		else{
+			$('#limit').attr('style', 'display:none');
+			$('#module').removeAttr('style');
+			$('#input_limit').val('');
+			$('#input_module').val('');
 		}
 	});
 	$('button#dtAddRow').on('click', function() {
@@ -106,14 +131,14 @@ CMS.initPage = function() {
 	details[0] = "genericForm"; //active form id
 	details[1] = thisURL + thisModule + "/process/add-section-file/"; //post url for add
 	details[2] = 'Section item was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-item/"; //post url for edit
+	details[3] = thisURL + thisModule + "/process/edit-section-file/"; //post url for edit
 	details[4] = 'Section item was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-item/"; //post url for delete
+	details[5] = thisURL + thisModule + "/process/delete-section-file/"; //post url for delete
 	details[6] = 'Section item was successfully deleted.'; //success message for delete
 	details[7] = 'id_page_section'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	uploadFile = new AjaxUpload('#fileUploadDiv', {
+	uploadFile = new AjaxUpload('div#fileUploadDiv', {
 		action: thisURL + thisModule + '/tempUpload/file',
 		name: 'userfile',
 		params: ['jpg', 'gif', 'png'],
@@ -136,6 +161,9 @@ CMS.initPage = function() {
 				$('span#removeFile').removeClass('hid');
 			}
 		}
+	});
+	$('div#fileUploadDiv').on('click', function() {
+		$( ".userfile" ).trigger( "click" );
 	});
 	$('#date').datepicker({
 		format: "MM dd, yyyy",

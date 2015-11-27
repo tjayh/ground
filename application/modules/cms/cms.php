@@ -23,7 +23,7 @@ class Cms extends MX_Controller
 	}
 	function index()
 	{
-		$pages = $this->cms->getPages(false,true);
+		$pages = $this->cms->getPages(false, true);
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}
@@ -39,11 +39,11 @@ class Cms extends MX_Controller
 		if ($templates) {
 			$this->template->assign('templates', $templates);
 		}
-		$this->template->assign('images_path', base_url().'upload/images/banner/');
+		$this->template->assign('images_path', base_url() . 'upload/images/banner/');
 	}
 	function section()
 	{
-		$pages = $this->cms->getPages(false,false);
+		$pages = $this->cms->getPages(false, false);
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}
@@ -68,15 +68,14 @@ class Cms extends MX_Controller
 			$this->template->assign('page', $page);
 			$this->template->assign('page_sections', $page['sections']);
 		}
-		$pages = $this->cms->getPages(false,true);
+		$pages = $this->cms->getPages(false, true);
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}
-		$section_temp = $this->cms->getSectionTemplates();
-		$module_temp = $this->cms->getModuleTemplates();
+		$page_temp = $this->cms->getSectionTemplates(false,'page');
+		$module_temp = $this->cms->getSectionTemplates(false,'module');
 		$layout_temp = $this->cms->getLayoutTemplates();
-		
-		$this->template->assign('section_temp', $section_temp);
+		$this->template->assign('page_temp', $page_temp);
 		$this->template->assign('module_temp', $module_temp);
 		$this->template->assign('layout_temp', $layout_temp);
 	}
@@ -84,7 +83,13 @@ class Cms extends MX_Controller
 	{
 		$sectionLists = $this->cms->getSectionTemplates();
 		$this->template->assign('section_lists', $sectionLists);
-		$this->template->assign('images_path', base_url().'upload/images/section/');
+		$this->template->assign('images_path', base_url() . 'upload/images/section/');
+		
+		
+		$modules = $this->cms->getPublicModules();
+		if ($modules) {
+			$this->template->assign('modules', $modules);
+		}
 	}
 	function tempUpload()
 	{
@@ -129,7 +134,7 @@ class Cms extends MX_Controller
 			break;
 
 		case 'get-specific-page':
-			$result['page'] = $this->cms->getPages($this->input->post('id_page'),true);
+			$result['page'] = $this->cms->getPages($this->input->post('id_page') , true);
 			break;
 
 		case 'add-page':
@@ -145,7 +150,8 @@ class Cms extends MX_Controller
 			break;
 
 		case 'upload-image':
-			$result = $this->cms->_uploadImage();
+			$type = $this->input->get('type');
+			$result = $this->cms->_uploadImage($type);
 			break;
 
 		case 'add-section':
@@ -167,9 +173,17 @@ class Cms extends MX_Controller
 		case 'update-order-section':
 			$result = $this->cms->_updateOrderSection();
 			break;
-		
+
 		case 'add-section-file':
 			$result = $this->cms->_addSectionFile();
+			break;
+
+		case 'edit-section-file':
+			$result = $this->cms->_editSectionFile();
+			break;
+
+		case 'delete-section-file':
+			$result = $this->cms->_deleteSectionFile();
 			break;
 
 		default:

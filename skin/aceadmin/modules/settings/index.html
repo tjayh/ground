@@ -27,9 +27,9 @@
 												{if $_admin.id_admin_group eq 1}<li>
 													<a data-toggle="tab" href="#image_dimensions">Image Dimensions</a>
 												</li>{/if}
-												<!-- <li>
-													<a data-toggle="tab" href="#dropdown14">More</a>
-												</li> -->
+												<li>
+													<a data-toggle="tab" href="#background_image">Background Image</a>
+												</li>
 											</ul>
 
 											<div class="tab-content">
@@ -122,6 +122,78 @@
 															<span>
 																<input type="text" placeholder="Thumbnail Height" class="fieldEditable" id="gallery_th_hg" value="{$image_dimensions.gallery_itm_th_hg}" name="data2[gallery_itm_th_hg]" disabled="disabled" />
 															</span>
+														</div>
+													</div>
+												</div>
+												<div id="background_image" class="tab-pane">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 1</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.0}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_0" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 2</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.1}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_1" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 3</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.2}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_2" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 4</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.3}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_3" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 5</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.4}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_4" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 6</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.5}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_5" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 7</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.6}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_6" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 8</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.7}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_7" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 9</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.8}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_8" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right" for="site_backgrounds"> Background Image 10</label>
+														<div class="col-sm-10">
+															<div style="width:200px;">
+																<input data-value="{$site_backgrounds.9}" class="span8 fieldEditable imgupload " type="hidden" id="site_backgrounds_9" name="data[site_backgrounds][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/background" data-file-path="{$base_url}upload/images/background/" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=background_itm" /> </div>
 														</div>
 													</div>
 												</div>

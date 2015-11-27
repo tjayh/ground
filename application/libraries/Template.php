@@ -16,7 +16,7 @@ class template extends Smarty{
 	function __construct()
 	{
 		$this->compile_dir = _CACHE_FOLDER_.'compile';
-		$this->template_dir = _SKIN_URL_;
+		$this->template_dir = _SKIN_PATH_;
 		$this->plugins_dir = APPPATH.'libraries/smarty/plugins/';
 		$this->error_reporting = E_ALL & ~E_NOTICE;
 		log_message('debug', "Smarty Class Initialized");

@@ -86,14 +86,14 @@
                                                     <label class="col-sm-2 control-label" for="form-field-1">Image</label>
                                                     <div class="col-sm-10" id="img_uploaders">
                                                         <div style="width:200px; position:relative;">
-                                                            <input class="col-xs-10 col-sm-5  fieldEditable imgupload" id="image_src" name="data[image_src][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/gallery" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image" required/> <span class="help-inline" for="state">This field is required.</span> </div>
+                                                            <input class="col-xs-10 col-sm-5  fieldEditable imgupload" id="image_src" name="data[image_src][]" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/gallery" data-file-path="{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image?type=gallery_itm" required/> <span class="help-inline" for="state">This field is required.</span> </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="form-field-1">Upload Image</label>
                                                 <div class="col-sm-10">
-                                                    <input multiple="" type="file" id="id-input-file-3" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/" data-file-path="{$base_url}{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image/multiple" style="display:none;" disabled="disabled" required/>
+                                                    <input multiple="" type="file" id="id-input-file-3" data-upload-fxn="" data-img-src="" data-img-type="" data-upload-folder="images/" data-file-path="{$base_url}{$images_path}" data-dashboard-url="{$admin_base}" data-upload-url="{$admin_base}{$thisModule}/process/upload-image/multiple?type=gallery_itm" style="display:none;" disabled="disabled" required/>
 
                                                     <a href="javascript:;" id="button_id" style="display:none;"></a>
                                                     <div id="dynamic-container"></div>

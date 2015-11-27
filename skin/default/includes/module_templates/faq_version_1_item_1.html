@@ -1,15 +1,24 @@
-<!-- faq_version_1_item_1 -->
+<!-- faq_version_1 -->
+<div class="col-md-12">
+<div class="theme-showcase" role="main">
+	<div class="page-header text-center">
+	
+		<h3>{$item.section_title} </h3>
+		<h5>{$item.section_subtitle}</h5>
+	</div>
+</div>
+</div>
 <h4>FAQ Item</h4>
 <div class="row">
 	{foreach from=$_faqs key=key item=item}
 	<div class="col-md-3">
-	<p>{$key}</p>
-	<p>{$item.category_title}</p>
-	<p>{$item.category_description}</p>
+	<div>{$key}</div>
+	<div>{$item.category_title}</div>
+	<div>{$item.category_description}</div>
 	{foreach from=$item.items key=key2 item=item2}
-		<p>{$key2}</p>
-		<p>{$item2.faq_question}</p>
-		<p>{$item2.faq_answer}</p>
+		<div>{$key2}</div>
+		<div>{$item2.faq_question}</div>
+		<div>{$item2.faq_answer}</div>
 	{/foreach}
 	</div>
 	{/foreach}

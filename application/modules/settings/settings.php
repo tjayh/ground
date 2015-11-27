@@ -29,11 +29,15 @@ class Settings extends MX_Controller
 			'site_logo',
 			'site_favicon',
 			'theme_css',
-			'image_dimensions'
+			'image_dimensions',
+			'site_backgrounds'
 		);
 		foreach($fields as $value) {
 			$item = $this->settings->get(strtoupper($value));
 			if($value == 'image_dimensions'){
+				$item = json_decode($item, true);
+			}
+			if($value == 'site_backgrounds'){
 				$item = json_decode($item, true);
 			}
 			$this->template->assign($value, $item);
@@ -283,6 +287,9 @@ class Settings extends MX_Controller
 			$data = $this->input->post('data');
 			$data2 = $this->input->post('data2');
 			$data['image_dimensions'] = json_encode(array_filter($data2, 'strlen')); 
+			$site_bg_array = array_filter($data['site_backgrounds'], 'strlen');
+			$data['site_backgrounds'] = json_encode($site_bg_array);
+			
 			$theme = $this->input->post('new_theme');
 			if($theme != constant('_THEME_')){
 				$this->settings->_changeTheme($theme);
@@ -302,8 +309,17 @@ class Settings extends MX_Controller
 					$params['table'] = 'config';
 					$params['post_data'] = $data2;
 					$result = $this->dbtm->update($params);
-					if (!$this->settings->_moveLogoImages()) $result['error'][] = "Failed to move the logo.";
-					if (!$this->settings->_moveFaviconImages()) $result['error'][] = "Failed to move the favicon.";
+					if (!$this->settings->_moveLogoImages()) {
+						$result['error'][] = "Failed to move the logo.";
+					}
+					if (!$this->settings->_moveFaviconImages()) {
+						$result['error'][] = "Failed to move the favicon.";
+					}
+					foreach($site_bg_array as $key => $item) {
+						if (!$this->settings->_moveImages($item)) {
+							$result['error'][] = "Failed to move the logo.";
+						}
+					}
 					unset($data2);
 				}
 			}
@@ -445,6 +461,11 @@ class Settings extends MX_Controller
 			else { //direct link access
 				header('Location: ' . _BASE_URL_);
 			}
+			break;
+
+		case 'upload-image':
+			$type = $this->input->get('type');
+			$result = $this->settings->_uploadImage($type);
 			break;
 
 		case 'upload-logo':

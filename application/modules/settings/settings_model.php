@@ -13,6 +13,10 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Settings_model extends CI_Model
 
 {
+	var $temp_dir = './temp/images/background/';
+	var $temp_thumb_dir = './temp/images/background/thumb/';
+	var $upload_dir = './upload/images/background/';
+	var $upload_thumb_dir = './upload/images/background/thumb/';
 	var $upload_favicon_dir = './upload/images/favicon/';
 	var $upload_logo_dir = './upload/images/logo/';
 	var $upload_thumb_logo_dir = './upload/images/logo/thumb/';
@@ -382,7 +386,7 @@ class Settings_model extends CI_Model
 	function getThemes()
 	{
 		$this->load->helper('directory');
-		$themes = directory_map(_SKIN_URL_, 1);
+		$themes = directory_map(_SKIN_PATH_, 1);
 		$templates = array();
 		foreach($themes as $theme) {
 			if (strpos($theme, 'vii_') !== false) $templates[] = $theme;
@@ -392,7 +396,7 @@ class Settings_model extends CI_Model
 	function getThemeCss()
 	{
 		$this->load->helper('directory');
-		$themes = directory_map(_SKIN_URL_ . constant('_THEME_') . '/style', 1);
+		$themes = directory_map(_SKIN_PATH_ . constant('_THEME_') . '/style', 1);
 		$theme_css = array();
 		foreach($themes as $theme) {
 			if (strpos($theme, 'theme_') !== false) {
@@ -442,7 +446,7 @@ class Settings_model extends CI_Model
 		if (!$theme) {
 			$theme = _THEME_;
 		}
-		$filename = _SKIN_URL_ . $theme . '/style/custom.css';
+		$filename = _SKIN_PATH_ . $theme . '/style/custom.css';
 		$contents = file_get_contents($filename);
 		$contents = str_replace($old_color, $new_color, $contents, $count);
 		if ($count > 0) {
@@ -557,21 +561,63 @@ class Settings_model extends CI_Model
 		}
 		return true;
 	}
+	function _uploadImage($type = false)
+	{
+		$this->load->model('core/uploader_model', 'uploader');
+		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type);
+	}
 	function _uploadLogo()
 	{
 		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_logo_dir, $this->temp_thumb_logo_dir, false, false);
+		$this->uploader->_uploadImage($this->temp_logo_dir, $this->temp_thumb_logo_dir, false, false, $type);
 	}
 	function _uploadFavicon()
 	{
 		$this->load->model('core/uploader_model', 'uploader');
 		$this->uploader->_uploadFavicon($this->temp_favicon_dir);
 	}
+	function _moveImages($image = false)
+	{
+		$result = array();
+		$result['error'] = array();
+		if (!is_dir($this->upload_dir)) {
+			mkdir($this->upload_dir, 0777, TRUE);
+			mkdir($this->upload_thumb_dir, 0777, TRUE);
+		}
+		if($image){
+			$data['image_src'] = $image;
+		}
+		else{
+			$data = $this->input->post('data');
+		}
+		if (!file_exists($this->upload_dir . $data['image_src'])) {
+			if (!copy($this->temp_dir . $data['image_src'], $this->upload_dir . $data['image_src'])) {
+				$result['error'][] = "Failed to copy image to active folder.";
+			}
+			if (!unlink($this->temp_dir . $data["image_src"])) {
+				$result['error'][] = "Failed to delete image to temporary folder.";
+			}
+			if (!copy($this->temp_thumb_dir . $data['image_src'], $this->upload_thumb_dir . $data['image_src'])) {
+				$result['error'][] = "Failed to copy image to active folder.";
+			}
+			if (!unlink($this->temp_thumb_dir . $data["image_src"])) {
+				$result['error'][] = "Failed to delete image to temporary folder.";
+			}
+		}
+		if (count($result['error']) > 0) {
+			return $result;
+		}
+		return true;
+	}
 	function _moveLogoImages()
 	{
 		$result = array();
 		$result['error'] = array();
 		$data = $this->input->post('data');
+		if (!is_dir($this->upload_logo_dir)) {
+			mkdir($this->upload_logo_dir, 0777, TRUE);
+			mkdir($this->upload_thumb_logo_dir, 0777, TRUE);
+		}
 		if (!file_exists($this->upload_logo_dir . $data['site_logo'])) {
 			if (!copy($this->temp_logo_dir . $data['site_logo'], $this->upload_logo_dir . $data['site_logo'])) {
 				$result['error'][] = "Failed to copy image to active folder.";

@@ -366,7 +366,7 @@ class Promo_manager_model extends CI_Model
 	function _uploadImage()
 	{
 		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false);
+		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type);
 	}
 	function _uploadCMSImage()
 	{

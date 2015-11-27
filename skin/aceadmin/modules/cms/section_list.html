@@ -31,18 +31,29 @@
 													<input type="text" placeholder="" class="col-xs-10 col-sm-5 fieldEditable" id="title" name="data[title]" disabled="disabled" required /> </div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label no-padding-right" for="date"> Limit </label>
-												<div class="col-sm-3">
-													<input type="text" placeholder="" class="col-xs-10 col-sm-5 fieldEditable numbersOnly" id="limit" name="data[limit]" disabled="disabled" required /> </div>
-											</div>
-											<div class="form-group">
 												<label class="col-sm-2 control-label no-padding-right" for="type"> Type </label>
 												<div class="col-sm-3">
-													<select id="id_events_category" name="data[type]" class="fieldEditable">
+													<select id="type" name="data[type]" class="fieldEditable">
 														<option value="page"> page </option>
 														<option value="module"> module </option>
 													</select>
 												</div>
+											</div>
+											<div class="form-group" id="module" style="display:none">
+												<label class="col-sm-2 control-label no-padding-right" for="type"> Module </label>
+												<div class="col-sm-3">
+													<select id="input_module" name="data[id_module]" class="fieldEditable">
+														<option value="">Select</option>
+														{foreach from=$modules item=item}
+															<option value="{$item.id_module}"> {$item.module_name} </option>
+														{/foreach}
+													</select>
+												</div>
+											</div>
+											<div class="form-group" id="limit" >
+												<label class="col-sm-2 control-label no-padding-right" for="date" > Limit </label>
+												<div class="col-sm-3">
+													<input id="input_limit" type="text" placeholder="" class="col-xs-10 col-sm-5 fieldEditable numbersOnly" name="data[limit]" disabled="disabled" /> </div>
 											</div>
 											<div class="form-group">
 												<label class="col-sm-2 control-label no-padding-right" for="image_src"> Image </label>
@@ -77,7 +88,7 @@
 		</div>
 		<div class="col-xs-12">
 			<div class="table-header">
-				<button id="dtAddRow" class="btn btn-sm pull-right btn-info showWidge addReset"> <i class="icon-plus"></i> Add Events </button>
+				<button id="dtAddRow" class="btn btn-sm pull-right btn-info showWidge addReset"> <i class="icon-plus"></i> Add Section File </button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="table-responsive">
@@ -89,8 +100,9 @@
 									<th>Title</th>
 									<th>Type</th>
 									<th>Limit</th>
+									<th>Module</th>
 									<th>Image</th>
-									<th>Date</th>
+									<th>Date Created</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -99,8 +111,9 @@
 									<th>Title</th>
 									<th>Type</th>
 									<th>Limit</th>
+									<th>Module</th>
 									<th>Image</th>
-									<th>Date</th>
+									<th>Date Created</th>
 									<th></th>
 								</tr>
 							</tfoot>
@@ -110,6 +123,7 @@
 									<td>{$item.title|truncate:40}</td>
 									<td>{$item.type}</td>
 									<td>{$item.limit}</td>
+									<td>{$item.module_name}</td>
 									<td class="center">{if $item.image_link}<img src="{$item.image_link}" style="max-height: 100px; max-width: 100px;">{/if}</td>
 									<td class="center">{$item.date_add|date_format}</td>
 									<td class="td-actions" id="jdata{$item.id_page_section}" data-var="modules">
@@ -119,7 +133,7 @@
 												<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"> <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i> </button>
 												<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 													<li>
-														<a href="javascript:;" class="showWidge setFormValues tooltip-info ignore btn-yellow" data-rel="tooltip" title="View"> <span class="blue">
+														<a href="javascript:;" class="showWidge setFormValues tooltip-info ignore" data-rel="tooltip" title="View"> <span class="blue">
 																<i class="fa fa-search-plus"></i>
 																</span> </a>
 													</li>
@@ -131,6 +145,11 @@
 													<li>
 														<a href="javascript:;" class="tooltip-error showGlobal ignore tooltip-error" data-rel="tooltip" title="Delete" title="Delete" data-modID="jdata{$item.id_page_section}" data-getDetails="forDeleteFxn"> <span class="red">
 																<i class="fa fa-trash"></i>
+																</span> </a>
+													</li>
+													<li>
+														<a href="{$base_url}skin/default/includes/section/{$item.file_name}" class="tooltip-warning ignore tooltip-warning" title="Preview" title="Preview" > <span class="blue">
+																<i class="fa fa-mail-forward"></i>
 																</span> </a>
 													</li>
 												</ul>

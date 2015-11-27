@@ -7,22 +7,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
 		<title>{$_site_title} - Administration Panel</title> 
+		<base href="{$admin_theme_url}"/>
 		
-		<base href="{$base_url}skin/{$admin_theme}/"/>
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="shortcut icon" href="img/favicon/favicon.png">
 		
-		{include file="$skin_url$admin_theme/includes/templates/css_head.html"}
+		{include file="$admin_theme/includes/templates/css_head.html"}
 		
 	</head>
 
 	<body class="skin-1 custom_skin">
 		<div id="pageLoader" style='background: rgb(249, 249, 249) url("./img/admin_page_load.gif") no-repeat scroll 50% 50%;height: 100%;left: 0;position: fixed;top: 0;width: 100%;z-index: 9999;'></div>
-		{include file="$skin_url$admin_theme/includes/templates/navbar.html"}
+		{include file="$admin_theme/includes/templates/navbar.html"}
 		<div class="main-container" id="main-container">
 			
-			{include file="$skin_url$admin_theme/includes/templates/sidebar.html"}
+			{include file="$admin_theme/includes/templates/sidebar.html"}
 			
 			<div class="main-content"> 
 				<div id="notification"></div>
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 		<span class = "hid" id = "thisURL">{$admin_base}</span>
-		<span class = "hid" id = "skinPath">{$skin_url}{$admin_theme}/</span>
+		<span class = "hid" id = "skinPath">{$admin_theme}/</span>
 		
 		<div id="globalModal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -97,7 +97,7 @@
 			<i class="fa fa-double-angle-up fa fa-only bigger-110"></i>
 		</a>
 		
-		{include file="$skin_url$admin_theme/includes/templates/js_bottom.html"}
+		{include file="$admin_theme/includes/templates/js_bottom.html"}
 
 	</body>
 </html>

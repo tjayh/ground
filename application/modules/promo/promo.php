@@ -22,15 +22,15 @@ class Promo extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$promo = $this->promo->_getItems();
-		$length = count($promo);
-		$promo = $this->promo->_getItems($per_page);
-		foreach($promo as $k => $item) {
+		$list = $this->promo->_getItems();
+		$length = count($list);
+		$list = $this->promo->_getItems($per_page);
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$promo[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('promo', $promo);
+		$this->template->assign('promo', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', 1);
 		$recent_promo = $this->promo->_getItems();
@@ -41,15 +41,15 @@ class Promo extends MX_Controller
 		if ($int_page <= 1) redirect(base_url() . 'promo/');
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$promo = $this->promo->_getItems();
-		$length = count($promo);
-		$promo = $this->promo->_getItems($per_page, (($int_page - 1) * $per_page));
-		foreach($promo as $k => $item) {
+		$list = $this->promo->_getItems();
+		$length = count($list);
+		$list = $this->promo->_getItems($per_page, (($int_page - 1) * $per_page));
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$promo[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('promo', $promo);
+		$this->template->assign('promo', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', $int_page);
 		$recent_promo = $this->promo->_getItems();
@@ -59,19 +59,24 @@ class Promo extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$id_promo_item = $this->encrypt->decode(urldecode($permalink));
-		$promo = $this->promo->_getPromoItem($permalink);
-		if ($promo) $this->template->assign('data', $promo);
-		else show_404();
-		if ($promo['image_meta_title']) $this->template->assign('_meta_title', $promo['image_meta_title']);
-		if ($promo['image_meta_description']) $this->template->assign('_meta_description', $promo['image_meta_description']);
-		if ($promo['image_meta_keywords']) $this->template->assign('_meta_keywords', $promo['image_meta_keywords']);
-		if ($promo['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/promo/' . $promo['image_src']);
-		$promo = $this->promo->_getPromoItem();
+		$list = $this->promo->_getPromoItem($permalink);
+		if ($list) {
+			$this->template->assign('data', $list);
+		}
+		else {
+			show_404();
+		}
+		if ($list['image_meta_title']) $this->template->assign('_meta_title', $list['image_meta_title']);
+		if ($list['image_meta_description']) $this->template->assign('_meta_description', $list['image_meta_description']);
+		if ($list['image_meta_keywords']) $this->template->assign('_meta_keywords', $list['image_meta_keywords']);
+		if ($list['image_meta_author']) $this->template->assign('_meta_author', $list['image_meta_author']);
+		if ($list['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/promo/' . $list['image_src']);
+		$list = $this->promo->_getPromoItem();
 		$id = $this->uri->segment(3);
-		foreach($promo as $key => $item) {
+		foreach($list as $key => $item) {
 			if ($item['id_promo_item'] == $id) {
-				$prev_item = $promo[$key - 1];
-				$next_item = $promo[$key + 1];
+				$prev_item = $list[$key - 1];
+				$next_item = $list[$key + 1];
 				$prev_image_link = base_url() . 'promo/view/' . $prev_item['id_promo_item'] . '/' . $prev_item['link_rewrite'];
 				$next_image_link = base_url() . 'promo/view/' . $next_item['id_promo_item'] . '/' . $next_item['link_rewrite'];
 				break;

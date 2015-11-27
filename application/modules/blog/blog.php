@@ -22,15 +22,15 @@ class Blog extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$blog = $this->blog->_getItems();
-		$length = count($blog);
-		$blog = $this->blog->_getItems($per_page);
-		foreach($blog as $k => $item) {
+		$list = $this->blog->_getItems();
+		$length = count($list);
+		$list = $this->blog->_getItems($per_page);
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$blog[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('blog', $blog);
+		$this->template->assign('blog', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', 1);
 		$recent_blog = $this->blog->_getItems();
@@ -41,15 +41,15 @@ class Blog extends MX_Controller
 		if ($int_page <= 1) redirect(base_url() . 'blog/');
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$blog = $this->blog->_getItems();
-		$length = count($blog);
-		$blog = $this->blog->_getItems($per_page, (($int_page - 1) * $per_page));
-		foreach($blog as $k => $item) {
+		$list = $this->blog->_getItems();
+		$length = count($list);
+		$list = $this->blog->_getItems($per_page, (($int_page - 1) * $per_page));
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$blog[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('blog', $blog);
+		$this->template->assign('blog', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', $int_page);
 		$recent_blog = $this->blog->_getItems();
@@ -59,19 +59,24 @@ class Blog extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$id_blog_item = $this->encrypt->decode(urldecode($permalink));
-		$blog = $this->blog->_getBlogItem($permalink);
-		if ($blog) $this->template->assign('data', $blog);
-		else show_404();
-		if ($blog['image_meta_title']) $this->template->assign('_meta_title', $blog['image_meta_title']);
-		if ($blog['image_meta_description']) $this->template->assign('_meta_description', $blog['image_meta_description']);
-		if ($blog['image_meta_keywords']) $this->template->assign('_meta_keywords', $blog['image_meta_keywords']);
-		if ($blog['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/blog/' . $blog['image_src']);
-		$blog = $this->blog->_getBlogItem();
+		$list = $this->blog->_getBlogItem($permalink);
+		if ($list) {
+			$this->template->assign('data', $list);
+		}
+		else {
+			show_404();
+		}
+		if ($list['image_meta_title']) $this->template->assign('_meta_title', $list['image_meta_title']);
+		if ($list['image_meta_description']) $this->template->assign('_meta_description', $list['image_meta_description']);
+		if ($list['image_meta_keywords']) $this->template->assign('_meta_keywords', $list['image_meta_keywords']);
+		if ($list['image_meta_author']) $this->template->assign('_meta_author', $list['image_meta_author']);
+		if ($list['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/blog/' . $list['image_src']);
+		$list = $this->blog->_getBlogItem();
 		$id = $this->uri->segment(3);
-		foreach($blog as $key => $item) {
+		foreach($list as $key => $item) {
 			if ($item['id_blog_item'] == $id) {
-				$prev_item = $blog[$key - 1];
-				$next_item = $blog[$key + 1];
+				$prev_item = $list[$key - 1];
+				$next_item = $list[$key + 1];
 				$prev_image_link = base_url() . 'blog/article/' . $prev_item['id_blog_item'] . '/' . $prev_item['link_rewrite'];
 				$next_image_link = base_url() . 'blog/article/' . $next_item['id_blog_item'] . '/' . $next_item['link_rewrite'];
 				break;

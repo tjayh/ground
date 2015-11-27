@@ -77,7 +77,8 @@ class Promo_manager extends MX_Controller
 			break;
 
 		case 'upload-image':
-			$result = $this->promo_manager->_uploadImage();
+			$type = $this->input->get('type');
+			$result = $this->promo_manager->_uploadImage($type);
 			break;
 
 		case 'change-status':

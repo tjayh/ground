@@ -22,15 +22,15 @@ class News extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$news = $this->news->_getItems();
-		$length = count($news);
-		$news = $this->news->_getItems($per_page);
-		foreach($news as $k => $item) {
+		$list = $this->news->_getItems();
+		$length = count($list);
+		$list = $this->news->_getItems($per_page);
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$news[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('news', $news);
+		$this->template->assign('news', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', 1);
 		$recent_news = $this->news->_getItems();
@@ -41,15 +41,15 @@ class News extends MX_Controller
 		if ($int_page <= 1) redirect(base_url() . 'news/');
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$news = $this->news->_getItems();
-		$length = count($news);
-		$news = $this->news->_getItems($per_page, (($int_page - 1) * $per_page));
-		foreach($news as $k => $item) {
+		$list = $this->news->_getItems();
+		$length = count($list);
+		$list = $this->news->_getItems($per_page, (($int_page - 1) * $per_page));
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$news[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('news', $news);
+		$this->template->assign('news', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', $int_page);
 		$recent_news = $this->news->_getItems();
@@ -59,19 +59,24 @@ class News extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$id_news_item = $this->encrypt->decode(urldecode($permalink));
-		$news = $this->news->_getNewsItem($permalink);
-		if ($news) $this->template->assign('data', $news);
-		else show_404();
-		if ($news['image_meta_title']) $this->template->assign('_meta_title', $news['image_meta_title']);
-		if ($news['image_meta_description']) $this->template->assign('_meta_description', $news['image_meta_description']);
-		if ($news['image_meta_keywords']) $this->template->assign('_meta_keywords', $news['image_meta_keywords']);
-		if ($news['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/news/' . $news['image_src']);
-		$news = $this->news->_getNewsItem();
+		$list = $this->news->_getNewsItem($permalink);
+		if ($list) {
+			$this->template->assign('data', $list);
+		}
+		else {
+			show_404();
+		}
+		if ($list['image_meta_title']) $this->template->assign('_meta_title', $list['image_meta_title']);
+		if ($list['image_meta_description']) $this->template->assign('_meta_description', $list['image_meta_description']);
+		if ($list['image_meta_keywords']) $this->template->assign('_meta_keywords', $list['image_meta_keywords']);
+		if ($list['image_meta_author']) $this->template->assign('_meta_author', $list['image_meta_author']);
+		if ($list['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/news/' . $list['image_src']);
+		$list = $this->news->_getNewsItem();
 		$id = $this->uri->segment(3);
-		foreach($news as $key => $item) {
+		foreach($list as $key => $item) {
 			if ($item['id_news_item'] == $id) {
-				$prev_item = $news[$key - 1];
-				$next_item = $news[$key + 1];
+				$prev_item = $list[$key - 1];
+				$next_item = $list[$key + 1];
 				$prev_image_link = base_url() . 'news/article/' . $prev_item['id_news_item'] . '/' . $prev_item['link_rewrite'];
 				$next_image_link = base_url() . 'news/article/' . $next_item['id_news_item'] . '/' . $next_item['link_rewrite'];
 				break;

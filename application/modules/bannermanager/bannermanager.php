@@ -41,7 +41,8 @@ class Bannermanager extends MX_Controller
 			break;
 
 		case 'upload-image':
-			$result = $this->bannermanager->_uploadImage();
+			$type = $this->input->get('type');
+			$result = $this->bannermanager->_uploadImage($type);
 			break;
 
 		case 'upload-cms-image':

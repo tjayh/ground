@@ -221,34 +221,10 @@ class Faqmanager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
-	function _uploadImage()
+	function _uploadCMSImage()
 	{
-		$allowed = array(
-			'jpeg',
-			'jpg',
-			'png'
-		);
-		$result = array();
-		if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
-			$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-			if (!in_array(strtolower($extension) , $allowed)) {
-				$result['error'] = array();
-				$result['error'][] = "Invalid file type. '.jpg' and '.png' are allowed.";
-				return $result;
-			}
-			if ($_FILES['file']['size'] > 1000000) {
-				$result['error'] = array();
-				$result['error'][] = "File size should not exceed to 50KB.";
-				return $result;
-			}
-			$file_name = crypt(strtotime(date('Y-m-d H:i:s')) , random_string('alnum', 32)) . '.' . $extension;
-			if (move_uploaded_file($_FILES['file']['tmp_name'], './upload/images/cms/' . $file_name)) {
-				echo '../../upload/images/cms/' . $file_name;
-				exit(0);
-			}
-		}
-		echo 'false';
-		exit(0);
+		$this->load->model('core/uploader_model', 'uploader');
+		$this->uploader->_uploadCMSImage();
 	}
 }
 ?>

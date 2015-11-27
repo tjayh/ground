@@ -33,13 +33,15 @@ function get(element){
  * Attaches event to a dom element
  */
 function addEvent(el, type, fn){
-	if (w.addEventListener){
-		el.addEventListener(type, fn, false);
-	} else if (w.attachEvent){
-		var f = function(){
-		  fn.call(el, w.event);
-		};			
-		el.attachEvent('on' + type, f)
+	if(el){
+		if (w.addEventListener){
+			el.addEventListener(type, fn, false);
+		} else if (w.attachEvent){
+			var f = function(){
+			  fn.call(el, w.event);
+			};			
+			el.attachEvent('on' + type, f)
+		}
 	}
 }
 

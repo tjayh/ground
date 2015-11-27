@@ -108,8 +108,36 @@ class Manage_navigation_model extends CI_Model
 			$this->db->where('id_page', $v['id']);
 			$result = $this->db->update('page_tree');
 		}
-		if ($result) return true;
-		else return false;
+		foreach($menuData as $k => $v) {
+			$depth = $this->getDepth($v['parentID']);
+			$this->db->set('sort_order', $k);
+			$this->db->where('id_page', $v['id']);
+			$this->db->update('page');
+			$this->db->set('id_parent', $v['parentID']);
+			$this->db->set('depth', $depth);
+			$this->db->set('isActive', 1);
+			$this->db->where('id_page', $v['id']);
+			$result = $this->db->update('page_tree');
+		}
+		if ($result) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	function getDepth($id_parent)
+	{
+		if ($id_parent) {
+			$d = $this->db->get_where('page_tree', array(
+				'id_page' => $id_parent
+			));
+			$r = $d->row_array();
+			return $r['depth'] + 1;
+		}
+		else {
+			return 1;
+		}
 	}
 	function changeStatus($menuData)
 	{

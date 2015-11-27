@@ -22,15 +22,15 @@ class Events extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$events = $this->events->_getItems();
-		$length = count($events);
-		$events = $this->events->_getItems($per_page);
-		foreach($events as $k => $item) {
+		$list = $this->events->_getItems();
+		$length = count($list);
+		$list = $this->events->_getItems($per_page);
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$events[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('events', $events);
+		$this->template->assign('events', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', 1);
 		$recent_events = $this->events->_getItems();
@@ -41,15 +41,15 @@ class Events extends MX_Controller
 		if ($int_page <= 1) redirect(base_url() . 'events/');
 		$this->load->library('encrypt');
 		$per_page = 5;
-		$events = $this->events->_getItems();
-		$length = count($events);
-		$events = $this->events->_getItems($per_page, (($int_page - 1) * $per_page));
-		foreach($events as $k => $item) {
+		$list = $this->events->_getItems();
+		$length = count($list);
+		$list = $this->events->_getItems($per_page, (($int_page - 1) * $per_page));
+		foreach($list as $k => $item) {
 			$src = explode(".", $item['image_src']);
-			$events[$k]['permalink'] = urlencode($src[0]);
+			$list[$k]['permalink'] = urlencode($src[0]);
 		}
 		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
-		$this->template->assign('events', $events);
+		$this->template->assign('events', $list);
 		$this->template->assign('num_pages', $num_pages);
 		$this->template->assign('int_page', $int_page);
 		$recent_events = $this->events->_getItems();
@@ -59,19 +59,24 @@ class Events extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$id_events_item = $this->encrypt->decode(urldecode($permalink));
-		$events = $this->events->_getEventsItem($permalink);
-		if ($events) $this->template->assign('data', $events);
-		else show_404();
-		if ($events['image_meta_title']) $this->template->assign('_meta_title', $events['image_meta_title']);
-		if ($events['image_meta_description']) $this->template->assign('_meta_description', $events['image_meta_description']);
-		if ($events['image_meta_keywords']) $this->template->assign('_meta_keywords', $events['image_meta_keywords']);
-		if ($events['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/events/' . $events['image_src']);
-		$events = $this->events->_getEventsItem();
+		$list = $this->events->_getEventsItem($permalink);
+		if ($list) {
+			$this->template->assign('data', $list);
+		}
+		else {
+			show_404();
+		}
+		if ($list['image_meta_title']) $this->template->assign('_meta_title', $list['image_meta_title']);
+		if ($list['image_meta_description']) $this->template->assign('_meta_description', $list['image_meta_description']);
+		if ($list['image_meta_keywords']) $this->template->assign('_meta_keywords', $list['image_meta_keywords']);
+		if ($list['image_meta_author']) $this->template->assign('_meta_author', $list['image_meta_author']);
+		if ($list['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/events/' . $list['image_src']);
+		$list = $this->events->_getEventsItem();
 		$id = $this->uri->segment(3);
-		foreach($events as $key => $item) {
+		foreach($list as $key => $item) {
 			if ($item['id_events_item'] == $id) {
-				$prev_item = $events[$key - 1];
-				$next_item = $events[$key + 1];
+				$prev_item = $list[$key - 1];
+				$next_item = $list[$key + 1];
 				$prev_image_link = base_url() . 'events/view/' . $prev_item['id_events_item'] . '/' . $prev_item['link_rewrite'];
 				$next_image_link = base_url() . 'events/view/' . $next_item['id_events_item'] . '/' . $next_item['link_rewrite'];
 				break;

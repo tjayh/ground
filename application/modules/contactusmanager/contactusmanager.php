@@ -114,11 +114,13 @@ class Contactusmanager extends MX_Controller
 			if (count($this->error)) {
 				$result['error'] = $this->error;
 			}
-			echo {
-				json_encode($result);
+			else {
+				echo json_encode($result);
 			}
 		}
-		else echo 'false';
+		else {
+			echo 'false';
+		}
 		exit(0);
 	}
 }

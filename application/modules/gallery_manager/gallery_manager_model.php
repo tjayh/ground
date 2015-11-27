@@ -400,10 +400,17 @@ class Gallery_manager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
-	function _uploadImage($multiple = false)
+	function _uploadImage($multiple = false, $type = false)
 	{
+		/*
+			- multiple is used for gallery only
+			- type is for category or items 
+			ex:
+				gallery_cat - for category image dimensions will be used
+				gallery_itm - for item image dimensions will be used
+		*/
 		$this->load->model('core/uploader_model', 'uploader');
-		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $multiple);
+		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type, $multiple);
 	}
 	function _uploadCMSImage()
 	{

@@ -69,8 +69,8 @@ class Faqmanager extends MX_Controller
 			$result = $this->faq->_changeStatus();
 			break;
 
-		case 'upload-image':
-			$result = $this->faq->_uploadImage();
+		case 'upload-cms-image':
+			$result = $this->faq->_uploadCMSImage();
 			break;
 
 		default:

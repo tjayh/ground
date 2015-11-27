@@ -36,11 +36,15 @@ class Globals
 	function assign()
 	{
 		if ($this->checkIfAdminModule()) {
-			if (file_exists(_SKIN_URL_ . _ADMIN_THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html')) $this->CI->template->assign('_template', _ADMIN_THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html');
+			if (file_exists(_SKIN_PATH_ . _ADMIN_THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html')) $this->CI->template->assign('_template', _SKIN_PATH_ . _ADMIN_THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html');
 		}
 		else {
-			if (file_exists(_SKIN_URL_ . _THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html')) $this->CI->template->assign('_template', _THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html');
-			else if (file_exists(_SKIN_URL_ . 'default' . '/modules/' . $this->module . '/' . $this->method . '.html')) $this->CI->template->assign('_template', 'default' . '/modules/' . $this->module . '/' . $this->method . '.html');
+			if (file_exists(_SKIN_PATH_ . _THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html')) {
+				$this->CI->template->assign('_template', _THEME_ . '/modules/' . $this->module . '/' . $this->method . '.html');
+			}
+			else if (file_exists(_SKIN_PATH_ . 'default' . '/modules/' . $this->module . '/' . $this->method . '.html')) {
+				$this->CI->template->assign('_template', 'default' . '/modules/' . $this->module . '/' . $this->method . '.html');
+			}
 		}
 	}
 	/**
@@ -57,7 +61,11 @@ class Globals
 	function variables()
 	{
 		$this->CI->template->assign('base_url', _BASE_URL_);
-		$this->CI->template->assign('skin_url', _SKIN_URL_);
+		$this->CI->template->assign('admin_base', _BASE_URL_ . _ADMIN_BASE_ . '/');
+		$this->CI->template->assign('base_theme_url', _BASE_URL_ . 'skin/' . _THEME_ . '/');
+		$this->CI->template->assign('admin_theme_url', _BASE_URL_ . 'skin/' . _ADMIN_THEME_ . '/');
+		$this->CI->template->assign('admin_theme', _ADMIN_THEME_);
+		$this->CI->template->assign('_theme', _THEME_);
 		$this->CI->template->assign('_site_title', $this->getConfig('SITE_NAME'));
 		$this->CI->template->assign('_theme_css', $this->getConfig('THEME_CSS'));
 		$this->CI->template->assign('_site_css', $this->getConfig('SITE_CSS'));
@@ -69,6 +77,7 @@ class Globals
 		$this->CI->template->assign('_google_ua', $this->getConfig('SEO_GOOGLE_UA'));
 		$this->CI->template->assign('_logo', $this->upload_images . 'logo/' . $this->getConfig('SITE_LOGO'));
 		$this->CI->template->assign('_favicon', $this->upload_images . 'favicon/' . $this->getConfig('SITE_FAVICON'));
+		$this->CI->template->assign('_site_backgrounds', $this->getConfig('SITE_BACKGROUNDS'));
 		$this->CI->template->assign('_sm_facebook', $this->getConfig('SMEDIA_FACEBOOK'));
 		$this->CI->template->assign('_sm_twitter', $this->getConfig('SMEDIA_TWITTER'));
 		$this->CI->template->assign('_sm_googleplus', $this->getConfig('SMEDIA_GOOGLEPLUS'));
@@ -79,7 +88,6 @@ class Globals
 		$this->CI->template->assign('_contact_no', $this->getConfig('CONTACT_NO'));
 		$this->CI->template->assign('_contact_address', $this->getConfig('CONTACT_ADDRESS'));
 		$this->CI->template->assign('_recaptcha_public_key', $this->getConfig('RECAPTCHA_PUBLIC_KEY'));
-		$this->CI->template->assign('_theme', _THEME_);
 		$this->CI->template->assign('_banner', $this->getBanners());
 		$this->CI->template->assign('_news', $this->getItems_news());
 		$this->CI->template->assign('_events', $this->getItems_events());
@@ -90,9 +98,8 @@ class Globals
 		$this->CI->template->assign('_faqs', $this->getItems_faqs());
 		$this->CI->template->assign('_style', $this->getConfigStyle());
 		$this->CI->template->assign('thisModule', $this->module);
-		$this->CI->template->assign('admin_base', _BASE_URL_ . _ADMIN_BASE_ . '/');
-		$this->CI->template->assign('admin_theme', _ADMIN_THEME_);
 		$this->CI->template->assign('navItems', $this->_getNav());
+		/* print_r($this->_getNav());exit; */
 		$_cms_pages = $this->getPages();
 		foreach($_cms_pages as $item) {
 			$this->CI->template->assign('_page_' . $item['absolute_link'], $item['content']);
@@ -156,19 +163,18 @@ class Globals
 				$col = 0;
 				while ($col != 4) {
 					foreach($result['sections']['col' . $col] as $key => $item) { // get section details
-						if(!$item['section_title_active']){
+						if (!$item['section_title_active']) {
 							unset($item['section_title']);
 						}
-						if(!$item['section_subtitle_active']){
+						if (!$item['section_subtitle_active']) {
 							unset($item['section_subtitle']);
 						}
-						if(!$item['section_class_active']){
+						if (!$item['section_class_active']) {
 							unset($item['section_class']);
 						}
 						$item['key_section'] = $key;
 						$section_layout = $this->getSectionLayout($item['id_page_section']);
 						$item['template_html'] = '/default/includes/section/' . $section_layout['file_name'];
-						
 						foreach($item['pages'] as $key2 => $item2) {
 							$page_data = $this->getSectionPages($item2);
 							unset($page_data['json']);
@@ -198,7 +204,7 @@ class Globals
 		if (!$query->num_rows()) {
 			return false;
 		}
-		else{
+		else {
 			$result = $query->row_array();
 			return $result;
 		}
@@ -272,10 +278,10 @@ class Globals
 			$this->CI->session->unset_userdata('redirect');
 		}
 		$template = $this->_getLayout($this->module, $this->method);
-		if ($this->module == 'admindashboard' && $this->method == 'login') $this->CI->template->display(_ADMIN_THEME_ . '/login.template.html');
+		if ($this->module == 'admindashboard' && $this->method == 'login') $this->CI->template->display(_SKIN_PATH_ . _ADMIN_THEME_ . '/login.template.html');
 		else {
 			if ($this->checkIfAdminModule()) {
-				if (substr($this->method, 0, 2) != 'nd') $this->CI->template->display(_ADMIN_THEME_ . '/admin.template.html');
+				if (substr($this->method, 0, 2) != 'nd') $this->CI->template->display(_SKIN_PATH_ . _ADMIN_THEME_ . '/admin.template.html');
 			}
 			else {
 				if (substr($this->method, 0, 2) != 'nd' && $this->method != 'process') {
@@ -301,14 +307,22 @@ class Globals
 		require_once (APPPATH . 'libraries/Simplexml.php');
 
 		$xml = new Simplexml;
-		if (file_exists(_SKIN_URL_ . _THEME_ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $module . '.xml')) {
-			$content = $xml->xml_parse(file_get_contents(_SKIN_URL_ . _THEME_ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $module . '.xml'));
-			if (!is_array($content)) return false;
+		if (file_exists(_SKIN_PATH_ . _THEME_ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $module . '.xml')) {
+			$content = $xml->xml_parse(file_get_contents(_SKIN_PATH_ . _THEME_ . DIRECTORY_SEPARATOR . 'layout' . DIRECTORY_SEPARATOR . $module . '.xml'));
+			if (!is_array($content)) {
+				return false;
+			}
 			switch ($get) {
 			case 'template':
-				if ($content[$this->module . '_' . $this->method]['template']) return $content[$module . '_' . $method]['template'];
-				elseif ($content['default']['template']) return $content['default']['template'];
-				else return false;
+				if ($content[$this->module . '_' . $this->method]['template']) {
+					return $content[$module . '_' . $method]['template'];
+				}
+				elseif ($content['default']['template']) {
+					return $content['default']['template'];
+				}
+				else {
+					return false;
+				}
 				break;
 
 			default:
@@ -316,7 +330,9 @@ class Globals
 				break;
 			}
 		}
-		else return false;
+		else {
+			return false;
+		}
 	}
 	function checkIfAdminModule()
 	{
@@ -325,12 +341,14 @@ class Globals
 		$this->CI->db->where('module_class', $this->module);
 		$this->CI->db->where('isAdmin', 1);
 		$query = $this->CI->db->get();
-		if (!$query->num_rows()) return false;
+		if (!$query->num_rows()) {
+			return false;
+		}
 		return true;
 	}
 	function _getNav()
 	{
-		$this->CI->db->select('pt.id_page, pt.depth, pt.absolute_link, pt.id_parent, p.link_rewrite, p.title, p.redirect,m.link_rewrite,m.isActive,m.isAdmin');
+		$this->CI->db->select('pt.id_page, pt.depth, pt.absolute_link, pt.id_parent, p.class, p.link_rewrite, p.title, p.redirect,m.link_rewrite,m.isActive,m.isAdmin');
 		$this->CI->db->from('page_tree pt');
 		$this->CI->db->join('page p', 'pt.id_page = p.id_page');
 		$this->CI->db->join('module m', 'p.link_rewrite = m.link_rewrite AND m.isActive = 1 AND m.isAdmin = 0', 'left');
@@ -341,23 +359,30 @@ class Globals
 		$temp_array = array();
 		$max_depth = 0;
 		foreach($result_array as $key => $nav_item) {
-			if ($nav_item['isActive'] === 0) {
+			if ($nav_item['class'] != 'pages') {
+				$nav_item['page_link'] = base_url() . $nav_item['link_rewrite'];
+			}
+			else {
+				if ($nav_item['absolute_link']) {
+					$pages = 'pages/';
+				}
+				$nav_item['page_link'] = base_url() . $pages . $nav_item['absolute_link'];
+			}
+			if ($nav_item['isActive'] === 0 && $nav_item['class'] != 'pages') {
 				unset($nav_item[$key]);
 			}
 			else {
 				$temp_array[$nav_item['id_page']] = $nav_item;
 				$temp_array[$nav_item['id_page']]['child'] = array();
-				if ($max_depth == 0) $max_depth = $nav_item['depth'];
+				if ($max_depth < $nav_item['depth']) {
+					$max_depth = $nav_item['depth'];
+				}
 			}
 		}
 		for ($d = $max_depth; $d > 1; $d--) {
 			foreach($temp_array as $nav_item) {
-				if ($nav_item['depth'] < $d) break;
-
 				if ($nav_item['id_parent'] > 0 && $nav_item['depth'] == $d) {
-					// $temp_array[$nav_item['id_page']]['child'] = array();
 					$temp_array[$nav_item['id_parent']]['child'][] = $temp_array[$nav_item['id_page']];
-					// unset($temp_array[$nav_item['id_page']]);
 				}
 			}
 		}
@@ -380,7 +405,9 @@ class Globals
 		$this->CI->db->where('module', $this->module);
 		$this->CI->db->where('method', $this->method);
 		$query = $this->CI->db->get();
-		if (!$query->num_rows()) return false;
+		if (!$query->num_rows()) {
+			return false;
+		}
 		else {
 			$result = $query->row_array();
 			$breadcrumbs = array();
@@ -394,7 +421,9 @@ class Globals
 					$this->CI->db->from($table);
 					$this->CI->db->where('id_' . $table, $result['parent_id']);
 					$query = $this->CI->db->get();
-					if (!$query->num_rows()) $flag = false;
+					if (!$query->num_rows()) {
+						$flag = false;
+					}
 					else {
 						$result = $query->row_array();
 						unset($result['id_' . $table]);
@@ -413,7 +442,9 @@ class Globals
 		$this->CI->db->where('b.status', 1);
 		$this->CI->db->order_by('b.id_banner', 'ASC');
 		$query = $this->CI->db->get();
-		if (!$query->num_rows()) return false;
+		if (!$query->num_rows()) {
+			return false;
+		}
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
 			$return = array();
@@ -519,14 +550,42 @@ class Globals
 	}
 	function getItems_faqs()
 	{
-		$this->CI->db->select('t.*');
-		$this->CI->db->from('faq_item t');
-		$this->CI->db->where('t.status', 1);
-		$this->CI->db->order_by('t.faq_question ASC');
+		$listCategory = $this->_getItemsCategory();
+		$this->CI->db->select('i.*');
+		$this->CI->db->from('faq_item i');
+		$this->CI->db->where('i.status', 1);
+		$this->CI->db->order_by('i.faq_question ASC');
 		$query = $this->CI->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
-			return $result;
+			$return = array();
+			foreach($listCategory as $item) {
+				foreach($result as $item0) {
+					if ($item0['id_faq_category'] == $item['id_faq_category']) {
+						$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+						$item['items'][] = $item0;
+					}
+				}
+				$return[] = $item;
+			}
+			return $return;
+		}
+		return false;
+	}
+	function _getItemsCategory()
+	{
+		$this->CI->db->select('c.*');
+		$this->CI->db->from('faq_category c');
+		$this->CI->db->where('c.status', 1);
+		$this->CI->db->order_by('c.id_faq_category ASC');
+		$query = $this->CI->db->get();
+		if ($query->num_rows() > 0) {
+			$result = $query->result_array();
+			$return = array();
+			foreach($result as $item) {
+				$return[] = $item;
+			}
+			return $return;
 		}
 		return false;
 	}
@@ -603,7 +662,9 @@ class Globals
 		if ($module_class) {
 			$this->CI->db->where('m.module_class', $module_class);
 			$query = $this->CI->db->get();
-			if (!$query->num_rows()) return false;
+			if (!$query->num_rows()) {
+				return false;
+			}
 			return $query->row_array();
 		}
 		$this->CI->db->order_by('ap.sort_order', 'ASC');

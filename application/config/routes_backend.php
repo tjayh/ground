@@ -12,8 +12,8 @@ $route["administrator/pages/(.*)"] = "cms/$1";
 $route["administrator/newsletter"] = "newslettermanager";
 $route["administrator/newsletter/(.*)"] = "newslettermanager/$1";
 
-$route["administrator/contactus"] = "contactusmanager";
-$route["administrator/contactus/(.*)"] = "contactusmanager/$1";
+$route["administrator/contactusmanager"] = "contactusmanager";
+$route["administrator/contactusmanager/(.*)"] = "contactusmanager/$1";
 
 $route["administrator/breadcrumbs"] = "breadcrumbs";
 $route["administrator/breadcrumbs/(.*)"] = "breadcrumbs/$1";

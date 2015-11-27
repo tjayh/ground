@@ -2,7 +2,7 @@
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 		<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 			{if $bcCMS}<a class="btn btn-small btn-info" href="{$admin_base}pages" title="Content Manager"> <i class="fa fa-file-text"></i> </a>{/if}
-			{if $bcContactIndex}<a class="btn btn-small btn-success" href="{$admin_base}contactus" title="Contact Us"> <i class="fa fa-envelope-o"></i> </a>{/if}
+			{if $bcContactIndex}<a class="btn btn-small btn-success" href="{$admin_base}contactusmanager" title="Contact Us"> <i class="fa fa-envelope-o"></i> </a>{/if}
 			{if $bcSeoManStat}<a class="btn btn-small btn-yellow" href="{$admin_base}seo" title="SEO"> <i class="fa fa-bar-chart"></i> </a>{/if}
 			{if $bcSettingsGeneral}<a class="btn btn-small btn-pink" href="{$admin_base}settings" title="Settings"> <i class="fa fa-cogs"></i> </a>{/if}
 		</div>
@@ -102,6 +102,14 @@
 						Section
 					</a>
 				</li>
+				{if $_admin.id_admin_group eq 1}
+				<li id = "bcSectionList">
+					<a href="{$admin_base}pages/section_list">
+						<i class="fa fa-double-angle-right"></i>
+						Layout Lists
+					</a>
+				</li>
+				{/if}
 			</ul>
 		</li>
 		{/if}
@@ -122,13 +130,13 @@
 			</a>
 			<ul class="submenu">
 				<li id = "bcContactIndex">
-					<a href="{$admin_base}contactus">
+					<a href="{$admin_base}contactusmanager">
 						<i class="fa fa-double-angle-right"></i>
 						Messages
 					</a>
 				</li>
 				<li id = "bcContactSettings">
-					<a href="{$admin_base}contactus/settings">
+					<a href="{$admin_base}contactusmanager/settings">
 						<i class="fa fa-double-angle-right"></i>
 						Settings
 					</a>
