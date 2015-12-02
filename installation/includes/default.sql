@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2015 at 11:25 AM
+-- Generation Time: Dec 02, 2015 at 05:17 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `plugandplay_db`
+-- Database: `samplewebsite43_db`
 --
-CREATE DATABASE IF NOT EXISTS `plugandplay_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `plugandplay_db`;
+/* CREATE DATABASE IF NOT EXISTS `samplewebsite43_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `samplewebsite43_db`; */
 
 -- --------------------------------------------------------
 
@@ -185,15 +185,15 @@ CREATE TABLE IF NOT EXISTS `vii_banner` (
   `date_add` timestamp NULL DEFAULT NULL,
   `date_upd` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_banner`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `vii_banner`
 --
 
 INSERT INTO `vii_banner` (`id_banner`, `image_title`, `image_sub_title`, `image_sub_title2`, `image_desc`, `image_src`, `image_src2`, `image_link`, `status`, `date`, `date_add`, `date_upd`) VALUES
-(1, 'Sample Title #1', 'Sample Sub Title #1', 'Sample Sub Title 2 #1', '<p><span style="font-weight: bold;">Sample Description #1</span><br></p>', 'c217d6af169131e978fd0cff999f9139.jpg', '2c260f41d62577af62e53633c1af12fd.jpg', 'Sample Link #1', 1, '2014-08-20', '2014-08-20 03:54:42', NULL),
-(2, 'Sample Title #2', 'Sample Sub Title #2', 'Sample Sub Title 2 #2', '<p><span style="font-weight: bold;">Sample Description #2<br></span></p>', '140aca6c6cf1e7a79eb71a1e9864cae4.jpg', 'fbe95bc6739757f5571aca4754eac03e.jpg', 'Sample Link #2', 1, '2014-10-15', '2014-10-15 02:13:40', NULL);
+(5, 'Sample Title', 'Sample Title', 'Sample Title', '<p>Sample description<br></p>', '70219004b209ec090a8f1bc61e4a4157.png', '', 'http://www.sample.com/', 1, '2015-08-27', '2015-08-27 22:52:19', NULL),
+(6, 'Sample banner 2', 'Sample banner 2', 'Sample banner 2', '<p>Sample banner 2<br></p>', 'bad1b9fa04223b8fb729fd2cf26ce79b.png', '', 'Sample banner 2', 1, '2015-09-01', '2015-08-31 23:03:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -250,7 +250,7 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 (11, 'Permissions', 'bcSettingsPermissions', 3, 'settings', 'permissions'),
 (12, 'Server', 'bcSettingsServer', 3, 'settings', 'server'),
 (13, 'Subscribers', 'bcNewsSub', 6, 'newslettermanager', 'index'),
-(14, 'Archive', 'bcNewsArchive', 6, 'newslettermanager', 'archive'),
+(14, 'Campaigns', 'bcNewsCampaigns', 6, 'newslettermanager', 'campaigns'),
 (15, 'Settings', 'bcNewsSettings', 6, 'newslettermanager', 'settings'),
 (16, 'Messages', 'bcContactIndex', 5, 'contactusmanager', 'index'),
 (17, 'Settings', 'bcContactSettings', 5, 'contactusmanager', 'settings'),
@@ -268,7 +268,7 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 (30, 'News Manager', 'bcNews', 0, '', ''),
 (31, 'Items', 'bcNewsItems', 30, 'news_manager', 'index'),
 (32, 'Categories', 'bcNewsCategories', 30, 'news_manager', 'category'),
-(33, 'Social Media', 'bcSeoManSocialMedia', 24, 'settings', 'socialmedia'),
+(33, 'Social Media', 'bcSeoManSocialMedia', 24, 'seomanager', 'socialmedia'),
 (34, 'Banner', 'bcBanner', 0, 'bannermanager', 'index'),
 (35, 'Blog Manager', 'bcBlog', 0, '', ''),
 (36, 'Items', 'bcBlogItems', 35, 'blog_manager', 'index'),
@@ -283,7 +283,7 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 (46, 'Items', 'bcEventsItems', 45, 'events_manager', 'index'),
 (47, 'Category', 'bcEventsCategories', 45, 'events_manager', 'categories'),
 (48, 'Navigation Manager ', 'bcManageNav', 0, 'manage_navigation', 'index'),
-(49, 'Layout Lists', 'bcSectionList', 4, 'cms', 'section_list');
+(49, 'Section', 'bcSection', 4, 'cms', 'section');
 
 -- --------------------------------------------------------
 
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `vii_config_style` (
 --
 
 INSERT INTO `vii_config_style` (`id_config_style`, `color_schemes`, `color_skin`, `layout_style`, `layout_rtl`, `patterns`, `boxed_background`) VALUES
-(1, '', '', '', '', '', '');
+(1, 'yellow', 'dark', 'true', '', '', 'http://10.10.1.12/plugandplay/upload/images/background/9ef604e40c54444f15355f339286f65c.jpg');
 
 -- --------------------------------------------------------
 
@@ -532,7 +532,7 @@ CREATE TABLE IF NOT EXISTS `vii_faq_category` (
   `id_faq_category` int(11) NOT NULL AUTO_INCREMENT,
   `category_title` varchar(250) CHARACTER SET utf8 NOT NULL,
   `category_description` text CHARACTER SET utf8 NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_faq_category`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -541,8 +541,8 @@ CREATE TABLE IF NOT EXISTS `vii_faq_category` (
 --
 
 INSERT INTO `vii_faq_category` (`id_faq_category`, `category_title`, `category_description`, `status`) VALUES
-(1, 'Uncategorized', '', 0),
-(2, 'Sample FAQ Category Title #1', 'Sample FAQ Category Description #1', 1);
+(1, 'Uncategorized', '', 1),
+(2, 'test', 'testtesttesttesttesttest', 1);
 
 -- --------------------------------------------------------
 
@@ -586,6 +586,9 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_category` (
   `category_desc` text,
   `image_src` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT '1',
+  `category_meta_title` text,
+  `category_meta_description` text,
+  `category_meta_keywords` text,
   `date_add` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_gallery_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
@@ -594,9 +597,9 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_category` (
 -- Dumping data for table `vii_gallery_category`
 --
 
-INSERT INTO `vii_gallery_category` (`id_gallery_category`, `id_parent`, `category_title`, `link_rewrite`, `category_sub_title`, `category_desc`, `image_src`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'uncategorized', 'Uncategorized', 'Uncategorized', 'c0e037d2f5d96215a848dc81f03883f6.jpg', 0, '2014-07-07 16:00:00'),
-(3, 0, 'Sample Title #1', 'sample_title_1', 'Sample Sub Title #1', 'Sample Description #1', '5ba50fe4f129f8b885fbc1bec14f4b67.jpg', 1, '2014-08-19 09:31:24');
+INSERT INTO `vii_gallery_category` (`id_gallery_category`, `id_parent`, `category_title`, `link_rewrite`, `category_sub_title`, `category_desc`, `image_src`, `status`, `category_meta_title`, `category_meta_description`, `category_meta_keywords`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'uncategorized', 'Uncategorized', 'Uncategorized', '91199dd47ec13243b6b0032ee63dc40a.png', 1, NULL, NULL, NULL, '2014-07-07 16:00:00'),
+(3, 0, 'Sample Title #1', 'sample_title_1', 'Sample Sub Title #1', 'Sample Description #1', '5dd0f7e410b267fe2c7587f701b8e5bf.png', 1, NULL, NULL, NULL, '2014-08-19 09:31:24');
 
 -- --------------------------------------------------------
 
@@ -618,17 +621,17 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_item` (
   `id_gallery_category` int(11) DEFAULT '1',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_gallery_item`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `vii_gallery_item`
 --
 
 INSERT INTO `vii_gallery_item` (`id_gallery_item`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_gallery_category`, `date_add`) VALUES
-(1, 'Title #1', 'title_1', 'Subtitle#1', 'Description #1', '6c230ed26f01fd493645b4f397692fe7.jpg', 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 1, 1, '2014-08-19 09:09:46'),
-(2, 'Title #2', 'title_2', 'Subtitle#2', 'Description #2', 'c89fedc788a87299c45efe1cf16c523f.jpg', NULL, NULL, NULL, 1, 1, '2014-08-19 09:09:46'),
-(3, 'Sample Title #1', 'sample_title__1', 'Sample Sub Title #1', 'Sample Description #1', '550e356039d49ed4290dfdd9193cf0bb.jpg', 'Sample Title #1', 'Sample Title #1', 'Sample Title #1', 1, 3, '2014-10-16 02:56:47'),
-(4, 'Sample Title #2', 'sample_title__2', 'Sample Sub Title #2', 'Sample Description #2', '11e562813d6057f56487153581332ecd.jpg', 'Sample Title #2', 'Sample Title #2', 'Sample Title #2', 1, 3, '2014-10-16 02:56:47');
+(1, 'Title #1', 'title__1', 'Subtitle#1', 'Description #1', '8c79f1d9b194d2c9752fcb8152ea8816.png', 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 1, 1, '2014-08-19 09:09:46'),
+(2, 'Title #2', 'title__2', 'Subtitle#2', 'Description #2', '5a5c4b36d5ec54f81104347dfdc4f768.png', '', '', '', 1, 1, '2014-08-19 09:09:46'),
+(3, 'Sample Title #1', 'sample_title__1', 'Sample Sub Title #1', 'Sample Description #1', 'f8bcbe968eda9a83b08864e4e9ca6497.png', '', '', '', 1, 3, '2014-10-16 02:56:47'),
+(4, 'Sample Title #2', 'sample_title__2', 'Sample Sub Title #2', 'Sample Description #2', '923e61384441918d9232a56c92408656.png', '', '', '', 1, 3, '2014-10-16 02:56:47');
 
 -- --------------------------------------------------------
 
@@ -659,7 +662,7 @@ INSERT INTO `vii_module` (`id_module`, `module_name`, `module_description`, `mod
 (3, 'CMS', '', 'cms', 'pages', 1, 1, '2012-09-28 09:55:16', '2011-03-15 18:44:40'),
 (4, 'Pages', 'Generic modules for pages with content', 'pages', '', 0, 1, '2011-03-25 17:06:30', '2011-03-25 17:06:30'),
 (6, 'Newsletter Manager', 'Newsletter Manager Description', 'newslettermanager', 'newsletter', 1, 1, '2014-01-13 22:14:13', '2014-01-13 22:14:16'),
-(7, 'Contact Us Manager', 'Contact Us Manager Description', 'contactusmanager', 'contactusmanager', 1, 1, '2014-01-13 22:14:45', '2015-11-24 08:27:01'),
+(7, 'Contact Us Manager', 'Contact Us Manager Description', 'contactusmanager', 'contactus', 1, 1, '2014-01-13 22:14:45', '2014-01-13 22:14:48'),
 (9, 'Contact Us', 'Contact Us Front End', 'contactus', 'contactus', 0, 1, '2014-02-13 05:00:06', '2015-01-09 10:12:57'),
 (10, 'Breadcrumbs', 'Breadcrumbs Manager', 'breadcrumbs', 'breadcrumbs', 1, 1, '2014-02-17 10:33:07', '2014-02-17 10:45:24'),
 (11, 'FAQ Manager', 'Manages FAQ items', 'faqmanager', 'faq', 1, 1, '2014-02-19 03:10:29', '2014-02-19 03:12:05'),
@@ -725,7 +728,7 @@ CREATE TABLE IF NOT EXISTS `vii_newsletter_subscribers` (
 --
 
 INSERT INTO `vii_newsletter_subscribers` (`id_subscriber`, `email`, `code`, `status`, `date_add`) VALUES
-(1, 'testviiworks@gmail.com', 'LJT14e7KePle5VQ6mXLCYdLN4lIv+CkR1Y/Tari2BP+VpCGEsJU2eJoAniCBSgJEo2EXd/pH7/FsV5Ef2lXj6A==', '1', '2014-10-16 09:01:50');
+(1, 'kirby.lagunda@viiworks.com', 'LJT14e7KePle5VQ6mXLCYdLN4lIv+CkR1Y/Tari2BP+VpCGEsJU2eJoAniCBSgJEo2EXd/pH7/FsV5Ef2lXj6A==', '1', '2014-10-16 09:01:50');
 
 -- --------------------------------------------------------
 
@@ -1003,7 +1006,7 @@ CREATE TABLE IF NOT EXISTS `vii_testimonial` (
 --
 
 INSERT INTO `vii_testimonial` (`id_testimonial`, `name`, `email`, `message`, `ip_address`, `status`, `date_add`) VALUES
-(1, 'Sample Testimonial Title #1', 'SampleTestimonialEmail1@example.com', 'Sample Testimonial Message #1', '192.168.2.197', 1, '2014-10-15 08:21:56'),
+(1, 'Sample Testimonial Title #1', 'SampleTestimonialEmail1@example.com', 'Sample Testimonial Message #1', '192.168.2.197', 1, '2015-08-26 10:14:34'),
 (2, 'Sample Testimonial Title #2', 'SampleTestimonialEmail2@example.com', 'Sample Testimonial Message #2', '192.168.2.197', 1, '2014-08-26 04:47:05');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,15 +1,20 @@
-<!---------- List ---------->
-<p>{$gallery_category.category_title}</p>
-<p>{$gallery_category.category_sub_title}</p>
-<p>{$gallery_category.category_desc}</p>
-<p>{if $gallery_category.image_src}<img src="{$gallery_category.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
-<p>{if $gallery_category.image_src_thumb}<img src="{$gallery_category.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
+
+<div class="row">
+    <div class="col-lg-12"><!---------- List ---------->
+<div>{$gallery_category.category_title}</div>
+<div>{$gallery_category.category_sub_title}</div>
+<div>{$gallery_category.category_desc}</div>
+<div><a href="{$gallery_category.item_link}">{$gallery_category.item_link}</a></div>
+<div>{if $gallery_category.image_src}<img src="{$gallery_category.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+<div>{if $gallery_category.image_src_thumb}<img src="{$gallery_category.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
 
 =================================================================================================
 <!---------- List ---------->
-	<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
-	<p>{if $data.image_src_thumb}<img src="{$data.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
-	<p>{$data.id_item}<!--please delete this code if not needed and this comment. used if unique class or id is needed, check if slider, pop-up, etc. would need unique identifier--></p>
-	<p>{$data.image_title}</p>
-	<p>{$data.image_desc}</p>
+	<div>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+	<div>{if $data.image_src_thumb}<img src="{$data.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+	<div>{$data.id_item}<!--please delete this code if not needed and this comment. used if unique class or id is needed, check if slider, pop-up, etc. would need unique identifier--></div>
+	<div>{$data.image_title}</div>
+	<div>{$data.image_desc}</div>
  <!---------- List ----------> 
+ </div>
+ </div>

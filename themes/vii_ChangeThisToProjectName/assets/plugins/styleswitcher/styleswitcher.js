@@ -21,7 +21,18 @@
 *************************************************** **/
 jQuery(document).ready(function() {
 	"use strict";
-
+if(!jQuery('#admin_active:empty').length ) {
+		jQuery("body").append(_sw);
+	}
+	if(!jQuery('#site_backgrounds:empty').length ) {
+		var base_url = jQuery('#base_url').html();
+		
+		var return_data = $.parseJSON(jQuery('#site_backgrounds').html());
+		var _bgs = '';
+		$.each(return_data, function(index, value) {
+			_bgs += '<button onclick="background_switch(\''+base_url+'upload/'+'images/'+'background/'+value+'\');" class="pointer switcher_thumb"><img src="'+base_url+'upload/'+'images/'+'background/thumb/'+value+'" 	width="27" height="27" alt="" /></button>';
+		});
+	}
 		var _sw = '<!-- STYLESWITCHER - REMOVE ON PRODUCTION/DEVELOPMENT -->'
 				+ '<div id="switcher" class="hide hidden-xs">'
 				+ '	<div class="content-switcher">'
@@ -82,11 +93,7 @@ jQuery(document).ready(function() {
 
 				+ '		<p class="nomargin-bottom">Images for Boxed Version</p>'
 				+ '		<button onclick="background_switch(\'none\');" class="pointer switcher_thumb"><img src="assets/images/demo/boxed_background/none.jpg" width="27" height="27" alt="" /></button>'
-				+ '		<button onclick="background_switch(\'assets/images/demo/boxed_background/1.jpg\');" class="pointer switcher_thumb"><img src="assets/images/demo/boxed_background/1_thumb.jpg" width="27" height="27" alt="" /></button>'
-				+ '		<button onclick="background_switch(\'assets/images/demo/boxed_background/2.jpg\');" class="pointer switcher_thumb"><img src="assets/images/demo/boxed_background/2_thumb.jpg" width="27" height="27" alt="" /></button>'
-				+ '		<button onclick="background_switch(\'assets/images/demo/boxed_background/3.jpg\');" class="pointer switcher_thumb"><img src="assets/images/demo/boxed_background/3_thumb.jpg" width="27" height="27" alt="" /></button>'
-				+ '		<button onclick="background_switch(\'assets/images/demo/boxed_background/4.jpg\');" class="pointer switcher_thumb"><img src="assets/images/demo/boxed_background/4_thumb.jpg" width="27" height="27" alt="" /></button>'
-
+				+ _bgs
 				+ '		<hr />'
 
 				+ '		<div class="text-center">'
@@ -103,7 +110,9 @@ jQuery(document).ready(function() {
 
 	// ADD CLASS
 	jQuery("head").append('<link href="assets/plugins/styleswitcher/styleswitcher.css" rel="stylesheet" type="text/css" />');
-	jQuery("body").append(_sw);
+	if(!jQuery('#admin_active:empty').length ) {
+		jQuery("body").append(_sw);
+	}
 	jQuery("#switcher, #showSwitcher").removeClass('hide');
 
     jQuery("#hideSwitcher, #showSwitcher").click(function () {

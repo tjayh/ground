@@ -1,17 +1,17 @@
 <!---------- Recent ---------->
 <!-- {foreach from=$recent_news key=key item=item}
-	<p>{$key}</p>
-	<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+	<div>{$key}</div>
+	<div><a href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
 	{if $key eq 4}{break}{/if} 
 {/foreach} -->
 <!---------- Recent ---------->
 
 <!---------- Article ---------->
-<!-- <p>{$data.image_title|ucwords}</p>
-<p>{$data.image_sub_title}</p>
-<p>{$data.date|date_format}</p>
-<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
-<p>{$data.image_desc}</p>
+<!-- <div>{$data.image_title|ucwords}</div>
+<div>{$data.image_sub_title}</div>
+<div>{$data.date|date_format}</div>
+<div>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+<div>{$data.image_desc}</div>
 {if $prev_image_link}<a href="{$prev_image_link}">Previous Post</a>{/if}
 {if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if} -->
 
@@ -38,25 +38,25 @@
 
 <div class="row">
 
-    <!-- Blog Post Content Column -->
+    <!-- News Post Content Column -->
     <div class="col-lg-8">
 
-        <!-- Blog Post -->
+        <!-- News Post -->
 
         <!-- Title -->
         <h1>{$data.image_title|ucwords}</h1>
 
         <!-- Author -->
-        <p class="lead">
+        <div class="lead">
             by 
             <a href="javacript:;">
           {$data.image_author}</a>
-        </p>
+        </div>
 
         <hr>
 
         <!-- Date/Time -->
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {$data.date|date_format}
+        <div><span class="glyphicon glyphicon-time"></span> Posted on {$data.date|date_format}
 		<a href="http://www.facebook.com/sharer.php?u={$data.image_link}" target="_blank">
 			<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
 		</a>
@@ -70,7 +70,7 @@
 			<img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
 		</a>
             <!-- at 9:00 PM -->
-        </p>
+        </div>
 
         <hr>
 
@@ -80,11 +80,11 @@
         <hr>
 
         <!-- Post Content -->
-        <p class="lead">{$data.image_desc}</p>
+        <div class="lead">{$data.image_desc}</div>
 
         <hr>
 
-        <!-- Blog Comments -->
+        <!-- News Comments -->
 
         <!-- Comments Form -->
         <div class="fb-comments visible-lg hidden-md hidden-sm hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
@@ -120,12 +120,12 @@
 
     </div>
 
-    <!-- Blog Sidebar Widgets Column -->
+    <!-- News Sidebar Widgets Column -->
     <div class="col-md-4">
 
-        <!-- Blog Search Well -->
+        <!-- News Search Well -->
         <div class="well">
-            <h4>Blog Search</h4>
+            <h4>News Search</h4>
             <form role="form" id="searchForm" action="{$base_url}search" method="get">
                 <div class="form-group input-group">
                     <input type="text" name="search" placeholder="Search" class="form-control">
@@ -141,7 +141,7 @@
             <!-- /.input-group -->
         </div>
 
-        <!-- Blog Categories Well -->
+        <!-- News Categories Well -->
         <div class="well">
             <h4>Recent News</h4>
             <div class="row">
@@ -160,7 +160,7 @@
         <!-- Side Widget Well -->
         <div class="well">
             <h4>Side Widget Well</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</div>
         </div>
 
     </div>

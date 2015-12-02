@@ -1,17 +1,17 @@
 <!---------- Recent ---------->
 <!-- {foreach from=$recent_blog key=key item=item}
-	<p>{$key}</p>
-	<p><a href="{$item.image_link}">{$item.image_title|ucwords}</a></p>
+	<div>{$key}</div>
+	<div><a href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
 	{if $key eq 4}{break}{/if} 
 {/foreach} -->
 <!---------- Recent ---------->
 
 <!---------- Article ---------->
-<!-- <p>{$data.image_title|ucwords}</p>
-<p>{$data.image_sub_title}</p>
-<p>{$data.date|date_format}</p>
-<p>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</p>
-<p>{$data.image_desc}</p>
+<!-- <div>{$data.image_title|ucwords}</div>
+<div>{$data.image_sub_title}</div>
+<div>{$data.date|date_format}</div>
+<div>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+<div>{$data.image_desc}</div>
 {if $prev_image_link}<a href="{$prev_image_link}">Previous Post</a>{/if}
 {if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if} -->
 
@@ -47,16 +47,16 @@
         <h1>{$data.image_title|ucwords}</h1>
 
         <!-- Author -->
-        <p class="lead">
+        <div class="lead">
             by 
             <a href="javacript:;">
           {$data.image_author}</a>
-        </p>
+        </div>
 
         <hr>
 
         <!-- Date/Time -->
-        <p><span class="glyphicon glyphicon-time"></span> Posted on {$data.date|date_format}
+        <div><span class="glyphicon glyphicon-time"></span> Posted on {$data.date|date_format}
 		<a href="http://www.facebook.com/sharer.php?u={$data.image_link}" target="_blank">
 			<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
 		</a>
@@ -70,7 +70,7 @@
 			<img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
 		</a>
             <!-- at 9:00 PM -->
-        </p>
+        </div>
 
         <hr>
 
@@ -80,7 +80,7 @@
         <hr>
 
         <!-- Post Content -->
-        <p class="lead">{$data.image_desc}</p>
+        <div class="lead">{$data.image_desc}</div>
 
         <hr>
 
@@ -160,7 +160,7 @@
         <!-- Side Widget Well -->
         <div class="well">
             <h4>Side Widget Well</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</div>
         </div>
 
     </div>

@@ -11,13 +11,21 @@
 	  
 <!-- {if $testimonial}
 	{foreach from=$testimonial key=key item=item}
-		<p>{$key}</p>
-		<p>{$item.message}</p>
-		<p>{$item.name}</p>
+		<div>{$key}</div>
+		<div>{$item.message}</div>
+		<div>{$item.name}</div>
 	{/foreach}
 {/if}  -->
   
-  
+<!-- <ul class="pagination">
+	{if $int_page gt 1}
+	<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if} {for $page=1 to $num_pages} {if $int_page eq $page}
+	<li><span class="current">{$page}</span></li>
+	{else}
+	<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
+	{/if} {/for} {if $int_page lt $num_pages}
+	<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next" >Next</a></li>{/if}
+</ul> -->
 
   {if $testimonial}
   {foreach from=$testimonial key=key item=item}
@@ -25,12 +33,12 @@
   <div class="row">
     <div class="col-md-12">
       <div class="well">
-        <h1>
+        <h1><div>{$key}</div>
           {$item.name}
         </h1>
-        <p>
+        <div>
           {$item.message}
-        </p>
+        </div>
       </div>
     </div>
   </div>
@@ -73,24 +81,15 @@
   {/if}
   
   <hr>
-  
-  <form role="form" id='testiForm' onsubmit="return false;">
-	<input class="form-control" type="text" class="validate[required]" id="name" placeholder="Enter Name" name="data[name]" required>
+  <form id='testimonialForm' class="testimonial-section-form" onsubmit="return false;">
+  <div><input type="text" id="testimonialName" class="validate[required]" placeholder="Enter Name" name="data[name]" ></div>
   <br/>
-  <textarea class="validate[required] form-control" id="message" rows="3" name="data[message]" required>
-  </textarea>
+  <div><textarea id="testimonialMessage" class="validate[required]" rows="3" name="data[message]" ></textarea></div>
   <br/>
-  <div id="testiNotif" style='display:none;'>
-  </div>
-  
-  <img src="img/sending.gif" id="testiLoading" style="display:none;">
-  <div id="testiFormBtns">
-	<button type="submit" class="btn btn-default">
-      Submit
-      </button>
-      <button type="reset" class="btn btn-default">
-        Reset
-      </button>
-  </div>
+ <div><img src="img/loading.gif" id="form-loading" style="display:none;"></div>
+	<div id="contactusFormBtns">
+		<div><button type="submit" class="btn btn-default">Submit</button></div>
+		<div><button type="reset" class="btn btn-default">Reset</button></div>
+	</div>
   </form>
 

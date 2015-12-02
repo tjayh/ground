@@ -1,49 +1,36 @@
-<!-- Fixed navbar -->
-<nav class="navbar navbar-inverse bg-gray navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">
-				  Toggle navigation
-				</span> <span class="icon-bar">
-				</span> <span class="icon-bar">
-				</span> <span class="icon-bar">
-				</span> </button>
-			<a class="navbar-brand" href="{$base_url}">
-				<!-- <img src="{$_logo}"/> -->LOGO </a>
+<div id="header" class="sticky clearfix">
+	<!-- TOP NAV -->
+	<header id="topNav">
+		<div class="container">
+			<!-- Mobile Menu Button -->
+			<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse"> <i class="fa fa-bars"></i> </button>
+			<!-- Logo -->
+			<a class="logo pull-left" href="index.html"> <img src="assets/images/logo_dark.png" alt="" /> </a>
+			<!-- 
+				Top Nav 
+				
+				AVAILABLE CLASSES:
+				submenu-dark = dark sub menu
+			-->
+			<div class="navbar-collapse pull-right nav-main-collapse collapse">
+				<nav class="nav-main">
+					{function name=menu} 
+					{foreach from=$data item=items} 
+					{if $items.id_page eq $current || $items.id_parent eq $current}
+					<!-- BASIC NAV -->
+					<li class="{if $items.child}dropdown{/if}"> 
+						<a class="{if $items.child}dropdown-toggle{/if}" href="{$items.page_link}">{$items.title}</a> 
+						{if $items.child}
+							<ul class="dropdown-menu"> {menu data=$items.child current=$items.id_page} </ul> 
+						{/if} 
+					</li> 
+					{/if}
+					{/foreach} 
+					{/function}
+					<ul id="topMain" class="nav nav-pills nav-main"> {menu data=$navItems current=0} </ul>
+				</nav>
+			</div>
 		</div>
-		
-		{function navmenu level=0}
-		{foreach from=$data key=key item=element}
-		{if $element.child|@count gt 0}
-		<li class="dropdown"> <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-			{$element.title}
-			<b class="caret">
-			</b>
-			</a>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="drop1"> 
-				{navmenu data=$element.child level=$level+1}
-			</ul>
-		</li>
-		{else}
-		<li class="{if $key eq 0}active{/if}">
-		  <a href="{if $element.absolute_link ne ''}{$base_url}{$element.absolute_link}{else}javascript:;{/if}">
-			{$element.title}
-		  </a>
-		</li>
-		{/if}
-		{/foreach}
-		{/function}
-		
-		
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav"> {navmenu data=$navItems level=0} </ul>
-			</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-
-
-
-
+	</header>
+	<!-- /Top Nav -->
+</div>
