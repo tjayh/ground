@@ -72,6 +72,10 @@ class News_manager extends MX_Controller
 			$result = $this->news_manager->_deleteItem();
 			break;
 
+		case 'multiple-item-action':
+			$result = $this->news_manager->_multipleActionItem();
+			break;
+			
 		case 'upload-cms-image':
 			$result = $this->news_manager->_uploadCMSImage();
 			break;

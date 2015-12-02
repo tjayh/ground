@@ -65,6 +65,16 @@
 			</div>
 		</div>
 		<div class="col-xs-12">
+			<div id="multiActions" class="input-group col-sm-2 " style="display:none;">
+				<select class="form-control" id="selectedAction">
+					<option value="delete">Delete</option>
+					<option value="active">Activate</option>
+					<option value="inactive">Inactivate</option>
+				</select> 
+				<span class="input-group-btn">
+					<button id="dtDeleteRows" class="btn btn-sm btn-default" > <i class="icon-plus"></i> Submit </button>
+				</span>
+			</div>
 			<div class="table-header">
 				<button id="dtAddRow" class="btn btn-sm pull-right btn-info showWidge addReset"> <i class="icon-plus"></i> Add FAQ </button>
 				<div class="clearfix"></div>
@@ -74,6 +84,7 @@
 					<table id="DT_Generic" style="display:none;" class="table table-striped table-bordered table-hover dataTable">
 						<thead>
 							<tr>
+								<th></th>
 								<th>Category</th>
 								<th>Question</th>
 								<th>Answer</th>
@@ -83,6 +94,7 @@
 						</thead>
 						<tfoot>
 							<tr>
+								<th></th>
 								<th>Category</th>
 								<th>Question</th>
 								<th>Answer</th>
@@ -92,6 +104,13 @@
 						</tfoot>
 						<tbody> {foreach from=$faq_items item=item}
 							<tr>
+								<td class="center"><div class="checkbox">
+										<label>
+											<input type="checkbox" class="selected-items ace" value="{$item.id_faq_item}">
+											<span class="lbl"> </span>
+										</label>
+									</div>
+								</td>
 								<td>{$item.category_title|truncate:40}</td>
 								<td>{$item.faq_question|truncate:40}</td>
 								<td>{$item.faq_answer|truncate:40}</td>

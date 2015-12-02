@@ -326,16 +326,16 @@
 						Statistics
 					</a>
 				</li>
-				<li id = "bcSeoManSettings">
-					<a href="{$admin_base}seo/settings">
-						<i class="fa fa-double-angle-right"></i>
-						Settings
-					</a>
-				</li>
 				<li id = "bcSeoManSocialMedia">
 					<a href="{$admin_base}seo/socialmedia">
 						<i class="fa fa-double-angle-right"></i>
 						Social Media
+					</a>
+				</li>
+				<li id = "bcSeoManSettings">
+					<a href="{$admin_base}seo/settings">
+						<i class="fa fa-double-angle-right"></i>
+						Settings
 					</a>
 				</li>
 			</ul>
@@ -368,18 +368,17 @@
 						Groups
 					</a>
 				</li>
+				<li id = "bcSettingsPermissions">
+					<a href="{$admin_base}settings/permissions">
+						<i class="fa fa-double-angle-right"></i>
+						Permissions
+					</a>
+				</li>
 				{if $_admin.id_admin_group eq 1}
 				<li id = "bcSettingsModules">
 					<a href="{$admin_base}settings/modules">
 						<i class="fa fa-double-angle-right"></i>
 						Modules
-					</a>
-				</li>
-				{/if}
-				<li id = "bcSettingsPermissions">
-					<a href="{$admin_base}settings/permissions">
-						<i class="fa fa-double-angle-right"></i>
-						Permissions
 					</a>
 				</li>
 				<!-- {if $_admin.id_admin_group eq 1}<li id = "bcSettingsServer">
@@ -388,6 +387,7 @@
 						Server
 					</a>
 				</li>{/if} -->
+				{/if}
 			</ul>
 		</li>
 		{/if}

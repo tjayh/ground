@@ -108,6 +108,16 @@
 			<!-- Content Ends Here -->
 		</div>
 		<div class="col-xs-12">
+			<div id="multiActions" class="input-group col-sm-2 " style="display:none;">
+				<select class="form-control" id="selectedAction">
+					<option value="delete">Delete</option>
+					<option value="active">Activate</option>
+					<option value="inactive">Inactivate</option>
+				</select> 
+				<span class="input-group-btn">
+					<button id="dtDeleteRows" class="btn btn-sm btn-default" > <i class="icon-plus"></i> Submit </button>
+				</span>
+			</div>
 			<div class="table-header">
 				<button id="dtAddRow" class="btn btn-sm pull-right btn-info showWidge addReset"> <i class="icon-plus"></i> Add News </button>
 				<div class="clearfix"></div>
@@ -118,6 +128,7 @@
 						<table id="DT_Generic" style="display:none;" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 								<tr>
+									<th></th>
 									<th>Title</th>
 									<th>Image</th>
 									<th>Date</th>
@@ -127,6 +138,7 @@
 							</thead>
 							<tfoot>
 								<tr>
+									<th></th>
 									<th>Title</th>
 									<th>Image</th>
 									<th>Date</th>
@@ -137,6 +149,13 @@
 							<tbody> {if $news} 
 							{foreach from=$news item=item}
 								<tr>
+									<td class="center"><div class="checkbox">
+											<label>
+												<input type="checkbox" class="selected-items ace" value="{$item.id_news_item}">
+												<span class="lbl"> </span>
+											</label>
+										</div>
+									</td>
 									<td>{$item.image_title|truncate:40}</td>
 									<td class="center">{if $item.image_src_thumb_link}<img src="{$item.image_src_thumb_link}" style="max-height: 100px; max-width: 100px;">{/if}</td>
 									<td class="center">{$item.date|date_format}</td>

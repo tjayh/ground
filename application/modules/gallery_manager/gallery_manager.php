@@ -72,6 +72,10 @@ class Gallery_manager extends MX_Controller
 			$result = $this->gallery_manager->_deleteItem();
 			break;
 
+		case 'multiple-item-action':
+			$result = $this->gallery_manager->_multipleActionItem();
+			break;
+			
 		case 'upload-image':
 			$type = $this->input->get('type');
 			$result = $this->gallery_manager->_uploadImage($this->uri->segment(5), $type);

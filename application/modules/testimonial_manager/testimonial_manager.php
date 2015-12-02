@@ -39,7 +39,11 @@ class Testimonial_manager extends MX_Controller
 		case 'delete-item':
 			$result = $this->testimonial_manager->_deleteItem();
 			break;
-
+		
+		case 'multiple-item-action':
+			$result = $this->testimonial_manager->_multipleActionItem();
+			break;
+			
 		case 'change-status':
 			$result = $this->testimonial_manager->_changeStatus();
 			break;

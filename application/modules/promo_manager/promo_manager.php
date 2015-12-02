@@ -72,6 +72,10 @@ class Promo_manager extends MX_Controller
 			$result = $this->promo_manager->_deleteItem();
 			break;
 
+		case 'multiple-item-action':
+			$result = $this->promo_manager->_multipleActionItem();
+			break;
+			
 		case 'upload-cms-image':
 			$result = $this->promo_manager->_uploadCMSImage();
 			break;

@@ -65,6 +65,10 @@ class Faqmanager extends MX_Controller
 			$result = $this->faq->_deleteItem();
 			break;
 
+		case 'multiple-item-action':
+			$result = $this->faq->_multipleActionItem();
+			break;
+			
 		case 'change-status':
 			$result = $this->faq->_changeStatus();
 			break;

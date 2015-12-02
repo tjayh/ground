@@ -35,7 +35,7 @@ CMS.showNotification = function(type, message) {
 		$('div#notification').addClass('alert-success');
 		html += '<strong><i class="icon-ok"></i>&nbsp;&nbsp;Well done! </strong>';
 	} else if (type == 'error') {
-		$('div#notification').addClass('alert-error');
+		$('div#notification').addClass('alert-danger');
 		html += '<strong><i class="icon-remove"></i>&nbsp;&nbsp;Oh snap! </strong>';
 	} else if (type == 'warning') {
 		$('div#notification').addClass('alert-warning');

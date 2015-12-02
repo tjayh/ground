@@ -71,7 +71,11 @@ class Events_manager extends MX_Controller
 		case 'delete-item':
 			$result = $this->events_manager->_deleteItem();
 			break;
-
+		
+		case 'multiple-item-action':
+			$result = $this->events_manager->_multipleActionItem();
+			break;
+			
 		case 'upload-cms-image':
 			$result = $this->events_manager->_uploadCMSImage();
 			break;

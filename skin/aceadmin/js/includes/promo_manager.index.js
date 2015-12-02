@@ -168,3 +168,40 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+$('.selected-items').change(function() {
+	var vals = $('.selected-items:checkbox:checked').map(function() {
+		return this.value;
+	}).get();
+	if (vals != '') {
+		$('#multiActions').removeAttr("style");
+	} else {
+		$('#multiActions').attr('style', 'display:none');
+	}
+});
+$("#dtDeleteRows").on(ace.click_event, function() {
+	bootbox.confirm("Are you sure to delete this item/s?", function(result) {
+		if (result) {
+			var vals = $('.selected-items:checkbox:checked').map(function() {
+				return this.value;
+			}).get();
+			var multiple_id = vals.join(",");
+			var action_type = $('#selectedAction').val();
+			$.post(thisURL + thisModule + "/process/multiple-item-action", {
+				multiple_id: multiple_id,
+				action_type: action_type
+			}, function(data) {
+				if (data != 'false') {
+					var dataJ = $.parseJSON(data);
+					var text = $('div#jd' + itemID).text();
+					if (dataJ.error != null) {
+						CMS.showNotification('error', dataJ.error);
+					} else {
+						CMS.showNotification('success', 'Promo item/s was successfully deleted.');
+					}
+				} else {
+					CMS.showNotification('error', 'Network Problem. Please try again.');
+				}
+			});
+		}
+	});
+});

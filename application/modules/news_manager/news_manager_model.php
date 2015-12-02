@@ -228,6 +228,93 @@ class News_manager_model extends CI_Model
 			header('Location: ' . _BASE_URL_);
 		}
 	}
+	function _multipleActionItem()
+	{
+		$multiple_id = explode(",", $this->input->post('multiple_id'));
+		$action_type = $this->input->post('action_type');
+		switch ($action_type) {
+		case 'delete':
+			foreach($multiple_id as $key => $item) {
+				$deleteid = $item;
+				if ($deleteid) {
+					$this->db->flush_cache();
+					$this->load->model('core/dbtm_model', 'dbtm');
+					$this->db->where('id_news_item', $deleteid);
+					$to_delete = $this->db->get('news_item');
+					$data = $to_delete->row_array();
+					if (file_exists($this->upload_dir . $data['image_src'])) {
+						if (!unlink($this->upload_dir . $data['image_src'])) {
+							$result['error'][] = "Failed to delete image to temporary folder.";
+						}
+						if (!unlink($this->upload_thumb_dir . $data['image_src'])) {
+							$result['error'][] = "Failed to delete thumb image to temporary folder.";
+						}
+					}
+					$result = $this->dbtm->deleteItem('id_news_item', $deleteid, 'news_item');
+					if ($result) {
+						return true;
+					}
+					else {
+						$result = array();
+						$result['error'] = array();
+						$result['error'][] = "Failed to delete item/s.";
+						return $result;
+					}
+				}
+				else { //direct link access
+					header('Location: ' . _BASE_URL_);
+				}
+			}
+			break;
+
+		case 'active':
+			foreach($multiple_id as $key => $item) {
+				$data['whr_id_evetns_item'] =$item;
+				$data['clmn_status'] = 1;
+				$this->load->model('core/dbtm_model', 'dbtm');
+				$params['table'] = 'news_item';
+				$params['post_data'] = $data;
+				$result = $this->dbtm->update($params);
+				if ($result) {
+					return true;
+				}
+				else {
+					$result = array();
+					$result['error'] = array();
+					$result['error'][] = "Failed to delete item/s.";
+					return $result;
+				}
+			}
+			break;
+
+		case 'inactive':
+			foreach($multiple_id as $key => $item) {
+				$data['whr_id_news_item'] =$item;
+				$data['clmn_status'] = 0;
+				$this->load->model('core/dbtm_model', 'dbtm');
+				$params['table'] = 'news_item';
+				$params['post_data'] = $data;
+				$result = $this->dbtm->update($params);
+				if ($result) {
+					return true;
+				}
+				else {
+					$result = array();
+					$result['error'] = array();
+					$result['error'][] = "Failed to delete item/s.";
+					return $result;
+				}
+			}
+			break;
+
+		default:
+			$result = array();
+			$result['error'] = array();
+			$result['error'][] = "Failed to perform action. Please try again.";
+			return $result;
+			break;
+		}
+	}
 	function _addCategory()
 	{
 		$data = $this->input->post('data');

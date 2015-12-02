@@ -71,6 +71,10 @@ class Blog_manager extends MX_Controller
 		case 'delete-item':
 			$result = $this->blog_manager->_deleteItem();
 			break;
+			
+		case 'multiple-item-action':
+			$result = $this->blog_manager->_multipleActionItem();
+			break;
 
 		case 'upload-cms-image':
 			$result = $this->blog_manager->_uploadCMSImage();
