@@ -1,4 +1,6 @@
-<!-- <form role="form" id='testiForm' onsubmit="return false;">
+<!---------- RAW TESTIMONIAL FORM ---------->
+<!-- 
+<form role="form" id='testiForm' onsubmit="return false;">
 	<input type="text" class="validate[required]" id="name" placeholder="Enter Name" name="data[name]" required>
 	<textarea class="validate[required]" id="message" rows="3" name="data[message]" required></textarea>
 	<div id="testiNotif" style='display:none;'></div>	
@@ -7,17 +9,25 @@
 	<button type="submit" class="btn btn-default">Submit</button>
 	<button type="reset" class="btn btn-default">Reset</button>
 	</div>
-</form> -->
+</form> 
+-->
+<!---------- EEEEEEEEEND RAW TESTIMONIAL FORM ---------->
 	  
-<!-- {if $testimonial}
+<!---------- RAW TESTIMONIAL LISTS ---------->
+<!--
+{if $testimonial}
 	{foreach from=$testimonial key=key item=item}
 		<div>{$key}</div>
 		<div>{$item.message}</div>
 		<div>{$item.name}</div>
 	{/foreach}
-{/if}  -->
+{/if}
+-->
+<!---------- EEEEEEEEEND RAW TESTIMONIAL LISTS ---------->
   
-<!-- <ul class="pagination">
+<!---------- RAW PAGINATION ---------->
+<!-- 
+<ul class="pagination">
 	{if $int_page gt 1}
 	<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if} {for $page=1 to $num_pages} {if $int_page eq $page}
 	<li><span class="current">{$page}</span></li>
@@ -25,7 +35,9 @@
 	<li><a href="{$base_url}{$thisModule}/page/{$page}">{$page}</a></li>
 	{/if} {/for} {if $int_page lt $num_pages}
 	<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next" >Next</a></li>{/if}
-</ul> -->
+</ul> 
+-->
+<!---------- EEEEEEEEEND RAW PAGINATION ---------->
 
   {if $testimonial}
   {foreach from=$testimonial key=key item=item}

@@ -1,6 +1,0 @@
-{if $_page_curr_page.sections}
-	{assign var="layout" value=$_page_curr_page.layout}
-	{assign var="format" value="_"|explode:$layout.format}
-	{assign var="sections" value=$_page_curr_page.sections}
-	{include file=$layout.html_file} 
-{/if}

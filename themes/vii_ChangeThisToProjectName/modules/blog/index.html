@@ -1,14 +1,14 @@
-<!---------- All ---------->
+<!---------- RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
 <!-- {foreach from=$recent_blog key=key item=item}
 	<div>{$key}</div>
 	{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
-	{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
+	{if $month neq $item.month}{assign var="month" value=$item.month} =={$item.month}== {/if}
 	<div><a href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
 	{if $key eq 4}{break}{/if} 
 {/foreach} -->
-<!---------- All ---------->
+<!---------- EEEEEEEEEND RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
 
-<!---------- List ---------->
+<!---------- RAW ALL BLOGS LISTS GROUP BY MONTH ---------->
 <!-- {if $blog}
 	{foreach from=$blog key=key item=item}
 	{if $month neq $item.month}{assign var="month" value=$item.month} ====={$item.month}===== {/if}
@@ -21,9 +21,9 @@
 		<div>{$item.image_desc|strip_tags:true|truncate:1000}</div>
 	{/foreach}
 {/if} -->
-<!---------- List ---------->
+<!---------- EEEEEEEEEND RAW ALL BLOGS LISTS GROUP BY MONTH ---------->
 
-<!---------- Pagination ---------->
+<!---------- RAW PAGINATION ---------->
 <!-- {if $blog}
 <ul class="pagination">
 	{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/page/{$int_page - 1}" rel="prev">Prev</a></li>{/if}
@@ -37,7 +37,7 @@
 	{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/page/{$int_page + 1}" rel="next">Next</a></li>{/if}
 </ul>
 {/if} -->
-<!---------- Pagination ---------->
+<!---------- EEEEEEEEEND RAW PAGINATION ---------->
 
 
 <div class="row">

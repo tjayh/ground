@@ -63,12 +63,13 @@ class Cms extends MX_Controller
 	function section_view()
 	{
 		$id = $this->uri->segment(4);
-		$page = $this->cms->getSections($id);
+		$page = $this->cms->getSections($id);print_r($page);exit;
 		if ($page) {
 			$this->template->assign('page', $page);
 			$this->template->assign('page_sections', $page['sections']);
 		}
 		$pages = $this->cms->getPages(false, true);
+		
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}

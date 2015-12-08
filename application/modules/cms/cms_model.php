@@ -880,8 +880,14 @@ class Cms_model extends CI_Model
 	function _uploadImage($type = false)
 	{
 		$this->load->model('core/uploader_model', 'uploader');
-		$temp_dir = './temp/images/section/';
-		$temp_thumb_dir = './temp/images/section/thumb/';
+		if($type=="lay_itm"){
+			$temp_dir = './temp/images/section/';
+			$temp_thumb_dir = './temp/images/section/thumb/';
+		}
+		else{
+			$temp_dir = $this->temp_dir;
+			$temp_thumb_dir = $this->upload_thumb_dir;
+		}
 		$this->uploader->_uploadImage($temp_dir, $temp_thumb_dir, false, false, $type);
 	}
 }

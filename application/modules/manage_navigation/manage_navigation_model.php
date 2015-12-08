@@ -37,33 +37,26 @@ class Manage_navigation_model extends CI_Model
 	{
 		$result = null;
 		foreach($menuData as $item) {
-				if($item['id_parent'] == $parentID && $item['id_parent'] == 0){
-					$aaa =  'dd-handle dd3-handle';
-				}
-				$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
+			$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
 					<div class='dd-handle dd3-handle'></div>
 					<div class='dd3-content'>
 						<span>" . $item['title'] . "</span>
 						<div class='pull-right'>";
-				if ($item['isActive'] == '0') {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				else {
-					$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
-				}
-				$result.= '</div></div>' . '</li>';
+			if ($item['isActive'] == '0') {
+				$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
+			}
+			else {
+				$result.= '<span data-rel="tooltip" data-placement="left" title="Activate/Deactivate" data="' . $item['isActive'] . '||' . $item['id_page'] . '"></span>';
+			}
+			$result.= '</div></div>' . '</li>';
 		}
-		
-		return $result ? '<ol class="dd-list">' . $result . '</ol>' : null;
+		return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
 	}
 	function _getNavHTML($menuData, $parentID = 0)
 	{
 		$result = null;
 		foreach($menuData as $item) {
 			if ($item['id_parent'] == $parentID) {
-				if($item['id_parent'] == $parentID && $item['id_parent'] == 0){
-					$aaa =  'dd-handle dd3-handle';
-				}
 				$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
 					<div class='dd-handle dd3-handle'></div>
 					<div class='dd3-content'>
@@ -78,8 +71,7 @@ class Manage_navigation_model extends CI_Model
 				$result.= '</div></div>' . $this->_getNavHTML($menuData, $item['id_page']) . '</li>';
 			}
 		}
-		
-		return $result ? '<ol class="dd-list">' . $result . '</ol>' : null;
+		return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
 	}
 	function parseNavJsonArray($jsonArray, $parentID = 0)
 	{
@@ -146,16 +138,24 @@ class Manage_navigation_model extends CI_Model
 			$this->db->where('id_page', $v['id']);
 			$result = $this->db->update('page_tree');
 		}
-		if ($result) return true;
-		else return false;
+		if ($result) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	function updateNavStatus()
 	{
 		$this->db->set('isActive', $this->input->post('status'));
 		$this->db->where('id_page', $this->input->post('id'));
 		$result = $this->db->update('page_tree');
-		if ($result) return true;
-		else return false;
+		if ($result) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 ?>

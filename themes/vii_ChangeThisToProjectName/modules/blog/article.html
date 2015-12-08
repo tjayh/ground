@@ -1,37 +1,48 @@
-<!---------- Recent ---------->
-<!-- {foreach from=$recent_blog key=key item=item}
+<!---------- RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
+<!-- 
+{foreach from=$recent_blog key=key item=item}
 	<div>{$key}</div>
+	{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
+	{if $month neq $item.month}{assign var="month" value=$item.month} =={$item.month}== {/if}
 	<div><a href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
 	{if $key eq 4}{break}{/if} 
-{/foreach} -->
-<!---------- Recent ---------->
+{/foreach} 
+-->
+<!---------- EEEEEEEEEND RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
 
-<!---------- Article ---------->
-<!-- <div>{$data.image_title|ucwords}</div>
+<!---------- RAW BLOG DETAILS ---------->
+<!-- 
+<div>{$data.image_title|ucwords}</div>
 <div>{$data.image_sub_title}</div>
 <div>{$data.date|date_format}</div>
 <div>{if $data.image_src}<img src="{$data.image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
 <div>{$data.image_desc}</div>
 {if $prev_image_link}<a href="{$prev_image_link}">Previous Post</a>{/if}
-{if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if} -->
+{if $next_image_link}<a href="{$next_image_link}" >Next Post</a>{/if} 
+-->
 
-<!---------- Article ---------->
+<!---------- EEEEEEEEEND RAW BLOG DETAILS ---------->
 
-<!---------- Facebook Comment ---------->
-<!-- <div class="fb-comments visible-lg hidden-md hidden-sm hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
+
+<!---------- RAW BLOG FACEBOOK COMMENTS ---------->
+<!-- 
+<div class="fb-comments visible-lg hidden-md hidden-sm hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
 <div class="fb-comments hidden-lg hidden-sm vissible-md hidden-xs" data-href="{$data.image_link}" data-width="637" data-numposts="20" data-colorscheme="light"></div>
 <div class="fb-comments hidden-lg vissible-sm hidden-md hidden-xs" data-href="{$data.image_link}" data-width="495" data-numposts="20" data-colorscheme="light"></div>
 <div class="fb-comments hidden-lg hidden-sm hidden-md visible-xs" data-href="{$data.image_link}" data-numposts="20" data-width="300" data-colorscheme="light"></div>
 
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
+<script>
+(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script> -->
-<!---------- Facebook Comment ---------->
+}(document, 'script', 'facebook-jssdk'));
+</script> 
+-->
+<!---------- EEEEEEEEEND RAW BLOG FACEBOOK COMMENTS ---------->
 
 
 

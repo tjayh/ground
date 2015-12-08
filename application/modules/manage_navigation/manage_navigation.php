@@ -51,7 +51,9 @@ class Manage_navigation extends MX_Controller
 		if ($result) {
 			echo json_encode($result);
 		}
-		else echo 'false';
+		else {
+			echo 'false';
+		}
 		exit(0);
 	}
 }

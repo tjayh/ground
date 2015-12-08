@@ -1,0 +1,27 @@
+<!-- contactus_version_1 -->
+<div class="col-md-12">
+<div class="theme-showcase" role="main">
+	<div class="page-header text-center">
+	
+		<h3>{$item.section_title} </h3>
+		<h5>{$item.section_subtitle}</h5>
+	</div>
+</div>
+</div>
+
+<div class="col-md-12">  
+<form id='contactusSectionForm{$item.key_section}{$colnum}' class='contactus-section-form' onsubmit="return false;">
+	<div><input type="text" id="contactName" class="validate[required]" placeholder="Enter Name" name="data[name]" ></div>
+	<div><input type="email" id="contactEmail" class="validate[required,custom[email]]" placeholder="Enter email" name="data[email]" ></div>
+	<div><input type="text" id="contactPhone" placeholder="Enter Contact No." name="data[phone]" ></div>
+	<div><input type="text" id="contactWebsite" placeholder="Enter Website" name="data[website]" ></div>
+	<div><input type="text" id="contactAddress" placeholder="Enter Address" name="data[address]" ></div>
+	<div><input type="text" id="contactSubject" placeholder="Enter Subject" name="data[subject]" ></div>
+	<div><textarea id="contactComment" class="validate[required]" rows="3" name="data[message]" ></textarea></div>
+	<div><img src="img/loading.gif" id="form-loading" style="display:none;"></div>
+	<div id="contactusSectionBtns">
+		<div><button style="color:red" type="submit">Submit</button></div>
+		<div><button style="color:red" type="reset">Reset</button></div>
+	</div>
+</form>
+</div>

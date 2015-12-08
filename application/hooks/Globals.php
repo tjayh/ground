@@ -159,7 +159,7 @@ class Globals
 				$result['image_src'] = base_url() . 'upload/images/banner/' . $result['image_src'];
 				$result['sections'] = $sections_decoded;
 				$result['layout'] = $layout_decoded;
-				$result['layout']['html_file'] = '/default/includes/layout_templates/' . $result['layout']['filename'] . '.html';
+				$result['layout']['html_file'] = 'default/includes/layout_templates/' . $result['layout']['filename'] . '.html';
 				$col = 0;
 				while ($col != 4) {
 					foreach($result['sections']['col' . $col] as $key => $item) { // get section details
@@ -174,7 +174,7 @@ class Globals
 						}
 						$item['key_section'] = $key;
 						$section_layout = $this->getSectionLayout($item['id_page_section']);
-						$item['template_html'] = '/default/includes/section/' . $section_layout['file_name'];
+						$item['template_html'] = 'default/includes/section/' . $section_layout['file_name'];
 						foreach($item['pages'] as $key2 => $item2) {
 							$page_data = $this->getSectionPages($item2);
 							unset($page_data['json']);
