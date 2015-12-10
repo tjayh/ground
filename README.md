@@ -19,21 +19,32 @@
 * run the command `git reset --hard HEAD` to restore the deleted files like `installation` and `index.html`
 * after editing the skin for development
   * transfer the `(/skin/vii_ChangeThisToProjectName)` files to `(/themes/vii_ChangeThisToProjectName)`
-* Updates
-  * `git pull` to get all the updates from the repository
+* Pull everything using: `git pull`
+* Updates to the development whomever your branch is:
+  * Create your own branch for development see instruction below
+  * `git pull origin imyournewbranch` to get all the updates from this branch imyournewbranch is just a sample
   * `git add --all` to add all the untracked files to be able to commit
+  * Note: Before commiting, make sure you're on the right branch `imyournewbranch`
   * `git commit -m "Edits Description"` once you're really really really sure to your edits
-  * `git push` to push all your committed edits to the repository so everyone is happy
+  * `git push origin imyournewbranch` to push all your committed edits to the repository so everyone is happy
 
-#### For New Feature But don't want to be in master branch
-* Create New branch for your new feature to prevent destruction to master :))
-* To create and checkout to the new branch for development: `git checkout -b imyournewbranch` then `git push origin imyournewbranch` "It's us to you what kind of branch would like to name it :)"
+#### Creating Branch for your new enhancement
+* master branch is for releasing purpose only
+* Create New branch for your feature
+* To create and checkout to the new branch for development: `git checkout -b imyournewbranch` then `git push origin imyournewbranch` "It's up to you for what kind of branch name would like :)"
 * Before commiting, pulling and pushing make sure you're on the right branch to commit/push/pull to avoid merging to master of an incomplete development
 * adding and commiting same way to master
 * to push updates `git push origin imyournewbranch`
 * to pull updates `git pull origin imyournewbranch`
 
 
+### Releasing
+* Check first the imyournewbranch branch, do some testing. If success, to the following:
+* `git checkout master`
+* `git pull origin imyournewbranch` to merge the changes from this branch name
+* `git push` to community repository and make a release on Release Tab :)
+
+
 `Note: Only @kirbylagunda, @viiworks and @jestherthejoker is the only authorized to create release versions`
 
-Fork Test
+Happy Git! :D :D :D Gotta Git Git
