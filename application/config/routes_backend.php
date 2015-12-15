@@ -18,8 +18,8 @@ $route["administrator/contactusmanager/(.*)"] = "contactusmanager/$1";
 $route["administrator/breadcrumbs"] = "breadcrumbs";
 $route["administrator/breadcrumbs/(.*)"] = "breadcrumbs/$1";
 
-$route["administrator/faq"] = "faqmanager";
-$route["administrator/faq/(.*)"] = "faqmanager/$1";
+$route["administrator/faqmanager"] = "faqmanager";
+$route["administrator/faqmanager/(.*)"] = "faqmanager/$1";
 
 $route["administrator/seo"] = "seomanager";
 $route["administrator/seo/(.*)"] = "seomanager/$1";

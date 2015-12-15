@@ -251,20 +251,15 @@ class Events_manager_model extends CI_Model
 						}
 					}
 					$result = $this->dbtm->deleteItem('id_events_item', $deleteid, 'events_item');
-					if ($result) {
-						return true;
-					}
-					else {
+					if (!$result) {
 						$result = array();
 						$result['error'] = array();
 						$result['error'][] = "Failed to delete item/s.";
 						return $result;
 					}
 				}
-				else { //direct link access
-					header('Location: ' . _BASE_URL_);
-				}
 			}
+			return true;
 			break;
 
 		case 'active':
@@ -275,16 +270,14 @@ class Events_manager_model extends CI_Model
 				$params['table'] = 'events_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to activate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		case 'inactive':
@@ -295,16 +288,14 @@ class Events_manager_model extends CI_Model
 				$params['table'] = 'events_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to deactivate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		default:

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2015 at 07:47 AM
+-- Generation Time: Dec 15, 2015 at 11:22 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `vii_banner` (
   `image_src` varchar(255) DEFAULT NULL,
   `image_src2` varchar(255) DEFAULT NULL,
   `image_link` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
   `date` date DEFAULT NULL,
   `date_add` timestamp NULL DEFAULT NULL,
   `date_upd` timestamp NULL DEFAULT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `vii_bc_admin` (
   `module` varchar(30) NOT NULL,
   `method` varchar(30) NOT NULL,
   PRIMARY KEY (`id_bc_admin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
 
 --
 -- Dumping data for table `vii_bc_admin`
@@ -272,7 +272,7 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 (34, 'Banner', 'bcBanner', 0, 'bannermanager', 'index'),
 (35, 'Blog Manager', 'bcBlog', 0, '', ''),
 (36, 'Items', 'bcBlogItems', 35, 'blog_manager', 'index'),
-(37, 'Categories', 'bcNewsCategories', 35, 'blog_manager', 'category'),
+(37, 'Categories', 'bcBlogCategories', 35, 'blog_manager', 'category'),
 (38, 'Testimonial Manager', 'bcTestimonial', 0, '', ''),
 (39, 'Items', 'bcTestimonialItems', 38, 'testimonial_manager', 'index'),
 (41, 'Pages', 'bcPages', 4, 'cms', 'index'),
@@ -284,7 +284,8 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 (47, 'Category', 'bcEventsCategories', 45, 'events_manager', 'categories'),
 (48, 'Navigation Manager ', 'bcManageNav', 0, 'manage_navigation', 'index'),
 (49, 'Layout Lists', 'bcSectionList', 4, 'cms', 'section_list'),
-(50, 'Section', 'bcSection', 4, 'cms', 'section');
+(50, 'Section', 'bcSection', 4, 'cms', 'section'),
+(51, 'Edit', 'bcSection', 50, 'cms', 'section_view');
 
 -- --------------------------------------------------------
 
@@ -294,10 +295,17 @@ INSERT INTO `vii_bc_admin` (`id_bc_admin`, `name`, `html_id`, `parent_id`, `modu
 
 CREATE TABLE IF NOT EXISTS `vii_blog_category` (
   `id_blog_category` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT NULL,
+  `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
   `category_desc` text,
-  `status` int(11) DEFAULT NULL,
+  `category_root` text,
+  `category_link_rewrite` text,
+  `category_meta_title` text,
+  `category_meta_description` text,
+  `category_meta_author` text,
+  `category_meta_keywords` text,
+  `category_meta_image` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -306,8 +314,8 @@ CREATE TABLE IF NOT EXISTS `vii_blog_category` (
 -- Dumping data for table `vii_blog_category`
 --
 
-INSERT INTO `vii_blog_category` (`id_blog_category`, `id_parent`, `category_title`, `category_desc`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 1, '2014-08-21 07:48:24');
+INSERT INTO `vii_blog_category` (`id_blog_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:01:23');
 
 -- --------------------------------------------------------
 
@@ -322,14 +330,14 @@ CREATE TABLE IF NOT EXISTS `vii_blog_item` (
   `link_rewrite` text,
   `image_sub_title` text,
   `image_desc` text,
-  `image_src` varchar(255) DEFAULT NULL,
+  `image_src` text,
   `image_author` text,
   `image_meta_title` text,
   `image_meta_description` text,
   `image_meta_keywords` text,
-  `status` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `id_blog_category` int(11) NOT NULL DEFAULT '1',
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_item`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -451,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `vii_contact_us` (
   `address` text,
   `subject` text,
   `message` text NOT NULL,
-  `date_add` datetime NOT NULL,
+  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_contact_us`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
@@ -460,9 +468,9 @@ CREATE TABLE IF NOT EXISTS `vii_contact_us` (
 --
 
 INSERT INTO `vii_contact_us` (`id_contact_us`, `name`, `email`, `phone`, `website`, `address`, `subject`, `message`, `date_add`) VALUES
-(1, 'Sample One', 'testviiworks@gmail.com', '1234567890', 'SampleOne.com', 'testviiworks.gmail.com', 'Sample One Subject', 'Sample One Messages Here', '2014-10-16 07:08:31'),
-(2, 'Sample Two', 'testviiworks@gmail.com', '1234567890', 'SampleTwo.com', 'Sample st. Two City', 'Sample Two Subject', 'Sample Two Messages Here', '2014-10-16 07:30:08'),
-(3, 'df', 'asdf@asdfas.asdf', 'asd', 'asd', 'asd', 'asd', 'asd', '2015-11-24 07:56:30');
+(1, 'Sample One', 'testviiworks@gmail.com', '1234567890', 'SampleOne.com', 'testviiworks.gmail.com', 'Sample One Subject', 'Sample One Messages Here', '2014-10-15 23:08:31'),
+(2, 'Sample Two', 'testviiworks@gmail.com', '1234567890', 'SampleTwo.com', 'Sample st. Two City', 'Sample Two Subject', 'Sample Two Messages Here', '2014-10-15 23:30:08'),
+(3, 'df', 'asdf@asdfas.asdf', 'asd', 'asd', 'asd', 'asd', 'asd', '2015-11-23 23:56:30');
 
 -- --------------------------------------------------------
 
@@ -472,14 +480,17 @@ INSERT INTO `vii_contact_us` (`id_contact_us`, `name`, `email`, `phone`, `websit
 
 CREATE TABLE IF NOT EXISTS `vii_events_category` (
   `id_events_category` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT '0',
+  `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
   `category_desc` text,
+  `category_root` text,
+  `category_link_rewrite` text,
   `category_meta_title` text,
   `category_meta_description` text,
+  `category_meta_author` text,
   `category_meta_keywords` text,
   `category_meta_image` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_events_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -488,8 +499,8 @@ CREATE TABLE IF NOT EXISTS `vii_events_category` (
 -- Dumping data for table `vii_events_category`
 --
 
-INSERT INTO `vii_events_category` (`id_events_category`, `id_parent`, `category_title`, `category_desc`, `category_meta_title`, `category_meta_description`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', NULL, NULL, NULL, NULL, 1, '2015-01-06 06:22:18');
+INSERT INTO `vii_events_category` (`id_events_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:00:02');
 
 -- --------------------------------------------------------
 
@@ -504,14 +515,14 @@ CREATE TABLE IF NOT EXISTS `vii_events_item` (
   `link_rewrite` text,
   `image_sub_title` text,
   `image_desc` text,
-  `image_src` varchar(255) DEFAULT NULL,
+  `image_src` text,
   `image_author` text,
   `image_meta_title` text,
   `image_meta_description` text,
   `image_meta_keywords` text,
-  `status` int(11) DEFAULT NULL,
-  `id_events_category` int(11) DEFAULT '1',
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `id_events_category` int(11) NOT NULL DEFAULT '1',
+  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_events_item`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -520,8 +531,8 @@ CREATE TABLE IF NOT EXISTS `vii_events_item` (
 --
 
 INSERT INTO `vii_events_item` (`id_events_item`, `date`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_author`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_events_category`, `date_add`) VALUES
-(1, '2014-12-29', 'Sample Title #1', NULL, 'Sample Sub Title #1', '<p>Sample Description #1<br></p>', '949c999ff75f6ef81ade90d987955a5f.jpg', 'Sample Author #1', 'Sample Meta Title #1', 'Sample Meta Description #1', 'Sample Meta Keywords #1', 1, 1, '2015-11-26 05:32:28'),
-(2, '2014-11-26', 'Sample Title #2', NULL, 'Sample Sub Title #2', '<p>Sample Description #2<br></p>', '7a03a4432714dcac24b02c92bb57a4fe.jpg', 'Sample Author #2', 'Sample  Meta Title #2', 'Sample  Meta Description #2', 'Sample  Meta Keywords #2', 1, 1, '2015-11-26 05:32:32');
+(1, '2014-12-29', 'Sample Title #1', NULL, 'Sample Sub Title #1', '<p>Sample Description #1<br></p>', '949c999ff75f6ef81ade90d987955a5f.jpg', 'Sample Author #1', 'Sample Meta Title #1', 'Sample Meta Description #1', 'Sample Meta Keywords #1', 0, 1, '2015-11-26 05:32:28'),
+(2, '2014-11-26', 'Sample Title #2', NULL, 'Sample Sub Title #2', '<p>Sample Description #2<br></p>', '7a03a4432714dcac24b02c92bb57a4fe.jpg', 'Sample Author #2', 'Sample  Meta Title #2', 'Sample  Meta Description #2', 'Sample  Meta Keywords #2', 0, 1, '2015-11-26 05:32:32');
 
 -- --------------------------------------------------------
 
@@ -531,9 +542,9 @@ INSERT INTO `vii_events_item` (`id_events_item`, `date`, `image_title`, `link_re
 
 CREATE TABLE IF NOT EXISTS `vii_faq_category` (
   `id_faq_category` int(11) NOT NULL AUTO_INCREMENT,
-  `category_title` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `category_title` text CHARACTER SET utf8 NOT NULL,
   `category_description` text CHARACTER SET utf8 NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_faq_category`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -555,7 +566,7 @@ CREATE TABLE IF NOT EXISTS `vii_faq_item` (
   `id_faq_item` int(11) NOT NULL AUTO_INCREMENT,
   `faq_question` varchar(250) CHARACTER SET utf8 NOT NULL,
   `faq_answer` text CHARACTER SET utf8 NOT NULL,
-  `id_faq_category` int(11) NOT NULL,
+  `id_faq_category` int(11) NOT NULL DEFAULT '1',
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_faq_item`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
@@ -580,13 +591,20 @@ INSERT INTO `vii_faq_item` (`id_faq_item`, `faq_question`, `faq_answer`, `id_faq
 
 CREATE TABLE IF NOT EXISTS `vii_gallery_category` (
   `id_gallery_category` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT '0',
+  `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
   `link_rewrite` text,
   `category_sub_title` text,
   `category_desc` text,
   `image_src` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '1',
+  `category_root` text,
+  `category_link_rewrite` text,
+  `category_meta_title` text,
+  `category_meta_description` text,
+  `category_meta_author` text,
+  `category_meta_keywords` text,
+  `category_meta_image` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_gallery_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
@@ -595,9 +613,9 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_category` (
 -- Dumping data for table `vii_gallery_category`
 --
 
-INSERT INTO `vii_gallery_category` (`id_gallery_category`, `id_parent`, `category_title`, `link_rewrite`, `category_sub_title`, `category_desc`, `image_src`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'uncategorized', 'Uncategorized', 'Uncategorized', 'c0e037d2f5d96215a848dc81f03883f6.jpg', 0, '2014-07-07 16:00:00'),
-(3, 0, 'Sample Title #1', 'sample_title_1', 'Sample Sub Title #1', 'Sample Description #1', '5ba50fe4f129f8b885fbc1bec14f4b67.jpg', 1, '2014-08-19 09:31:24');
+INSERT INTO `vii_gallery_category` (`id_gallery_category`, `id_parent`, `category_title`, `link_rewrite`, `category_sub_title`, `category_desc`, `image_src`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'uncategorized', 'Uncategorized', 'Uncategorized', 'c0e037d2f5d96215a848dc81f03883f6.jpg', 'uncategorized', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2014-07-07 16:00:00'),
+(3, 0, 'Sample Title #1', 'sample_title_1', 'Sample Sub Title #1', 'Sample Description #1', '5ba50fe4f129f8b885fbc1bec14f4b67.jpg', 'sample_title_1', NULL, NULL, NULL, NULL, NULL, NULL, 1, '2014-08-19 09:31:24');
 
 -- --------------------------------------------------------
 
@@ -612,11 +630,12 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_item` (
   `image_sub_title` text,
   `image_desc` text,
   `image_src` text,
+  `image_meta_author` text,
   `image_meta_title` text,
   `image_meta_description` text,
   `image_meta_keywords` text,
-  `status` int(11) DEFAULT '0',
-  `id_gallery_category` int(11) DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `id_gallery_category` int(11) NOT NULL DEFAULT '1',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_gallery_item`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
@@ -625,11 +644,11 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_item` (
 -- Dumping data for table `vii_gallery_item`
 --
 
-INSERT INTO `vii_gallery_item` (`id_gallery_item`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_gallery_category`, `date_add`) VALUES
-(1, 'Title #1', 'title_1', 'Subtitle#1', 'Description #1', '6c230ed26f01fd493645b4f397692fe7.jpg', 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 0, 1, '2014-08-19 09:09:46'),
-(2, 'Title #2', 'title_2', 'Subtitle#2', 'Description #2', 'c89fedc788a87299c45efe1cf16c523f.jpg', NULL, NULL, NULL, 1, 1, '2014-08-19 09:09:46'),
-(3, 'Sample Title #1', 'sample_title__1', 'Sample Sub Title #1', 'Sample Description #1', '550e356039d49ed4290dfdd9193cf0bb.jpg', 'Sample Title #1', 'Sample Title #1', 'Sample Title #1', 1, 3, '2014-10-16 02:56:47'),
-(4, 'Sample Title #2', 'sample_title__2', 'Sample Sub Title #2', 'Sample Description #2', '11e562813d6057f56487153581332ecd.jpg', 'Sample Title #2', 'Sample Title #2', 'Sample Title #2', 1, 3, '2014-10-16 02:56:47');
+INSERT INTO `vii_gallery_item` (`id_gallery_item`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_meta_author`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_gallery_category`, `date_add`) VALUES
+(1, 'Title #1', 'title_1', 'Subtitle#1', 'Description #1', '6c230ed26f01fd493645b4f397692fe7.jpg', NULL, 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 0, 1, '2014-08-19 09:09:46'),
+(2, 'Title #2', 'title_2', 'Subtitle#2', 'Description #2', 'c89fedc788a87299c45efe1cf16c523f.jpg', NULL, NULL, NULL, NULL, 1, 1, '2014-08-19 09:09:46'),
+(3, 'Sample Title #1', 'sample_title__1', 'Sample Sub Title #1', 'Sample Description #1', '550e356039d49ed4290dfdd9193cf0bb.jpg', NULL, 'Sample Title #1', 'Sample Title #1', 'Sample Title #1', 1, 3, '2014-10-16 02:56:47'),
+(4, 'Sample Title #2', 'sample_title__2', 'Sample Sub Title #2', 'Sample Description #2', '11e562813d6057f56487153581332ecd.jpg', NULL, 'Sample Title #2', 'Sample Title #2', 'Sample Title #2', 1, 3, '2014-10-16 02:56:47');
 
 -- --------------------------------------------------------
 
@@ -663,7 +682,7 @@ INSERT INTO `vii_module` (`id_module`, `module_name`, `module_description`, `mod
 (7, 'Contact Us Manager', 'Contact Us Manager Description', 'contactusmanager', 'contactusmanager', 1, 1, '2014-01-13 22:14:45', '2015-11-24 08:27:01'),
 (9, 'Contact Us', 'Contact Us Front End', 'contactus', 'contactus', 0, 1, '2014-02-13 05:00:06', '2015-01-09 10:12:57'),
 (10, 'Breadcrumbs', 'Breadcrumbs Manager', 'breadcrumbs', 'breadcrumbs', 1, 1, '2014-02-17 10:33:07', '2014-02-17 10:45:24'),
-(11, 'FAQ Manager', 'Manages FAQ items', 'faqmanager', 'faq', 1, 1, '2014-02-19 03:10:29', '2014-02-19 03:12:05'),
+(11, 'FAQ Manager', 'Manages FAQ items', 'faqmanager', 'faqmanager', 1, 1, '2014-02-19 03:10:29', '2015-12-15 10:38:31'),
 (12, 'SEO Manager', 'SEO Manager Description', 'seomanager', 'seo', 1, 1, '2014-02-19 11:42:59', '2014-02-19 12:49:30'),
 (13, 'Frequently Asked Questions', 'Frequently Asked Questions Front End', 'faqs', 'faqs', 0, 1, '2014-04-21 08:46:03', '2014-04-21 08:46:03'),
 (14, 'News Page', 'News Front', 'news', 'news', 0, 1, '2014-07-08 00:00:00', '2014-07-08 00:00:00'),
@@ -736,10 +755,17 @@ INSERT INTO `vii_newsletter_subscribers` (`id_subscriber`, `email`, `code`, `sta
 
 CREATE TABLE IF NOT EXISTS `vii_news_category` (
   `id_news_category` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT '0',
+  `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
   `category_desc` text,
-  `status` int(11) DEFAULT '1',
+  `category_root` text,
+  `category_link_rewrite` text,
+  `category_meta_title` text,
+  `category_meta_description` text,
+  `category_meta_author` text,
+  `category_meta_keywords` text,
+  `category_meta_image` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_news_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -748,8 +774,8 @@ CREATE TABLE IF NOT EXISTS `vii_news_category` (
 -- Dumping data for table `vii_news_category`
 --
 
-INSERT INTO `vii_news_category` (`id_news_category`, `id_parent`, `category_title`, `category_desc`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 1, '2014-05-29 10:46:04');
+INSERT INTO `vii_news_category` (`id_news_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2014-05-29 10:46:04');
 
 -- --------------------------------------------------------
 
@@ -769,8 +795,8 @@ CREATE TABLE IF NOT EXISTS `vii_news_item` (
   `image_meta_title` text,
   `image_meta_description` text,
   `image_meta_keywords` text,
-  `status` int(11) DEFAULT '0',
-  `id_news_category` int(11) DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `id_news_category` int(11) NOT NULL DEFAULT '1',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_news_item`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
@@ -835,7 +861,7 @@ INSERT INTO `vii_page` (`id_page`, `title`, `sort_order`, `content`, `image_src`
 (16, 'Sample 1.1', 3, '<p>Sample 1.1 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample11', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (15, 'Sample 1', 2, '<p><span style="font-weight: bold;">Sample 1 Contents Here</span><br></p>', '', '<p><span style="font-weight: bold;">Sample 1 Caption Here</span><br></p>', 'pages', 'index', 'sample1', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (14, 'Testimonials', 14, '', NULL, NULL, 'testimonial', 'index', 'testimonial', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(1, 'Home', 0, '<p><br></p>', '', '<p><br></p>', 'pages', 'index', '', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'main.template.html', '{"columns":"1","filename":"layout_template_col1_v1_1","format":"12_0_0_0"}', '{"col0":{"1":{"section_title":"test 001 page","section_title_active":"1","section_subtitle":"test 001 page","section_subtitle_active":"1","section_class":"test 001 page","section_class_active":"1","isActive":"1","content_type":"page","pages":{"0":"27","1":"21","2":"13","3":"1","4":"4","5":"25"},"id_page_section":"3"},"2":{"section_title":"test 002 blog","section_title_active":"1","section_subtitle":"test 002 blog","section_subtitle_active":"1","section_class":"test 002 blog","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"13"},"id_page_section":"2"},"3":{"section_title":"test 003 contactus","section_title_active":"1","section_subtitle":"test 003 contactus","section_subtitle_active":"1","section_class":"test 003 contactus","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"12"},"id_page_section":"14"},"4":{"section_title":"test 004 events","section_title_active":"1","section_subtitle":"test 004 events","section_subtitle_active":"1","section_class":"test 004 events","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"25"},"id_page_section":"5"},"5":{"section_title":"test 005 faqs","section_title_active":"1","section_subtitle":"test 005 faqs","section_subtitle_active":"1","section_class":"test 005 faqs","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"6"},"id_page_section":"4"},"6":{"section_title":"test 006 gallery","section_title_active":"1","section_subtitle":"test 006 gallery","section_subtitle_active":"1","section_class":"test 006 gallery","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"7"},"id_page_section":"6"},"7":{"section_title":"test 007 news","section_title_active":"1","section_subtitle":"test 007 news","section_subtitle_active":"1","section_class":"test 007 news","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"11"},"id_page_section":"7"},"8":{"section_title":"test 008 newsletter","section_title_active":"1","section_subtitle":"test 008 newsletter","section_subtitle_active":"1","section_class":"test 008 newsletter","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"24"},"id_page_section":"8"},"9":{"section_title":"test 009 promotion","section_title_active":"1","section_subtitle":"test 009 promotion","section_subtitle_active":"1","section_class":"test 009 promotion","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"22"},"id_page_section":"9"},"10":{"section_title":"test 010 search","section_title_active":"1","section_subtitle":"test 010 search","section_subtitle_active":"1","section_class":"test 010 search","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"23"},"id_page_section":"10"},"11":{"section_title":"test 011 testimonial","section_title_active":"1","section_subtitle":"test 011 testimonial","section_subtitle_active":"1","section_class":"test 011 testimonial","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"14"},"id_page_section":"11"}}}', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Home', 0, '<p><br></p>', '', '<p><br></p>', 'pages', 'index', '', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'main.template.html', '{"columns":"1","filename":"layout_template_col1_v1_1","format":"12_0_0_0"}', '{"col0":{"0":{"section_title":"test 001 page","section_title_active":"1","section_subtitle":"test 001 page","section_subtitle_active":"1","section_class":"test 001 page","section_class_active":"1","isActive":"1","content_type":"page","pages":{"0":"27","1":"21","2":"13","3":"1","4":"4","5":"25"},"id_page_section":"3"},"1":{"section_title":"test 002 blog","section_title_active":"1","section_subtitle":"test 002 blog","section_subtitle_active":"1","section_class":"test 002 blog","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"13"},"id_page_section":"2"},"2":{"section_title":"test 003 contactus","section_title_active":"1","section_subtitle":"test 003 contactus","section_subtitle_active":"1","section_class":"test 003 contactus","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"12"},"id_page_section":"14"},"3":{"section_title":"test 004 events","section_title_active":"1","section_subtitle":"test 004 events","section_subtitle_active":"1","section_class":"test 004 events","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"25"},"id_page_section":"5"},"4":{"section_title":"test 005 faqs","section_title_active":"1","section_subtitle":"test 005 faqs","section_subtitle_active":"1","section_class":"test 005 faqs","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"6"},"id_page_section":"4"},"5":{"section_title":"test 006 gallery","section_title_active":"1","section_subtitle":"test 006 gallery","section_subtitle_active":"1","section_class":"test 006 gallery","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"7"},"id_page_section":"6"},"6":{"section_title":"test 007 news","section_title_active":"1","section_subtitle":"test 007 news","section_subtitle_active":"1","section_class":"test 007 news","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"11"},"id_page_section":"7"},"7":{"section_title":"test 008 newsletter","section_title_active":"1","section_subtitle":"test 008 newsletter","section_subtitle_active":"1","section_class":"test 008 newsletter","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"24"},"id_page_section":"8"},"8":{"section_title":"test 009 promotion","section_title_active":"1","section_subtitle":"test 009 promotion","section_subtitle_active":"1","section_class":"test 009 promotion","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"22"},"id_page_section":"9"},"9":{"section_title":"test 010 search","section_title_active":"1","section_subtitle":"test 010 search","section_subtitle_active":"1","section_class":"test 010 search","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"23"},"id_page_section":"10"},"10":{"section_title":"test 011 testimonial","section_title_active":"1","section_subtitle":"test 011 testimonial","section_subtitle_active":"1","section_class":"test 011 testimonial","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"14"},"id_page_section":"11"}}}', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (13, 'Blog', 11, '<p>aaaaaaaaaaaaa<br></p>', '', '<p>aaaaaaaaaaa<br></p>', 'blog', 'index', 'blog', 'blog', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (11, 'News', 10, '', NULL, NULL, 'news', 'index', 'news', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (10, 'RSS Feed', 15, '', NULL, NULL, 'rssfeed', 'index', 'rssfeed', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'rssfeed.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -843,7 +869,7 @@ INSERT INTO `vii_page` (`id_page`, `title`, `sort_order`, `content`, `image_src`
 (7, 'Gallery', 9, '', NULL, NULL, 'gallery', 'index', 'gallery', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Error Page', 19, 'This is ERROR message. Edit via CMS &gt; Pages &gt; Error.<br><br>', '', '', 'pages', 'error', 'error', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (12, 'Contact Us', 8, '', '', '', 'contactus', 'index', 'contactus', 'contactus', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(21, 'About Us', 1, '<p>About Us content here. Edit via CMS &gt; Pages &gt; About Us.<br></p>', '11d092cb857bbe2174d0b49315ba866a.jpg', 'Sample banner caption. Edit via CMS &gt; Pages &gt; About Us.', 'pages', 'index', 'about', '', 1, 'About Us Meta Title Here', 'About Us Meta Title Keywords', 'About Us Meta Title Description', '3007ec9ee04e1d545ed1ebc28f5e290f.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 'About Us', 1, '<p>About Us content here. Edit via CMS &gt; Pages &gt; About Us.<br></p>', '11d092cb857bbe2174d0b49315ba866a.jpg', 'Sample banner caption. Edit via CMS &gt; Pages &gt; About Us.', 'pages', 'index', 'about', '', 1, 'About Us Meta Title Here', 'About Us Meta Title Keywords', 'About Us Meta Title Description', '3007ec9ee04e1d545ed1ebc28f5e290f.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', '{"columns":"","filename":false}', NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (22, 'Promotion', 12, '<p><br></p>', NULL, NULL, 'promo', 'index', 'promo', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (23, 'Search', 17, '<p>search<br></p>', NULL, NULL, 'search', 'index', 'search', '', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (24, 'Newsletter', 18, '', NULL, NULL, 'newsletter', 'index', 'newsletter', '', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -935,9 +961,16 @@ INSERT INTO `vii_page_tree` (`id_page`, `id_parent`, `depth`, `isActive`, `absol
 
 CREATE TABLE IF NOT EXISTS `vii_promo_category` (
   `id_promo_category` int(11) NOT NULL AUTO_INCREMENT,
-  `id_parent` int(11) DEFAULT NULL,
+  `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
   `category_desc` text,
+  `category_root` text,
+  `category_link_rewrite` text,
+  `category_meta_title` text,
+  `category_meta_description` text,
+  `category_meta_author` text,
+  `category_meta_keywords` text,
+  `category_meta_image` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_promo_category`)
@@ -947,8 +980,8 @@ CREATE TABLE IF NOT EXISTS `vii_promo_category` (
 -- Dumping data for table `vii_promo_category`
 --
 
-INSERT INTO `vii_promo_category` (`id_promo_category`, `id_parent`, `category_title`, `category_desc`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 1, '2014-10-15 09:23:42');
+INSERT INTO `vii_promo_category` (`id_promo_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2015-12-15 06:00:45');
 
 -- --------------------------------------------------------
 
@@ -968,9 +1001,9 @@ CREATE TABLE IF NOT EXISTS `vii_promo_item` (
   `image_meta_title` text,
   `image_meta_description` text,
   `image_meta_keywords` text,
-  `status` int(11) DEFAULT NULL,
-  `id_promo_category` int(11) DEFAULT '1',
-  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `id_promo_category` int(11) NOT NULL DEFAULT '1',
+  `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_promo_item`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -994,7 +1027,7 @@ CREATE TABLE IF NOT EXISTS `vii_testimonial` (
   `email` varchar(255) DEFAULT NULL,
   `message` text,
   `ip_address` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_testimonial`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;

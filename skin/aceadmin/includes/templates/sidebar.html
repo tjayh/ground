@@ -56,14 +56,14 @@
 		</li>
 		{/if}
 		{if $bcBlogItems}
-		<li id = "bcBlogItems">
+		<!-- <li id = "bcBlogItems">
 			<a href="{$admin_base}blog_manager">
 				<i class="menu-icon fa fa-comments-o"></i>
 				<span class="menu-text"> Blog Manager </span>
 			</a>
-		</li>
-		<!-- {if $_admin.id_admin_group eq 1}<li id="bcBlog">
-			<a href="{$admin_base}" class="dropdown-toggle">	
+		</li> -->
+		{if $_admin.id_admin_group eq 1}<li id="bcBlog">
+			<a href="javascript:;" class="dropdown-toggle">	
 				<i class="menu-icon fa fa-comments-o"></i>		
 				<span class="menu-text"> Blog Manager </span>		
 				<b class="arrow fa fa-angle-down"></b>	
@@ -71,7 +71,9 @@
 			<ul class="submenu">
 				<li id="bcBlogItems">
 					<a href="{$admin_base}blog_manager">	
-					<i class="fa fa-double-angle-right"></i>	Items</a>
+						<i class="fa fa-double-angle-right"></i>
+						Items
+					</a>
 				</li>
 				<li id = "bcBlogCategories">
 				<a href="{$admin_base}blog_manager/category">
@@ -80,7 +82,7 @@
 				</a>
 				</li>
 			</ul>
-		</li>{/if} -->
+		</li>{/if}
 		{/if}
 		{if $bcCMS}		
 		<li id = "bcCMS">
@@ -180,13 +182,13 @@
 			</a>
 			<ul class="submenu">
 				<li id = "bcFAQItems">
-					<a href="{$admin_base}faq">
+					<a href="{$admin_base}faqmanager">
 						<i class="fa fa-double-angle-right"></i>
 						Items
 					</a>
 				</li>
 				<li id = "bcFAQCategories">
-					<a href="{$admin_base}faq/category">
+					<a href="{$admin_base}faqmanager/category">
 						<i class="fa fa-double-angle-right"></i>
 						Categories
 					</a>

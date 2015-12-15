@@ -115,7 +115,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
-$('.selected-items').change(function() {
+function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
 	}).get();
@@ -124,9 +124,16 @@ $('.selected-items').change(function() {
 	} else {
 		$('#multiActions').attr('style', 'display:none');
 	}
+}
+$("#ckbCheckAll").click(function () {
+	$(".selected-items").prop('checked', $(this).prop('checked'));
+	showActions();
+});
+$('.selected-items').change(function() {
+	showActions();
 });
 $("#dtDeleteRows").on(ace.click_event, function() {
-	bootbox.confirm("Are you sure to delete this item/s?", function(result) {
+	bootbox.confirm("Are you sure to update this item/s?", function(result) {
 		if (result) {
 			var vals = $('.selected-items:checkbox:checked').map(function() {
 				return this.value;
@@ -143,7 +150,8 @@ $("#dtDeleteRows").on(ace.click_event, function() {
 					if (dataJ.error != null) {
 						CMS.showNotification('error', dataJ.error);
 					} else {
-						CMS.showNotification('success', 'Testimonial item/s was successfully deleted.');
+						CMS.showNotification('success', 'Testimonial item/s was successfully updated.');
+						CMS.forcedRefresh();
 					}
 				} else {
 					CMS.showNotification('error', 'Network Problem. Please try again.');

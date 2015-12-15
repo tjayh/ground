@@ -228,6 +228,7 @@ class Globals
 			$result = $query->result_array();
 			$return = array();
 			foreach($result as $item) {
+				$item['content'] = htmlspecialchars_decode($item['content']);
 				$item['image_src'] = base_url() . 'upload/images/banner/' . $item['image_src'];
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
 				$return[] = $item;

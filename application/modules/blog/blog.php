@@ -38,7 +38,9 @@ class Blog extends MX_Controller
 	}
 	function page($int_page)
 	{
-		if ($int_page <= 1) redirect(base_url() . 'blog/');
+		if ($int_page <= 1) {
+			redirect(base_url() . 'blog/');
+		}
 		$this->load->library('encrypt');
 		$per_page = 5;
 		$list = $this->blog->_getItems();
@@ -82,8 +84,12 @@ class Blog extends MX_Controller
 				break;
 			}
 		}
-		if ($prev_item) $this->template->assign('prev_image_link', $prev_image_link);
-		if ($next_item) $this->template->assign('next_image_link', $next_image_link);
+		if ($prev_item) {
+			$this->template->assign('prev_image_link', $prev_image_link);
+		}
+		if ($next_item) {
+			$this->template->assign('next_image_link', $next_image_link);
+		}
 		$recent_blog = $this->blog->_getItems(false, false, $id_blog_item);
 		$this->template->assign('recent_blog', $recent_blog);
 	}

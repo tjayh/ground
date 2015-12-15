@@ -46,13 +46,15 @@ CMS.initPage = function() {
 		$('#image_meta_keywords').val(data.image_meta_keywords);
 		CMS.showWidge();
 	});
-	$('#image_desc').summernote({
-		onblur: function(e) {
-			$("#image_desc").val($('#image_desc').code());
-		},
-		onImageUpload: function(files, editor, $editable) {
-			sendFile(files[0], editor, $editable);
-		}
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$('#' + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
 	$('button#dtAddRow').on('click', function() {
 		$('.content_display').val('');
@@ -85,7 +87,7 @@ CMS.initPage = function() {
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() {
-		$.each(textedit, function(index, value) { /* event if submit button is clicked */
+		$.each(textedit, function(index, value) { /* check if submit button is clicked */
 			$('#' + value).val($('#' + value).code());
 		});
 	});
@@ -108,7 +110,6 @@ CMS.initPage = function() {
 		$(this).imgupload();
 	});
 	$('button.addReset').on('click', function() {
-		var flag = true;
 		$('#image_src').val('');
 		$('#image_src').imgupload('refresh');
 	});
@@ -168,7 +169,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
-$('.selected-items').change(function() {
+function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
 	}).get();
@@ -177,9 +178,16 @@ $('.selected-items').change(function() {
 	} else {
 		$('#multiActions').attr('style', 'display:none');
 	}
+}
+$("#ckbCheckAll").click(function () {
+	$(".selected-items").prop('checked', $(this).prop('checked'));
+	showActions();
+});
+$('.selected-items').change(function() {
+	showActions();
 });
 $("#dtDeleteRows").on(ace.click_event, function() {
-	bootbox.confirm("Are you sure to delete this item/s?", function(result) {
+	bootbox.confirm("Are you sure to update this item/s?", function(result) {
 		if (result) {
 			var vals = $('.selected-items:checkbox:checked').map(function() {
 				return this.value;
@@ -196,7 +204,8 @@ $("#dtDeleteRows").on(ace.click_event, function() {
 					if (dataJ.error != null) {
 						CMS.showNotification('error', dataJ.error);
 					} else {
-						CMS.showNotification('success', 'News item/s was successfully deleted.');
+						CMS.showNotification('success', 'News item/s was successfully updated.');
+						CMS.forcedRefresh();
 					}
 				} else {
 					CMS.showNotification('error', 'Network Problem. Please try again.');

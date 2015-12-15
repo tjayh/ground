@@ -186,7 +186,6 @@ $(".val-page").click(function() {
 });
 /* $(".val-module").click(function() { */
 $('input[name="modules"]:radio').on('change', function(e) {
-	
 	var mod_val = $(".val-module:checked").val();
 	var mod_name = $(".val-module:checked").data('modulename');
 	var mod_id = $(".val-module:checked").data('idmodule');
@@ -203,7 +202,24 @@ $('input[name="modules"]:radio').on('change', function(e) {
 		}
 	});
 });
-$('button#layoutTempYes').on('click', function() {
+$('.delete-item').on('click', function() {
+	$('#deleteKeySection').val($(this).data("keysection"));
+	$('#deleteKeyColumn').val($(this).data("column"));
+	$('#deleteIdPage').val($(this).data("idpage"));
+});
+$('button#secDeleteYes').on('click', function() {
+	var fxnName = $(this).attr('data-yesfxn');
+	eval(fxnName);
+});
+$('.viewTemplateButton').on('click', function() {
+	$('#view_template_modal').attr('src', $(this).data("img"));
+});
+$('.deleteSectionButton').on('click', function() {
+	$('#delete_section_modal').attr('src', $(this).data("img"));
+});
+
+
+$("#pageLayoutTemplate").submit(function(event) {
 	$("#layoutTempModalLoading").removeAttr('style');
 	$("#layoutTempModalButtons").attr("style", "display:none");
 	var id_page = $(this).data('idpage');
@@ -225,22 +241,6 @@ $('button#layoutTempYes').on('click', function() {
 		}
 	});
 });
-$('.delete-item').on('click', function() {
-	$('#deleteKeySection').val($(this).data("keysection"));
-	$('#deleteKeyColumn').val($(this).data("column"));
-	$('#deleteIdPage').val($(this).data("idpage"));
-});
-$('button#secDeleteYes').on('click', function() {
-	var fxnName = $(this).attr('data-yesfxn');
-	eval(fxnName);
-});
-$('.viewTemplateButton').on('click', function() {
-	$('#view_template_modal').attr('src', $(this).data("img"));
-});
-$('.deleteSectionButton').on('click', function() {
-	$('#delete_section_modal').attr('src', $(this).data("img"));
-});
-
 function deleteSecRow() {
 	var key_section = $('#deleteKeySection').val();
 	var column = $('#deleteKeyColumn').val();

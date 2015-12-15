@@ -251,60 +251,51 @@ class Blog_manager_model extends CI_Model
 						}
 					}
 					$result = $this->dbtm->deleteItem('id_blog_item', $deleteid, 'blog_item');
-					if ($result) {
-						return true;
-					}
-					else {
+					if (!$result) {
 						$result = array();
 						$result['error'] = array();
 						$result['error'][] = "Failed to delete item/s.";
 						return $result;
 					}
 				}
-				else { //direct link access
-					header('Location: ' . _BASE_URL_);
-				}
 			}
+			return true;
 			break;
 
 		case 'active':
 			foreach($multiple_id as $key => $item) {
-				$data['whr_id_blog_item'] =$item;
+				$data['whr_id_blog_item'] = $item;
 				$data['clmn_status'] = 1;
 				$this->load->model('core/dbtm_model', 'dbtm');
 				$params['table'] = 'blog_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to activate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		case 'inactive':
 			foreach($multiple_id as $key => $item) {
-				$data['whr_id_blog_item'] =$item;
+				$data['whr_id_blog_item'] = $item;
 				$data['clmn_status'] = 0;
 				$this->load->model('core/dbtm_model', 'dbtm');
 				$params['table'] = 'blog_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to deactivate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		default:
@@ -453,9 +444,9 @@ class Blog_manager_model extends CI_Model
 	function _uploadImage($type = false)
 	{
 		/*
-			- type is for category or items 
-			ex:
-				banner_itm - for item image dimensions will be used
+		- type is for category or items
+		ex:
+		banner_itm - for item image dimensions will be used
 		*/
 		$this->load->model('core/uploader_model', 'uploader');
 		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type);

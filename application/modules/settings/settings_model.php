@@ -117,13 +117,18 @@ class Settings_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('module');
 		$query = $this->db->get();
-		if ($query->num_rows()) return $query->last_row('array');
-		else return false;
+		if ($query->num_rows()) {
+			return $query->last_row('array');
+		}
+		else {
+			return false;
+		}
 	}
 	function getModules($id_module = false)
 	{
 		$this->db->select('*');
 		$this->db->from('module');
+		$this->db->where('module_class !=', 'pages');
 		if ($id_module) {
 			$this->db->where('id_module', $id_module);
 			$query = $this->db->get();

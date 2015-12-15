@@ -278,40 +278,33 @@ class Gallery_manager_model extends CI_Model
 						}
 					}
 					$result = $this->dbtm->deleteItem('id_gallery_item', $deleteid, 'gallery_item');
-					if ($result) {
-						return true;
-					}
-					else {
+					if (!$result) {
 						$result = array();
 						$result['error'] = array();
 						$result['error'][] = "Failed to delete item/s.";
 						return $result;
 					}
 				}
-				else { //direct link access
-					header('Location: ' . _BASE_URL_);
-				}
 			}
+			return true;
 			break;
 
 		case 'active':
 			foreach($multiple_id as $key => $item) {
-				$data['whr_id_evetns_item'] =$item;
+				$data['whr_id_gallery_item'] =$item;
 				$data['clmn_status'] = 1;
 				$this->load->model('core/dbtm_model', 'dbtm');
 				$params['table'] = 'gallery_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to activate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		case 'inactive':
@@ -322,16 +315,14 @@ class Gallery_manager_model extends CI_Model
 				$params['table'] = 'gallery_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to deactivate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		default:

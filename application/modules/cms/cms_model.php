@@ -56,7 +56,8 @@ class Cms_model extends CI_Model
 			return $return;
 		}
 		return false;
-	}function getSectionPages($id_page = false)
+	}
+	function getSectionPages($id_page = false)
 	{
 		$this->db->select('p.*,pt.*, p.class as module_name, p.function as function_name, m.id_module');
 		$this->db->from('page p');
@@ -443,7 +444,7 @@ class Cms_model extends CI_Model
 		$this->db->flush_cache();
 		$data = $this->input->post('data');
 		$where = $this->input->post('where');
-		if(!$data['limit']){
+		if (!$data['limit']) {
 			$data['limit'] = 1;
 		}
 		substr_replace($data['fileFolderName'], '_' . $data['limit'], $pos, 0);
@@ -484,6 +485,7 @@ class Cms_model extends CI_Model
 					$result['error'][] = "Failed to delete file to temporary folder.";
 				}
 			}
+			$this->refreshRoutes();
 			return $result;
 		}
 		else {
@@ -516,7 +518,6 @@ class Cms_model extends CI_Model
 					$data_upd['sections'] = $sections_encoded;
 					$this->db->where('id_page', $id_page);
 					$result = $this->db->update('page', $data_upd);
-					return $result;
 				}
 				else { // update existing section
 					$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
@@ -532,8 +533,9 @@ class Cms_model extends CI_Model
 					$data_upd['sections'] = $sections_encoded;
 					$this->db->where('id_page', $id_page);
 					$result = $this->db->update('page', $data_upd);
-					return $result;
 				}
+				$this->refreshRoutes();
+				return $result;
 			}
 		}
 	}
@@ -567,7 +569,6 @@ class Cms_model extends CI_Model
 				if (!unlink($this->temp_file_thumb_dir . $data["image_src"])) {
 					$result['error'][] = "Failed to delete image to temporary folder.";
 				}
-				
 			}
 			$upload_file_dir = './skin/default/includes/section/';
 			$temp_file_dir = './temp/admin/';
@@ -583,6 +584,7 @@ class Cms_model extends CI_Model
 					$result['error'][] = "Failed to delete file to temporary folder.";
 				}
 			}
+			$this->refreshRoutes();
 			return $result;
 		}
 	}
@@ -644,6 +646,7 @@ class Cms_model extends CI_Model
 			$result = $this->dbtm->deleteItem('id_page', $deleteid, 'page_tree');
 			$result = $this->dbtm->deleteItem('id_page', $deleteid, 'page');
 			if ($result) {
+				$this->refreshRoutes();
 				return true;
 			}
 			else {
@@ -679,6 +682,7 @@ class Cms_model extends CI_Model
 			}
 			$this->load->model('core/dbtm_model', 'dbtm');
 			$result = $this->dbtm->deleteItem('id_page_section', $id_page_section, 'page_section');
+			$this->refreshRoutes();
 			return $result;
 		}
 		else {
@@ -765,6 +769,7 @@ class Cms_model extends CI_Model
 		$data_upd['layout'] = json_encode($data, JSON_FORCE_OBJECT);;
 		$this->db->where('id_page', $id_page);
 		$result = $this->db->update('page', $data_upd);
+		$this->refreshRoutes();
 		return $result;
 	}
 	function _updateOrderSection()
@@ -782,14 +787,17 @@ class Cms_model extends CI_Model
 			$return = array();
 			$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
 			$sections_decoded_base = json_decode($result['sections'], JSON_FORCE_OBJECT);
-			foreach($sec_order as $key => $item) {
-				$sections_decoded[$column][$key] = $sections_decoded_base[$column][$item];
+			$i = 0;
+			foreach($sections_decoded_base[$column] as $key => $item) {
+				$return[$column][$i] = $sections_decoded_base[$column][$sec_order[$key]];
+				$i = $i + 1;
 			}
-			$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
+			$sections_encoded = json_encode($return, JSON_FORCE_OBJECT);
 			$this->db->flush_cache();
 			$data_upd['sections'] = $sections_encoded;
 			$this->db->where('id_page', $id_page);
 			$result = $this->db->update('page', $data_upd);
+			$this->refreshRoutes();
 			return $result;
 		}
 	}
@@ -880,11 +888,11 @@ class Cms_model extends CI_Model
 	function _uploadImage($type = false)
 	{
 		$this->load->model('core/uploader_model', 'uploader');
-		if($type=="lay_itm"){
+		if ($type == "lay_itm") {
 			$temp_dir = './temp/images/section/';
 			$temp_thumb_dir = './temp/images/section/thumb/';
 		}
-		else{
+		else {
 			$temp_dir = $this->temp_dir;
 			$temp_thumb_dir = $this->upload_thumb_dir;
 		}

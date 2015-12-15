@@ -50,7 +50,13 @@ class Manage_navigation_model extends CI_Model
 			}
 			$result.= '</div></div>' . '</li>';
 		}
-		return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
+		if($result){
+			return '<ol class="dd-list">' . $result . '</ol>';
+		}
+		else if (!$menuData){
+			return '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
+		}
+		/* return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>'; */
 	}
 	function _getNavHTML($menuData, $parentID = 0)
 	{
@@ -71,7 +77,13 @@ class Manage_navigation_model extends CI_Model
 				$result.= '</div></div>' . $this->_getNavHTML($menuData, $item['id_page']) . '</li>';
 			}
 		}
-		return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
+		if($result){
+			return '<ol class="dd-list">' . $result . '</ol>';
+		}
+		else if (!$menuData){
+			return '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>';
+		}
+		/* return $result ? '<ol class="dd-list">' . $result . '</ol>' : '<ol class="dd-list">' . '<li class="dd-item dd3-item"></li>' . '</ol>'; */
 	}
 	function parseNavJsonArray($jsonArray, $parentID = 0)
 	{

@@ -164,3 +164,49 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+function showActions() {
+	var vals = $('.selected-items:checkbox:checked').map(function() {
+		return this.value;
+	}).get();
+	if (vals != '') {
+		$('#multiActions').removeAttr("style");
+	} else {
+		$('#multiActions').attr('style', 'display:none');
+	}
+}
+$("#ckbCheckAll").click(function () {
+	$(".selected-items").prop('checked', $(this).prop('checked'));
+	showActions();
+});
+$('.selected-items').change(function() {
+	showActions();
+});
+$("#dtDeleteRows").on(ace.click_event, function() {
+	bootbox.confirm("Are you sure to update this items/?", function(result) {
+		if (result) {
+			var vals = $('.selected-items:checkbox:checked').map(function() {
+				return this.value;
+			}).get();
+			var multiple_id = vals.join(",");
+			var action_type = $('#selectedAction').val();
+			$.post(thisURL + thisModule + "/process/multiple-item-action", {
+				multiple_id: multiple_id,
+				action_type: action_type
+				
+			}, function(data) {
+				if (data != 'false') {
+					var dataJ = $.parseJSON(data);
+					var text = $('div#jd' + itemID).text();
+					if (dataJ.error != null) {
+						CMS.showNotification('error', dataJ.error);
+					} else {
+						CMS.showNotification('success', 'Banner item/s was successfully updated.');
+						CMS.forcedRefresh();
+					}
+				} else {
+					CMS.showNotification('error', 'Network Problem. Please try again.');
+				}
+			});
+		}
+	});
+});

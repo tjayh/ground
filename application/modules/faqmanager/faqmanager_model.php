@@ -45,7 +45,6 @@ class Faqmanager_model extends CI_Model
 		$this->db->select('i.*,c.id_faq_category, c.category_title');
 		$this->db->from('faq_item i');
 		$this->db->join('faq_category c', 'i.id_faq_category = c.id_faq_category', 'left');
-		$this->db->where('c.status', 1);
 		$this->db->order_by('c.category_title ASC');
 		$this->db->order_by('i.faq_question ASC');
 		$query = $this->db->get();
@@ -147,20 +146,15 @@ class Faqmanager_model extends CI_Model
 						}
 					}
 					$result = $this->dbtm->deleteItem('id_faq_item', $deleteid, 'faq_item');
-					if ($result) {
-						return true;
-					}
-					else {
+					if (!$result) {
 						$result = array();
 						$result['error'] = array();
 						$result['error'][] = "Failed to delete item/s.";
 						return $result;
 					}
 				}
-				else { //direct link access
-					header('Location: ' . _BASE_URL_);
-				}
 			}
+			return true;
 			break;
 
 		case 'active':
@@ -171,16 +165,14 @@ class Faqmanager_model extends CI_Model
 				$params['table'] = 'faq_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to activate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		case 'inactive':
@@ -191,16 +183,14 @@ class Faqmanager_model extends CI_Model
 				$params['table'] = 'faq_item';
 				$params['post_data'] = $data;
 				$result = $this->dbtm->update($params);
-				if ($result) {
-					return true;
-				}
-				else {
+				if (!$result) {
 					$result = array();
 					$result['error'] = array();
-					$result['error'][] = "Failed to delete item/s.";
+					$result['error'][] = "Failed to deactivate item/s.";
 					return $result;
 				}
 			}
+			return true;
 			break;
 
 		default:

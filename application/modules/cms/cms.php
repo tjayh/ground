@@ -63,18 +63,17 @@ class Cms extends MX_Controller
 	function section_view()
 	{
 		$id = $this->uri->segment(4);
-		$page = $this->cms->getSections($id);print_r($page);exit;
+		$page = $this->cms->getSections($id);
 		if ($page) {
 			$this->template->assign('page', $page);
 			$this->template->assign('page_sections', $page['sections']);
 		}
 		$pages = $this->cms->getPages(false, true);
-		
 		if ($pages) {
 			$this->template->assign('pages', $pages);
 		}
-		$page_temp = $this->cms->getSectionTemplates(false,'page');
-		$module_temp = $this->cms->getSectionTemplates(false,'module');
+		$page_temp = $this->cms->getSectionTemplates(false, 'page');
+		$module_temp = $this->cms->getSectionTemplates(false, 'module');
 		$layout_temp = $this->cms->getLayoutTemplates();
 		$this->template->assign('page_temp', $page_temp);
 		$this->template->assign('module_temp', $module_temp);
@@ -85,8 +84,6 @@ class Cms extends MX_Controller
 		$sectionLists = $this->cms->getSectionTemplates();
 		$this->template->assign('section_lists', $sectionLists);
 		$this->template->assign('images_path', base_url() . 'upload/images/section/');
-		
-		
 		$modules = $this->cms->getPublicModules();
 		if ($modules) {
 			$this->template->assign('modules', $modules);

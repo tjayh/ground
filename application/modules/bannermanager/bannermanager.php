@@ -45,6 +45,10 @@ class Bannermanager extends MX_Controller
 			$result = $this->bannermanager->_uploadImage($type);
 			break;
 
+		case 'multiple-item-action':
+			$result = $this->bannermanager->_multipleActionItem();
+			break;
+
 		case 'upload-cms-image':
 			$result = $this->bannermanager->_uploadCMSImage();
 			break;
