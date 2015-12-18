@@ -41,8 +41,10 @@ class Blog_manager extends MX_Controller
 			$this->template->assign('category_list_parent', $category_list_parent);
 		}
 		if ($category_list) {
+			/* print_r($category_list);exit; */
 			$this->template->assign('category_list', $category_list);
 		}
+		$this->template->assign('images_path', base_url() . 'upload/images/blog/');
 	}
 	function process()
 	{

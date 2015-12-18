@@ -26,11 +26,10 @@ $(".subscribe-form").submit(function(event) {
 var CMS = {};
 CMS.showNotification = function(type, message, id, form) {
 	var html = '';
-	if(form){
-		id = "#"+form+" div#"+id;
-	}
-	else{
-		id = "div#"+id;
+	if (form) {
+		id = "#" + form + " div#" + id;
+	} else {
+		id = "div#" + id;
 	}
 	$(id).removeClass();
 	$(id).addClass('alert');
@@ -63,33 +62,30 @@ CMS.showNotification = function(type, message, id, form) {
 	$(id).fadeIn(900);
 	setTimeout(function() {}, 8000);
 }
-
-$('.amountOnly').on("change blur", function(e){
+$('.amountOnly').on("change blur", function(e) {
 	var val = $(this).val();
-	var uncommafied = val.replace(/\,/g, '')*1;
+	var uncommafied = val.replace(/\,/g, '') * 1;
 	var rgx = /(\d+)(\d{3})/;
 	var split_text = uncommafied.toString().split('.');
 	var x1 = split_text[0].toString();
-	var x2 = split_text.length > 1 ? '.' + (split_text[1].toString() + '00').substring(0,2) : '.00';
+	var x2 = split_text.length > 1 ? '.' + (split_text[1].toString() + '00').substring(0, 2) : '.00';
 	while (rgx.test(x1)) {
 		x1 = x1.replace(rgx, '$1' + ',' + '$2');
 	}
 	$(this).val(x1 + x2);
 	$(this).data('oldVal', val);
 });
-
-$('.numbersOnly').keyup(function () {
+$('.numbersOnly').keyup(function() {
 	if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-	   this.value = this.value.replace(/[^0-9\.]/g, '');
+		this.value = this.value.replace(/[^0-9\.]/g, '');
 	}
 });
-
-$('.textOnly').keyup(function () {
+$('.textOnly').keyup(function() {
 	if (this.value != this.value.replace(/[^a-z\s\.]/g, '')) {
-	   this.value = this.value.replace(/[^a-z\s\.]/g, '');
+		this.value = this.value.replace(/[^a-z\s\.]/g, '');
 	}
 });
-$(window).load(function(){
+$(window).load(function() {
 	$("#pageLoader").fadeOut("fast");
 });
 $(".contactus-section-form").submit(function(event) {
@@ -146,6 +142,8 @@ $(".newsletter-section-form").submit(function(event) {
 function styleSwticher() {
 	$.post(base_url + "administrator/settings/process/upd-style", function(data) {
 		$("#styleSwitcherNotif").removeAttr("style");
-		setTimeout(function() {$("#styleSwitcherNotif").fadeOut('slow');}, 8000);
+		setTimeout(function() {
+			$("#styleSwitcherNotif").fadeOut('slow');
+		}, 8000);
 	});
 }

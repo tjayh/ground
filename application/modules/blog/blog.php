@@ -35,6 +35,8 @@ class Blog extends MX_Controller
 		$this->template->assign('int_page', 1);
 		$recent_blog = $this->blog->_getItems();
 		$this->template->assign('recent_blog', $recent_blog);
+		$category_list = $this->blog->_getCategories();
+		$this->template->assign('category_list', $category_list);
 	}
 	function page($int_page)
 	{
@@ -56,6 +58,8 @@ class Blog extends MX_Controller
 		$this->template->assign('int_page', $int_page);
 		$recent_blog = $this->blog->_getItems();
 		$this->template->assign('recent_blog', $recent_blog);
+		$category_list = $this->blog->_getCategories();
+		$this->template->assign('category_list', $category_list);
 	}
 	function article($permalink)
 	{
@@ -92,6 +96,65 @@ class Blog extends MX_Controller
 		}
 		$recent_blog = $this->blog->_getItems(false, false, $id_blog_item);
 		$this->template->assign('recent_blog', $recent_blog);
+		$category_list = $this->blog->_getCategories();
+		$this->template->assign('category_list', $category_list);
+	}
+	function category()
+	{
+		$id_blog_category = $this->uri->segment(3);
+		$this->load->library('encrypt');
+		$per_page = 5;
+		$list = $this->blog->_getItems(false, false, false, $id_blog_category);
+		$length = count($list);
+		$list = $this->blog->_getItems($per_page, false, false, $id_blog_category);
+		foreach($list as $k => $item) {
+			$src = explode(".", $item['image_src']);
+			$list[$k]['permalink'] = urlencode($src[0]);
+		}
+		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
+		$this->template->assign('blog', $list);
+		$this->template->assign('num_pages', $num_pages);
+		$this->template->assign('int_page', 1);
+		$recent_blog = $this->blog->_getItems();
+		$this->template->assign('recent_blog', $recent_blog);
+		$category = $this->blog->_getCategories($id_blog_category);
+		$this->template->assign('category', $category);
+		$category_list = $this->blog->_getCategories();
+		$this->template->assign('category_list', $category_list);
+		if ($category['category_meta_title']) $this->template->assign('_meta_title', $category['category_meta_title']);
+		if ($category['category_meta_description']) $this->template->assign('_meta_description', $category['category_meta_description']);
+		if ($category['category_meta_keywords']) $this->template->assign('_meta_keywords', $category['category_meta_keywords']);
+		if ($category['category_meta_author']) $this->template->assign('_meta_author', $category['category_meta_author']);
+	}
+	function category_page($int_page)
+	{
+		$id_blog_category = $this->uri->segment(4);
+		if ($int_page <= 1) {
+			redirect(base_url() . 'blog/category/' . $id_blog_category);
+		}
+		$this->load->library('encrypt');
+		$per_page = 5;
+		$list = $this->blog->_getItems(false, false, false, $id_blog_category);
+		$length = count($list);
+		$list = $this->blog->_getItems($per_page, (($int_page - 1) * $per_page));
+		foreach($list as $k => $item) {
+			$src = explode(".", $item['image_src']);
+			$list[$k]['permalink'] = urlencode($src[0]);
+		}
+		$num_pages = (int)($length / $per_page) + (($length % $per_page) > 0 ? 1 : 0);
+		$this->template->assign('blog', $list);
+		$this->template->assign('num_pages', $num_pages);
+		$this->template->assign('int_page', $int_page);
+		$recent_blog = $this->blog->_getItems();
+		$this->template->assign('recent_blog', $recent_blog);
+		$category = $this->blog->_getCategories($id_blog_category);
+		$this->template->assign('category', $category);
+		$category_list = $this->blog->_getCategories();
+		$this->template->assign('category_list', $category_list);
+		if ($category['category_meta_title']) $this->template->assign('_meta_title', $category['category_meta_title']);
+		if ($category['category_meta_description']) $this->template->assign('_meta_description', $category['category_meta_description']);
+		if ($category['category_meta_keywords']) $this->template->assign('_meta_keywords', $category['category_meta_keywords']);
+		if ($category['category_meta_author']) $this->template->assign('_meta_author', $category['category_meta_author']);
 	}
 }
 ?>

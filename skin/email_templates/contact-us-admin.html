@@ -1,3 +1,20 @@
+USE SMARTY SYNTAX {literal}{/literal} - <!-- HERE'S A LINK PLEASE READ AND UNDERSTAND THE USE OF LITERAL http://www.smarty.net/docsv2/en/language.function.literal -->
+USE SMARTY SYNTAX {literal}{/literal} - <!-- HERE'S A LINK PLEASE READ AND UNDERSTAND THE USE OF LITERAL http://www.smarty.net/docsv2/en/language.function.literal -->
+
+TO CHECK YOUR EMAIL PLEASE TRY THIS:
+http://<BASE_URL>/contactus/check_template/?RECEIVER=<EMAIL>&TEMPLATE=<FILENAME>
+
+REPLACE THE FOLLOWING WITH YOUR DESIRED VALUES (including the <>):
+EX.
+<BASE_URL> = viiworks.com
+<EMAIL> = testviiworks@gmail.com
+<FILENAME> = contact-us-admin.html
+
+SAMPLE OUTPUT (this link below is just and example and to show what will be the output if you replace the <*****> with your values):
+<!-- PLEASE DO NOT CLICK OR GO TO THIS LINK BECAUSE THIS IS JUST AN EXAMPLE -->
+http://viiworks.com/contactus/check_template/?RECEIVER=testviiworks@gmail.com&TEMPLATE=contact-us-admin.html
+<!-- PLEASE DO NOT CLICK OR GO TO THIS LINK BECAUSE THIS IS JUST AN EXAMPLE -->
+ 
 <p>Dear Administrator,</p>
 <p>Please be advised that <strong>{$data.name}</strong> sent a Contact Us Message on {$data.date_add|date_format}.</p>
 <table border="1">
