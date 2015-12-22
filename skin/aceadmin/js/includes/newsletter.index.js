@@ -10,8 +10,11 @@ CMS.initPage = function() {
 		$('input#id_subscriber').val(data.id_subscriber);
 		$('input#email').val(data.email);
 		$('input#date_add').val(data.date_add);
-		if (data.status == 1) $('input#isActive').prop('checked', true);
-		else $('input#isActive').prop('checked', false);
+		if (data.status == 1) {
+			$('input#isActive').prop('checked', true);
+		} else {
+			$('input#isActive').prop('checked', false);
+		}
 		if (!$('button#dtAddRow').is(":visible")) {
 			$('button#dtAddRow').removeClass('hid');
 		}

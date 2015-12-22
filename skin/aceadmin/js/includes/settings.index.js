@@ -21,13 +21,13 @@ CMS.initPage = function() {
 	$('#site_logo').val($('#site_logo').data("value"));
 	$('#site_favicon').val($('#site_favicon').data("value"));
 	for (var i = 0; i != 10; i++) {
-		$('#site_backgrounds_'+i).val($('#site_backgrounds_'+i).data("value"));
+		$('#site_backgrounds_' + i).val($('#site_backgrounds_' + i).data("value"));
 	}
 	$(document).ready(function() {
 		$('#site_logo').imgupload('refresh');
 		$('#site_favicon').imgupload('refresh');
 		for (var i = 0; i != 10; i++) {
-			$('#site_backgrounds_'+i).imgupload('refresh');
+			$('#site_backgrounds_' + i).imgupload('refresh');
 		}
 		$("input.userfile").attr('disabled', true);
 		$("a.uploadRemove").attr('disabled', true);

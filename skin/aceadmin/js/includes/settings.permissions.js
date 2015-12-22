@@ -81,8 +81,9 @@ function changeStatus() {
 		setTimeout(function() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Module was successfully activated for this user');

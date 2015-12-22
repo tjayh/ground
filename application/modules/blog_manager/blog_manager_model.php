@@ -129,6 +129,7 @@ class Blog_manager_model extends CI_Model
 		$data = $this->input->post('data');
 		if ($data) {
 			$data['link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['image_title']));
+			$data = str_replace("<p><br></p>", "", $data);
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
 			$data['date_add'] = date('Y-m-d H:i:s');
 			$result = $this->db->insert('blog_item', $data);
@@ -166,6 +167,7 @@ class Blog_manager_model extends CI_Model
 		$where = $this->input->post('where');
 		if ($data) {
 			$data['link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['image_title']));
+			$data = str_replace("<p><br></p>", "", $data);
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
 			// delete image
 			$this->db->where($where);
@@ -323,6 +325,7 @@ class Blog_manager_model extends CI_Model
 		}
 		if ($data) {
 			$data['category_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['category_title']));
+			$data = str_replace("<p><br></p>", "", $data);
 			$result = $this->db->insert('blog_category', $data);
 			if ($result) {
 				if (!file_exists($this->upload_dir . $data['category_image_src'])) {
@@ -358,6 +361,7 @@ class Blog_manager_model extends CI_Model
 		$where = $this->input->post('where');
 		if ($data) {
 			$data['category_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['category_title']));
+			$data = str_replace("<p><br></p>", "", $data);
 			$this->db->where($where);
 			$result = $this->db->update('blog_category', $data);
 			if ($result) {

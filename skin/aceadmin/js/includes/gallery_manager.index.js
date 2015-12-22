@@ -22,10 +22,11 @@ CMS.initPage = function() {
 		$('#image_meta_keywords').val(data.image_meta_keywords);
 		$('#image_src').val(data.image_src);
 		$('.separator').attr('style', 'display:none');
-		if (data.status == 1) $('input#status').prop('checked', true);
-		else $('input#status').prop('checked', false);
-		if (!$('button#dtAddRow').is(":visible")) {
-			$('button#dtAddRow').removeClass('hid');
+		if (data.status == 1) {
+			$('input#status').prop('checked', true);
+		}
+		else {
+			$('input#status').prop('checked', false);
 		}
 		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
@@ -39,25 +40,12 @@ CMS.initPage = function() {
 	$('#btnEditForm').click(function() {
 		$('.separator').attr('style', 'display:none');
 	});
-	$('.addReset').click(function() {
-		$('.separator').removeAttr('style');
-	});
-	var details = new Array();
-	details[0] = "genericForm"; /* active form id */
-	details[1] = thisURL + thisModule + "/process/add-item/"; /* post url for add */
-	details[2] = 'Gallery item was successfully created.'; /* success message for add */
-	details[3] = thisURL + thisModule + "/process/edit-item/"; /* post url for edit */
-	details[4] = 'Gallery item was successfully updated.'; /* success message for edit */
-	details[5] = thisURL + thisModule + "/process/delete-item/"; /* post url for delete */
-	details[6] = 'Gallery item was successfully deleted.'; /* success message for delete */
-	details[7] = 'id_gallery_item'; /* name of id for delete */
-	details[8] = 'DT_Generic'; /* active dataTable id */
-	CMS.common(details); /* include the active data table (for delete function) */
 	$('input.imgupload').each(function() {
 		$(this).imgupload();
 	});
 	$(".chosen-single").addClass('ignore');
-	$('button.addReset').on('click', function() {
+	$('button#dtAddRow').on('click', function() {
+		$('.separator').removeAttr('style');
 		$('#id-input-file-3').prop('disabled', false);
 		$('.filename-1').prop('disabled', false);
 		$('.toClone').hide();
@@ -161,6 +149,17 @@ CMS.initPage = function() {
 		$('.ace-file-input').show();
 		$('.remove').click();
 	});
+	var details = new Array();
+	details[0] = "genericForm"; /* active form id */
+	details[1] = thisURL + thisModule + "/process/add-item/"; /* post url for add */
+	details[2] = 'Gallery item was successfully created.'; /* success message for add */
+	details[3] = thisURL + thisModule + "/process/edit-item/"; /* post url for edit */
+	details[4] = 'Gallery item was successfully updated.'; /* success message for edit */
+	details[5] = thisURL + thisModule + "/process/delete-item/"; /* post url for delete */
+	details[6] = 'Gallery item was successfully deleted.'; /* success message for delete */
+	details[7] = 'id_gallery_item'; /* name of id for delete */
+	details[8] = 'DT_Generic'; /* active dataTable id */
+	CMS.common(details); /* include the active data table (for delete function) */
 }
 
 function changeStatus() {

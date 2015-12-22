@@ -36,6 +36,20 @@ CMS.initPage = function() {
 		}
 		CMS.showWidge();
 	});
+	$('.showDeleteBtn').on('click', function() {
+		if (!$('button#btnDelete').is(":visible")) {
+			$('button#btnDelete').removeClass('hid');
+		}
+	});
+	$('.hideDeleteBtn').on('click', function() {
+		if ($('button#btnDelete').is(":visible")) {
+			$('button#btnDelete').addClass('hid');
+		}
+	});
+	$('.btnReply').on('click', function() {
+		$('div.divNotEdit').hide();
+		$('div.divEdit').show();
+	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
 	details[1] = thisURL + thisModule + "/process/add-module/"; //this won't be used
@@ -48,19 +62,4 @@ CMS.initPage = function() {
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
 	CMS.showHideFields();
-	//btnReply
-	$('.btnReply').on('click', function() {
-		$('div.divNotEdit').hide();
-		$('div.divEdit').show();
-	});
-	$('.showDeleteBtn').on('click', function() {
-		if (!$('button#btnDelete').is(":visible")) {
-			$('button#btnDelete').removeClass('hid');
-		}
-	});
-	$('.hideDeleteBtn').on('click', function() {
-		if ($('button#btnDelete').is(":visible")) {
-			$('button#btnDelete').addClass('hid');
-		}
-	});
 }

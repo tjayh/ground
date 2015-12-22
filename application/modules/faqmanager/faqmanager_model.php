@@ -62,6 +62,7 @@ class Faqmanager_model extends CI_Model
 	function _addItem()
 	{
 		$data = $this->input->post('data');
+		$data = str_replace("<p><br></p>", "", $data);
 		if ($data) {
 			$params['table'] = 'faq_item';
 			$params['post_data'] = $data;
@@ -84,6 +85,7 @@ class Faqmanager_model extends CI_Model
 	function _editItem()
 	{
 		$data = $this->input->post('data');
+		$data = str_replace("<p><br></p>", "", $data);
 		if ($data) {
 			$params['table'] = 'faq_item';
 			$params['post_data'] = $data;

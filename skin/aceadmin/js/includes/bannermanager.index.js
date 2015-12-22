@@ -32,16 +32,7 @@ CMS.initPage = function() {
 			$('div.note-editable').attr('contenteditable', 'false');
 		} else {
 			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote({
-					onblur: function(e) {
-						$("#" + value).val($('#' + value).code());
-					},
-					onImageUpload: function(files, editor, $editable) {
-						sendFile(files[0], editor, $editable);
-					}
-				});
-			});
+			CMS.runSummernote(textedit);
 			$('div.note-editable').attr('contenteditable', 'true');
 		}
 		var txt = document.createElement("textarea");
@@ -56,36 +47,25 @@ CMS.initPage = function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
+		$('#image_src').val('');
+		$('#image_src').imgupload('refresh');
+		$('#image_src2').val('');
+		$('#image_src2').imgupload('refresh');
 	});
 	$('button#btnEditForm').on('click', function() {
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() { /* event if submit button is clicked */
 		$.each(textedit, function(index, value) {
 			$('#' + value).val($('#' + value).code());
 		});
+	});
+	$('input.imgupload').each(function() {
+		$(this).imgupload();
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
@@ -98,15 +78,18 @@ CMS.initPage = function() {
 	details[7] = 'id_banner'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	$('input.imgupload').each(function() {
-		$(this).imgupload();
-	});
-	$('button.addReset').on('click', function() {
-		var flag = true;
-		$('#image_src').val('');
-		$('#image_src').imgupload('refresh');
-		$('#image_src2').val('');
-		$('#image_src2').imgupload('refresh');
+}
+
+function runSummernote(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
 }
 
@@ -127,8 +110,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Banner is successfully Enabled');
@@ -164,6 +148,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+
 function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
@@ -174,7 +159,7 @@ function showActions() {
 		$('#multiActions').attr('style', 'display:none');
 	}
 }
-$("#ckbCheckAll").click(function () {
+$("#ckbCheckAll").click(function() {
 	$(".selected-items").prop('checked', $(this).prop('checked'));
 	showActions();
 });
@@ -192,7 +177,6 @@ $("#dtDeleteRows").on(ace.click_event, function() {
 			$.post(thisURL + thisModule + "/process/multiple-item-action", {
 				multiple_id: multiple_id,
 				action_type: action_type
-				
 			}, function(data) {
 				if (data != 'false') {
 					var dataJ = $.parseJSON(data);

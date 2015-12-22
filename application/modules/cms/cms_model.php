@@ -300,6 +300,7 @@ class Cms_model extends CI_Model
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
+			$data = str_replace("<p><br></p>", "", $data);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}
@@ -378,6 +379,7 @@ class Cms_model extends CI_Model
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
+			$data = str_replace("<p><br></p>", "", $data);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}

@@ -222,6 +222,7 @@ class Newslettermanager_model extends CI_Model
 	function _addNewsletter()
 	{
 		$data = $this->input->post('data');
+		$data = str_replace("<p><br></p>", "", $data);
 		$errorList = array();
 		if ($data) {
 			$title = $data['clmn_title'];

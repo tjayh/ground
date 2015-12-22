@@ -25,18 +25,6 @@ CMS.initPage = function() {
 		}
 		CMS.showWidge();
 	});
-	var details = new Array();
-	details[0] = "genericForm"; //active form id
-	details[1] = thisURL + thisModule + "/process/add-breadcrumb/"; //post url for add
-	details[2] = 'Breadcrumb was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-breadcrumb/"; //post url for edit
-	details[4] = 'Breadcrumb was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-breadcrumb/"; //post url for delete
-	details[6] = 'Breadcrumb was successfully deleted.'; //success message for delete
-	details[7] = 'data[id_bc_' + $('input#bc_name').val() + ']'; //name of id for delete
-	details[8] = 'DT_Generic'; //active dataTable id
-	details[9] = true; //active dataTable id
-	CMS.common(details); //include the active data table (for delete function)
 	$('#dl-menu').dlmenu({
 		animationClasses: {
 			classin: 'dl-animate-in-3',
@@ -49,4 +37,16 @@ CMS.initPage = function() {
 			$('#bcParentName').val($(this).attr('data-bcName'));
 		}
 	});
+	var details = new Array();
+	details[0] = "genericForm"; //active form id
+	details[1] = thisURL + thisModule + "/process/add-breadcrumb/"; //post url for add
+	details[2] = 'Breadcrumb was successfully created.'; //success message for add
+	details[3] = thisURL + thisModule + "/process/edit-breadcrumb/"; //post url for edit
+	details[4] = 'Breadcrumb was successfully updated.'; //success message for edit
+	details[5] = thisURL + thisModule + "/process/delete-breadcrumb/"; //post url for delete
+	details[6] = 'Breadcrumb was successfully deleted.'; //success message for delete
+	details[7] = 'data[id_bc_' + $('input#bc_name').val() + ']'; //name of id for delete
+	details[8] = 'DT_Generic'; //active dataTable id
+	details[9] = true; //active dataTable id
+	CMS.common(details); //include the active data table (for delete function)
 }

@@ -41,8 +41,10 @@ class Events_manager extends MX_Controller
 			$this->template->assign('category_list_parent', $category_list_parent);
 		}
 		if ($category_list) {
+			/* print_r($category_list);exit; */
 			$this->template->assign('category_list', $category_list);
 		}
+		$this->template->assign('images_path', base_url() . 'upload/images/events/');
 	}
 	function process()
 	{
@@ -71,11 +73,11 @@ class Events_manager extends MX_Controller
 		case 'delete-item':
 			$result = $this->events_manager->_deleteItem();
 			break;
-		
+			
 		case 'multiple-item-action':
 			$result = $this->events_manager->_multipleActionItem();
 			break;
-			
+
 		case 'upload-cms-image':
 			$result = $this->events_manager->_uploadCMSImage();
 			break;

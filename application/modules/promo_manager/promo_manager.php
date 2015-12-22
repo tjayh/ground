@@ -41,8 +41,10 @@ class Promo_manager extends MX_Controller
 			$this->template->assign('category_list_parent', $category_list_parent);
 		}
 		if ($category_list) {
+			/* print_r($category_list);exit; */
 			$this->template->assign('category_list', $category_list);
 		}
+		$this->template->assign('images_path', base_url() . 'upload/images/promo/');
 	}
 	function process()
 	{
@@ -71,11 +73,11 @@ class Promo_manager extends MX_Controller
 		case 'delete-item':
 			$result = $this->promo_manager->_deleteItem();
 			break;
-
+			
 		case 'multiple-item-action':
 			$result = $this->promo_manager->_multipleActionItem();
 			break;
-			
+
 		case 'upload-cms-image':
 			$result = $this->promo_manager->_uploadCMSImage();
 			break;

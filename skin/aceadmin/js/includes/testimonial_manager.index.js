@@ -32,6 +32,16 @@ CMS.initPage = function() {
 		}
 		CMS.showWidge();
 	});
+	$('.showDeleteBtn').on('click', function() {
+		if (!$('button#btnDelete').is(":visible")) {
+			$('button#btnDelete').removeClass('hid');
+		}
+	});
+	$('.hideDeleteBtn').on('click', function() {
+		if ($('button#btnDelete').is(":visible")) {
+			$('button#btnDelete').addClass('hid');
+		}
+	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
 	details[1] = thisURL + thisModule + "/process/add-module/"; //this won't be used
@@ -44,21 +54,6 @@ CMS.initPage = function() {
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
 	CMS.showHideFields();
-	//btnReply
-	$('.btnReply').on('click', function() {
-		$('div.divNotEdit').hide();
-		$('div.divEdit').show();
-	});
-	$('.showDeleteBtn').on('click', function() {
-		if (!$('button#btnDelete').is(":visible")) {
-			$('button#btnDelete').removeClass('hid');
-		}
-	});
-	$('.hideDeleteBtn').on('click', function() {
-		if ($('button#btnDelete').is(":visible")) {
-			$('button#btnDelete').addClass('hid');
-		}
-	});
 }
 
 function changeStatus() {
@@ -78,8 +73,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Testimonial is successfully Enabled');
@@ -115,6 +111,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+
 function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
@@ -125,7 +122,7 @@ function showActions() {
 		$('#multiActions').attr('style', 'display:none');
 	}
 }
-$("#ckbCheckAll").click(function () {
+$("#ckbCheckAll").click(function() {
 	$(".selected-items").prop('checked', $(this).prop('checked'));
 	showActions();
 });

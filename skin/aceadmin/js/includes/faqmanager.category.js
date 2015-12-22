@@ -53,8 +53,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Category is successfully Enabled');

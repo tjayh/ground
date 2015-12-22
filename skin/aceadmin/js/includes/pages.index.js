@@ -10,15 +10,15 @@ CMS.initPage = function() {
 		$.post(thisURL + thisModule + "/process/get-specific-page/", keyAndVal, function(data) {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					$('input#id_page').val(dataJ.page.id_page);
 					$('input#inputTitle').val(dataJ.page.title);
 					$('input#inputLinkRewrite').val(dataJ.page.link_rewrite);
 					if (dataJ.page.redirect == 1) {
 						$('input#inputRedirect').prop('checked', true);
-					}
-					else {
+					} else {
 						$('input#inputRedirect').prop('checked', false);
 					}
 					if (dataJ.page.title_active == 1) {
@@ -101,16 +101,7 @@ CMS.initPage = function() {
 			$('div.note-editable').attr('contenteditable', 'false');
 		} else {
 			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote({
-					onblur: function(e) {
-						$("#" + value).val($('#' + value).code());
-					},
-					onImageUpload: function(files, editor, $editable) {
-						sendFile(files[0], editor, $editable);
-					}
-				});
-			});
+			CMS.runSummernote(textedit);
 			$('div.note-editable').attr('contenteditable', 'true');
 		}
 	});
@@ -122,30 +113,12 @@ CMS.initPage = function() {
 		});
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('button#btnEditForm').on('click', function() { /* event if top edit button is clicked */
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() { /* event if submit button is clicked */
@@ -153,17 +126,6 @@ CMS.initPage = function() {
 			$('#' + value).val($('#' + value).code());
 		});
 	});
-	var details = new Array();
-	details[0] = "genericForm"; //active form id
-	details[1] = thisURL + thisModule + "/process/add-page/"; //post url for add
-	details[2] = 'Page was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-page/"; //post url for edit
-	details[4] = 'Page was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-page/"; //post url for delete
-	details[6] = 'Page was successfully deleted.'; //success message for delete
-	details[7] = 'id_page'; //name of id for delete
-	details[8] = 'DT_Generic'; //active dataTable id
-	CMS.common(details);
 	$('input.imgupload').each(function() {
 		$(this).imgupload();
 	});
@@ -176,8 +138,34 @@ CMS.initPage = function() {
 		var str = $(this).val();
 		$(this).val(str.toLowerCase());
 		var charCode = event.which;
-		if (charCode <= 13) return true;
+		if (charCode <= 13) {
+			return true;
+		}
 		var keyChar = String.fromCharCode(charCode);
 		return /[a-zA-Z0-9_-]/.test(keyChar); // alphanumeric and underscore only
+	});
+	var details = new Array();
+	details[0] = "genericForm"; //active form id
+	details[1] = thisURL + thisModule + "/process/add-page/"; //post url for add
+	details[2] = 'Page was successfully created.'; //success message for add
+	details[3] = thisURL + thisModule + "/process/edit-page/"; //post url for edit
+	details[4] = 'Page was successfully updated.'; //success message for edit
+	details[5] = thisURL + thisModule + "/process/delete-page/"; //post url for delete
+	details[6] = 'Page was successfully deleted.'; //success message for delete
+	details[7] = 'id_page'; //name of id for delete
+	details[8] = 'DT_Generic'; //active dataTable id
+	CMS.common(details);
+}
+
+function runSummernote(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
 }

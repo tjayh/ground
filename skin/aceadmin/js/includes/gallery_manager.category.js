@@ -17,10 +17,10 @@ CMS.initPage = function() {
 		$('#category_meta_keywords').val(data.category_meta_keywords);
 		$('#image_src').val(data.image_src);
 		$('textarea#category_desc').val(data.category_desc);
-		if (data.status == 1) $('#status').prop('checked', true);
-		else $('#status').prop('checked', false);
-		if (!$('button#dtAddRow').is(":visible")) {
-			$('button#dtAddRow').removeClass('hid');
+		if (data.status == 1) {
+			$('#status').prop('checked', true);
+		} else {
+			$('#status').prop('checked', false);
 		}
 		if (!$(this).hasClass('editItem')) {
 			$("#id_gallery_category").prop('disabled', true);
@@ -36,17 +36,6 @@ CMS.initPage = function() {
 		$("#id_gallery_category").prop('disabled', false);
 		$("#id_gallery_category").trigger("liszt:updated");
 	});
-	var details = new Array();
-	details[0] = "genericForm"; //active form id
-	details[1] = thisURL + thisModule + "/process/add-category/"; //post url for add
-	details[2] = 'Gallery category was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-category/"; //post url for edit
-	details[4] = 'Gallery category was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-category/"; //post url for delete
-	details[6] = 'Gallery category was successfully deleted.'; //success message for delete
-	details[7] = 'id_gallery_category'; //name of id for delete
-	details[8] = 'DT_Generic'; //active dataTable id
-	CMS.common(details); //include the active data table (for delete function)
 	$("#id_gallery_category").chosen();
 	$("#id_gallery_category_chosen").css('width', '300px'); /* Script somewhere sets div width to zero. This will fix the issue. */
 	$(".chosen-single").addClass('ignore');
@@ -54,7 +43,7 @@ CMS.initPage = function() {
 		$(this).imgupload();
 	});
 	$("#id_gallery_category_chzn").css('width', '300px');
-	$('button.addReset').on('click', function() {
+	$('button#dtAddRow').on('click', function() {
 		var flag = true;
 		$('#image_src').val('');
 		$('#image_src').imgupload('refresh');
@@ -66,6 +55,17 @@ CMS.initPage = function() {
 			}
 		});
 	});
+	var details = new Array();
+	details[0] = "genericForm"; //active form id
+	details[1] = thisURL + thisModule + "/process/add-category/"; //post url for add
+	details[2] = 'Gallery category was successfully created.'; //success message for add
+	details[3] = thisURL + thisModule + "/process/edit-category/"; //post url for edit
+	details[4] = 'Gallery category was successfully updated.'; //success message for edit
+	details[5] = thisURL + thisModule + "/process/delete-category/"; //post url for delete
+	details[6] = 'Gallery category was successfully deleted.'; //success message for delete
+	details[7] = 'id_gallery_category'; //name of id for delete
+	details[8] = 'DT_Generic'; //active dataTable id
+	CMS.common(details); //include the active data table (for delete function)
 };
 
 function changeStatus() {
@@ -85,7 +85,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				}
 				else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {

@@ -25,10 +25,16 @@ CMS.initPage = function() {
 		$('textarea#module_description').val(data.module_description);
 		$('input#module_class').val(data.module_class);
 		$('input#link_rewrite').val(data.link_rewrite);
-		if (data.isAdmin == 1) $('input#isAdmin').prop('checked', true);
-		else $('input#isAdmin').prop('checked', false);
-		if (data.isActive == 1) $('input#isActive').prop('checked', true);
-		else $('input#isActive').prop('checked', false);
+		if (data.isAdmin == 1) {
+			$('input#isAdmin').prop('checked', true);
+		} else {
+			$('input#isAdmin').prop('checked', false);
+		}
+		if (data.isActive == 1) {
+			$('input#isActive').prop('checked', true);
+		} else {
+			$('input#isActive').prop('checked', false);
+		}
 		$('input#date_add').val(data.date_add);
 		$('input#date_upd').val(data.date_upd);
 		if (!$('button#dtAddRow').is(":visible")) {
@@ -39,17 +45,6 @@ CMS.initPage = function() {
 		}
 		CMS.showWidge();
 	});
-	var details = new Array();
-	details[0] = "genericForm"; //active form id
-	details[1] = thisURL + thisModule + "/process/add-module/"; //post url for add
-	details[2] = 'Module was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-module/"; //post url for edit
-	details[4] = 'Module was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-module/"; //post url for delete
-	details[6] = 'Module was successfully deleted.'; //success message for delete
-	details[7] = 'id_module'; //name of id for delete
-	details[8] = 'DT_Generic'; //active dataTable id
-	CMS.common(details); //include the active data table (for delete function)
 	uploadModule = new AjaxUpload('#moduleUploadDiv', {
 		action: thisURL + thisModule + '/tempUpload/module',
 		name: 'userfile',
@@ -85,7 +80,9 @@ CMS.initPage = function() {
 		var str = $(this).val();
 		$(this).val(str.toLowerCase());
 		var charCode = event.which;
-		if (charCode <= 13) return true;
+		if (charCode <= 13) {
+			return true;
+		}
 		var keyChar = String.fromCharCode(charCode);
 		return /[a-zA-Z0-9_]/.test(keyChar); // alphanumeric and underscore only
 	});
@@ -93,8 +90,21 @@ CMS.initPage = function() {
 		var str = $(this).val();
 		$(this).val(str.toLowerCase());
 		var charCode = event.which;
-		if (charCode <= 13) return true;
+		if (charCode <= 13) {
+			return true;
+		}
 		var keyChar = String.fromCharCode(charCode);
 		return /[a-zA-Z0-9_]/.test(keyChar); // alphanumeric and underscore only
 	});
+	var details = new Array();
+	details[0] = "genericForm"; //active form id
+	details[1] = thisURL + thisModule + "/process/add-module/"; //post url for add
+	details[2] = 'Module was successfully created.'; //success message for add
+	details[3] = thisURL + thisModule + "/process/edit-module/"; //post url for edit
+	details[4] = 'Module was successfully updated.'; //success message for edit
+	details[5] = thisURL + thisModule + "/process/delete-module/"; //post url for delete
+	details[6] = 'Module was successfully deleted.'; //success message for delete
+	details[7] = 'id_module'; //name of id for delete
+	details[8] = 'DT_Generic'; //active dataTable id
+	CMS.common(details); //include the active data table (for delete function)
 };

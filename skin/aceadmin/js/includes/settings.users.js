@@ -23,14 +23,28 @@ CMS.initPage = function() {
 		$('input#username').val(data.username);
 		console.log(data.id_admin_group);
 		$('select#id_admin_group').val(data.id_admin_group);
-		if (data.isActive == 1) $('input#isActive').prop('checked', true);
-		else $('input#isActive').prop('checked', false);
+		if (data.isActive == 1) {
+			$('input#isActive').prop('checked', true);
+		} else {
+			$('input#isActive').prop('checked', false);
+		}
 		$('input#date_add').val(data.date_add);
 		$('input#date_upd').val(data.date_upd);
 		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
 		}
 		CMS.showWidge();
+	});
+	$("#id_admin_group").chosen();
+	$("#id_admin_group_chosen").removeAttr('style');
+	$('.chosen-single').addClass('ignore');
+	$('a#changePass').on('click', function() { //additional functions for form reset
+		$('input#password').removeAttr('disabled');
+		$(this).hide();
+	});
+	$('button#dtAddRow').on('click', function() { //additional functions for form reset
+		$('a#changePass').addClass('hid');
+		$('input#password').removeAttr('disabled');
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
@@ -43,17 +57,6 @@ CMS.initPage = function() {
 	details[7] = 'id_admin'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	$("#id_admin_group").chosen();
-	$("#id_admin_group_chosen").removeAttr('style');
-	$('.chosen-single').addClass('ignore');
-	$('a#changePass').on('click', function() { //additional functions for form reset
-		$('input#password').removeAttr('disabled');
-		$(this).hide();
-	});
-	$('button.addReset').on('click', function() { //additional functions for form reset
-		$('a#changePass').addClass('hid');
-		$('input#password').removeAttr('disabled');
-	});
 }
 
 function changeStatus() {
@@ -73,8 +76,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Admin is successfully Enabled');

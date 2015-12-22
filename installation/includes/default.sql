@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2015 at 11:22 AM
+-- Generation Time: Dec 22, 2015 at 10:17 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -297,7 +297,9 @@ CREATE TABLE IF NOT EXISTS `vii_blog_category` (
   `id_blog_category` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
+  `category_caption` text,
   `category_desc` text,
+  `category_image_src` text,
   `category_root` text,
   `category_link_rewrite` text,
   `category_meta_title` text,
@@ -308,14 +310,16 @@ CREATE TABLE IF NOT EXISTS `vii_blog_category` (
   `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `vii_blog_category`
 --
 
-INSERT INTO `vii_blog_category` (`id_blog_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:01:23');
+INSERT INTO `vii_blog_category` (`id_blog_category`, `id_parent`, `category_title`, `category_caption`, `category_desc`, `category_image_src`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', NULL, 'Uncategorized', NULL, 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:01:23'),
+(2, 0, 'Sample Title #1', 'Sample Caption #1', '<span style="font-weight: bold;">Sample Description #1</span>', '95a70d7ed95f4c5f28536fbda9a2f355.jpg', NULL, 'sample_title__1', 'Sample Meta Title #1', 'Sample Meta Description #1', 'Sample Meta Author #1', 'Sample Meta Keywords #1', NULL, 1, '2015-12-16 05:53:19'),
+(3, 0, 'Sample Title #2', 'SampleCaption #2', '<p>Sample Description #2<br></p>', 'c1f10fd6240438c90ec722545eb77114.jpg', NULL, 'sample_title__2', 'Sample Meta Title #2', 'Sample Meta Description # 2', 'Sample Meta Author #2', 'Sample Meta Keywords #2', NULL, 1, '2015-12-16 06:37:45');
 
 -- --------------------------------------------------------
 
@@ -339,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `vii_blog_item` (
   `id_blog_category` int(11) NOT NULL DEFAULT '1',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_item`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `vii_blog_item`
@@ -482,7 +486,9 @@ CREATE TABLE IF NOT EXISTS `vii_events_category` (
   `id_events_category` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
+  `category_caption` text,
   `category_desc` text,
+  `category_image_src` text,
   `category_root` text,
   `category_link_rewrite` text,
   `category_meta_title` text,
@@ -499,8 +505,8 @@ CREATE TABLE IF NOT EXISTS `vii_events_category` (
 -- Dumping data for table `vii_events_category`
 --
 
-INSERT INTO `vii_events_category` (`id_events_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:00:02');
+INSERT INTO `vii_events_category` (`id_events_category`, `id_parent`, `category_title`, `category_caption`, `category_desc`, `category_image_src`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', NULL, 'Uncategorized', NULL, 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 0, '2015-12-15 06:00:02');
 
 -- --------------------------------------------------------
 
@@ -645,7 +651,7 @@ CREATE TABLE IF NOT EXISTS `vii_gallery_item` (
 --
 
 INSERT INTO `vii_gallery_item` (`id_gallery_item`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_meta_author`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_gallery_category`, `date_add`) VALUES
-(1, 'Title #1', 'title_1', 'Subtitle#1', 'Description #1', '6c230ed26f01fd493645b4f397692fe7.jpg', NULL, 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 0, 1, '2014-08-19 09:09:46'),
+(1, 'Title #1', 'title_1', 'Subtitle#1', 'Description #1', '6c230ed26f01fd493645b4f397692fe7.jpg', NULL, 'Gallery Sample Meta Title  #1', 'Gallery Sample Meta Description  #1', 'Gallery Sample Meta Keywords  #1', 1, 1, '2014-08-19 09:09:46'),
 (2, 'Title #2', 'title_2', 'Subtitle#2', 'Description #2', 'c89fedc788a87299c45efe1cf16c523f.jpg', NULL, NULL, NULL, NULL, 1, 1, '2014-08-19 09:09:46'),
 (3, 'Sample Title #1', 'sample_title__1', 'Sample Sub Title #1', 'Sample Description #1', '550e356039d49ed4290dfdd9193cf0bb.jpg', NULL, 'Sample Title #1', 'Sample Title #1', 'Sample Title #1', 1, 3, '2014-10-16 02:56:47'),
 (4, 'Sample Title #2', 'sample_title__2', 'Sample Sub Title #2', 'Sample Description #2', '11e562813d6057f56487153581332ecd.jpg', NULL, 'Sample Title #2', 'Sample Title #2', 'Sample Title #2', 1, 3, '2014-10-16 02:56:47');
@@ -757,7 +763,9 @@ CREATE TABLE IF NOT EXISTS `vii_news_category` (
   `id_news_category` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
+  `category_caption` text,
   `category_desc` text,
+  `category_image_src` text,
   `category_root` text,
   `category_link_rewrite` text,
   `category_meta_title` text,
@@ -774,8 +782,8 @@ CREATE TABLE IF NOT EXISTS `vii_news_category` (
 -- Dumping data for table `vii_news_category`
 --
 
-INSERT INTO `vii_news_category` (`id_news_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2014-05-29 10:46:04');
+INSERT INTO `vii_news_category` (`id_news_category`, `id_parent`, `category_title`, `category_caption`, `category_desc`, `category_image_src`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', NULL, 'Uncategorized', NULL, 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2014-05-29 10:46:04');
 
 -- --------------------------------------------------------
 
@@ -963,7 +971,9 @@ CREATE TABLE IF NOT EXISTS `vii_promo_category` (
   `id_promo_category` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) NOT NULL DEFAULT '0',
   `category_title` text,
+  `category_caption` text,
   `category_desc` text,
+  `category_image_src` text,
   `category_root` text,
   `category_link_rewrite` text,
   `category_meta_title` text,
@@ -980,8 +990,8 @@ CREATE TABLE IF NOT EXISTS `vii_promo_category` (
 -- Dumping data for table `vii_promo_category`
 --
 
-INSERT INTO `vii_promo_category` (`id_promo_category`, `id_parent`, `category_title`, `category_desc`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
-(1, 0, 'Uncategorized', 'Uncategorized', 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2015-12-15 06:00:45');
+INSERT INTO `vii_promo_category` (`id_promo_category`, `id_parent`, `category_title`, `category_caption`, `category_desc`, `category_image_src`, `category_root`, `category_link_rewrite`, `category_meta_title`, `category_meta_description`, `category_meta_author`, `category_meta_keywords`, `category_meta_image`, `status`, `date_add`) VALUES
+(1, 0, 'Uncategorized', NULL, 'Uncategorized', NULL, 'uncategorized', 'uncategorized', NULL, NULL, NULL, NULL, NULL, 1, '2015-12-15 06:00:45');
 
 -- --------------------------------------------------------
 

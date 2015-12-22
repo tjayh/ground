@@ -7,16 +7,12 @@ CMS.removeUploadFile = function() { //this function is called when admin chooses
 }
 CMS.initPageUnbind = function() {
 	CMS.commonUnbind();
-	CMS.commonUnbind();
 	uploadFile.destroy();
 	delete CMS.removeUploadFile;
 	$('button.addReset').unbind();
-	
 }
 CMS.initPage = function() {
-	var textedit = ['image_desc']; /* place the fields that needs to have text editor */
-	
-		$('.showWidge').on('click', function() {
+	$('.showWidge').on('click', function() {
 		CMS.removeUploadFile();
 	});
 	$('a.setFormValues').on('click', function() {
@@ -27,11 +23,10 @@ CMS.initPage = function() {
 		$('[name="where[id_page_section]"]').val(data.id_page_section);
 		$('#title').val(data.title);
 		$('#type').val(data.type);
-		if (data.type == 'page'){
+		if (data.type == 'page') {
 			$('#limit').removeAttr('style');
 			$('#module').attr('style', 'display:none');
-		}
-		else{
+		} else {
 			$('#limit').attr('style', 'display:none');
 			$('#module').removeAttr('style');
 		}
@@ -40,28 +35,13 @@ CMS.initPage = function() {
 		$('#fileNameHolder').html(data.file_name);
 		$('#date').val(data.date);
 		$('#image_src').val(data.image_src);
-		if (data.status == 1) $('input#status').prop('checked', true);
-		else $('input#status').prop('checked', false);
+		if (data.status == 1) {
+			$('input#status').prop('checked', true);
+		} else {
+			$('input#status').prop('checked', false);
+		}
 		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
-			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote();
-			});
-			$('div.note-editable').attr('contenteditable', 'false');
-		} else {
-			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote({
-					onblur: function(e) {
-						$("#" + value).val($('#' + value).code());
-					},
-					onImageUpload: function(files, editor, $editable) {
-						sendFile(files[0], editor, $editable);
-					}
-				});
-			});
-			$('div.note-editable').attr('contenteditable', 'true');
 		}
 		$('#image_src').imgupload('refresh');
 		$('#image_meta_title').val(data.image_meta_title);
@@ -79,13 +59,12 @@ CMS.initPage = function() {
 	});
 	$("#type").on('change', function(e) {
 		var type = $(this).val();
-		if (type == 'page'){
+		if (type == 'page') {
 			$('#limit').removeAttr('style');
 			$('#module').attr('style', 'display:none');
 			$('#input_limit').val('');
 			$('#input_module').val('');
-		}
-		else{
+		} else {
 			$('#limit').attr('style', 'display:none');
 			$('#module').removeAttr('style');
 			$('#input_limit').val('');
@@ -93,51 +72,9 @@ CMS.initPage = function() {
 		}
 	});
 	$('button#dtAddRow').on('click', function() {
-		$('.content_display').val('');
-		$('.content_display').code('');
-		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
-		$('div.note-editable').attr('contenteditable', 'true');
+		$('#image_src').val('');
+		$('#image_src').imgupload('refresh');
 	});
-	$('#btnEditForm').click(function() {
-		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
-		$('div.note-editable').attr('contenteditable', 'true');
-	});
-	$('#submit').on('click', function() {
-		$.each(textedit, function(index, value) { /* event if submit button is clicked */
-			$('#' + value).val($('#' + value).code());
-		});
-	});
-	var details = new Array();
-	details[0] = "genericForm"; //active form id
-	details[1] = thisURL + thisModule + "/process/add-section-file/"; //post url for add
-	details[2] = 'Section item was successfully created.'; //success message for add
-	details[3] = thisURL + thisModule + "/process/edit-section-file/"; //post url for edit
-	details[4] = 'Section item was successfully updated.'; //success message for edit
-	details[5] = thisURL + thisModule + "/process/delete-section-file/"; //post url for delete
-	details[6] = 'Section item was successfully deleted.'; //success message for delete
-	details[7] = 'id_page_section'; //name of id for delete
-	details[8] = 'DT_Generic'; //active dataTable id
-	CMS.common(details); //include the active data table (for delete function)
 	uploadFile = new AjaxUpload('div#fileUploadDiv', {
 		action: thisURL + thisModule + '/tempUpload/file',
 		name: 'userfile',
@@ -163,7 +100,7 @@ CMS.initPage = function() {
 		}
 	});
 	$('div#fileUploadDiv').on('click', function() {
-		$( ".userfile" ).trigger( "click" );
+		$(".userfile").trigger("click");
 	});
 	$('#date').datepicker({
 		format: "MM dd, yyyy",
@@ -172,12 +109,30 @@ CMS.initPage = function() {
 	$('input.imgupload').each(function() {
 		$(this).imgupload();
 	});
-	$('button.addReset').on('click', function() {
-		var flag = true;
-		$('#image_src').val('');
-		$('#image_src').imgupload('refresh');
-	});
+	var details = new Array();
+	details[0] = "genericForm"; //active form id
+	details[1] = thisURL + thisModule + "/process/add-section-file/"; //post url for add
+	details[2] = 'Section item was successfully created.'; //success message for add
+	details[3] = thisURL + thisModule + "/process/edit-section-file/"; //post url for edit
+	details[4] = 'Section item was successfully updated.'; //success message for edit
+	details[5] = thisURL + thisModule + "/process/delete-section-file/"; //post url for delete
+	details[6] = 'Section item was successfully deleted.'; //success message for delete
+	details[7] = 'id_page_section'; //name of id for delete
+	details[8] = 'DT_Generic'; //active dataTable id
+	CMS.common(details); //include the active data table (for delete function)
 }
+$('#section_file').ace_file_input({
+	no_file: 'No File ...',
+	btn_choose: 'Choose',
+	btn_change: 'Change',
+	droppable: false,
+	onchange: null,
+	// thumbnail:false //| true | large
+	whitelist: 'html',
+	blacklist: 'gif|png|jpg|jpeg|exe|php'
+		//onchange:''
+		//
+});
 
 function changeStatus() {
 	if (enableModule) enableModule = 1;
@@ -196,8 +151,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'News is successfully Enabled');
@@ -233,15 +189,3 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
-$('#section_file').ace_file_input({
-	no_file:'No File ...',
-	btn_choose:'Choose',
-	btn_change:'Change',
-	droppable:false,
-	onchange:null,
-	// thumbnail:false //| true | large
-	whitelist:'html',
-	blacklist:'gif|png|jpg|jpeg|exe|php'
-	//onchange:''
-	//
-});

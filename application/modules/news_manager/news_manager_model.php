@@ -41,10 +41,14 @@ class News_manager_model extends CI_Model
 				$this->db->order_by('category_title ASC');
 				$parent_query = $this->db->get();
 				$parent = $parent_query->result_array();
-				if ($parent_query->num_rows > 0) $result[$k]['sub_categories'] = $parent;
-				else $result[$k]['sub_categories'] = array(
-					$result[$k]
-				);
+				if ($parent_query->num_rows > 0) {
+					$result[$k]['sub_categories'] = $parent;
+				}
+				else {
+					$result[$k]['sub_categories'] = array(
+						$result[$k]
+					);
+				}
 			}
 			foreach($result as $item) {
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
@@ -85,8 +89,8 @@ class News_manager_model extends CI_Model
 				$result[$k]['parent_desc'] = $parent['category_desc'];
 			}
 			foreach($result as $item) {
-				$item['image_src_thumb_link'] = base_url() . $this->image_thumb_dir . $item['image_src'];
-				$item['image_src_link'] = base_url() . $this->image_dir . $item['image_src'];
+				$item['image_src_thumb_link'] = base_url() . $this->image_thumb_dir . $item['category_image_src'];
+				$item['image_src_link'] = base_url() . $this->image_dir . $item['category_image_src'];
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
 				$return[] = $item;
 			}
@@ -264,7 +268,7 @@ class News_manager_model extends CI_Model
 
 		case 'active':
 			foreach($multiple_id as $key => $item) {
-				$data['whr_id_news_item'] =$item;
+				$data['whr_id_news_item'] = $item;
 				$data['clmn_status'] = 1;
 				$this->load->model('core/dbtm_model', 'dbtm');
 				$params['table'] = 'news_item';
@@ -282,7 +286,7 @@ class News_manager_model extends CI_Model
 
 		case 'inactive':
 			foreach($multiple_id as $key => $item) {
-				$data['whr_id_news_item'] =$item;
+				$data['whr_id_news_item'] = $item;
 				$data['clmn_status'] = 0;
 				$this->load->model('core/dbtm_model', 'dbtm');
 				$params['table'] = 'news_item';
@@ -309,24 +313,38 @@ class News_manager_model extends CI_Model
 	function _addCategory()
 	{
 		$data = $this->input->post('data');
-		$this->db->select('*');
-		$this->db->from('news_category');
-		$this->db->where('id_news_category', $data['clmn_id_parent']);
-		$parent_query = $this->db->get();
-		$parent = $parent_query->row_array();
-		$data['clmn_category_root'] = $parent['category_title'] . " - " . $data['clmn_category_title'];
+		if($data['id_parent']){
+			$this->db->select('*');
+			$this->db->from('news_category');
+			$this->db->where('id_news_category', $data['id_parent']);
+			$parent_query = $this->db->get();
+			$parent = $parent_query->row_array();
+			$data['category_root'] = $parent['category_title'] . " - " . $data['category_title'];
+		}
 		if ($data) {
-			$params['table'] = 'news_category';
-			$params['post_data'] = $data;
-			$params['includeDates'] = null;
-			$this->load->model('core/dbtm_model', 'dbtm');
-			if ($this->dbtm->add($params)) {
+			$data['category_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['category_title']));
+			$result = $this->db->insert('news_category', $data);
+			if ($result) {
+				if (!file_exists($this->upload_dir . $data['category_image_src'])) {
+					if (!is_dir($this->upload_dir)) {
+						mkdir($this->upload_dir, 0777, TRUE);
+					}
+					if (!copy($this->temp_dir . $data['category_image_src'], $this->upload_dir . $data['category_image_src'])) {
+						$result['error'][] = "Failed to copy image to active folder.";
+					}
+					if (!unlink($this->temp_dir . $data["category_image_src"])) {
+						$result['error'][] = "Failed to delete image to temporary folder.";
+					}
+					if (!copy($this->temp_thumb_dir . $data['category_image_src'], $this->upload_thumb_dir . $data['category_image_src'])) {
+						$result['error'][] = "Failed to copy image to active folder.";
+					}
+					if (!unlink($this->temp_thumb_dir . $data["category_image_src"])) {
+						$result['error'][] = "Failed to delete image to temporary folder.";
+					}
+				}
 				return true;
 			}
 			else {
-				$result = array();
-				$result['error'] = array();
-				$result['error'][] = "Failed to add item.";
 				return $result;
 			}
 		}
@@ -337,17 +355,29 @@ class News_manager_model extends CI_Model
 	function _editCategory()
 	{
 		$data = $this->input->post('data');
-		if ($data['clmn_id_parent'] == 0) {
-			$upd_data['status'] = $data['clmn_status'];
-			$this->db->where('id_parent', $data['whr_id_news_category']);
-			$this->db->update('news_category', $upd_data);
-		}
+		$where = $this->input->post('where');
 		if ($data) {
-			$params['table'] = 'news_category';
-			$params['post_data'] = $data;
-			$params['includeDates'] = null;
-			$this->load->model('core/dbtm_model', 'dbtm');
-			if ($this->dbtm->update($params)) {
+			$data['category_link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['category_title']));
+			$this->db->where($where);
+			$result = $this->db->update('news_category', $data);
+			if ($result) {
+				if (!file_exists($this->upload_dir . $data['category_image_src'])) {
+					if (!is_dir($this->upload_dir)) {
+						mkdir($this->upload_dir, 0777, TRUE);
+					}
+					if (!copy($this->temp_dir . $data['category_image_src'], $this->upload_dir . $data['category_image_src'])) {
+						$result['error'][] = "Failed to copy image to active folder.";
+					}
+					if (!unlink($this->temp_dir . $data["category_image_src"])) {
+						$result['error'][] = "Failed to delete image to temporary folder.";
+					}
+					if (!copy($this->temp_thumb_dir . $data['category_image_src'], $this->upload_thumb_dir . $data['category_image_src'])) {
+						$result['error'][] = "Failed to copy image to active folder.";
+					}
+					if (!unlink($this->temp_thumb_dir . $data["category_image_src"])) {
+						$result['error'][] = "Failed to delete image to temporary folder.";
+					}
+				}
 				return true;
 			}
 			else {
@@ -443,6 +473,11 @@ class News_manager_model extends CI_Model
 	}
 	function _uploadImage($type = false)
 	{
+		/*
+		- type is for category or items
+		ex:
+		banner_itm - for item image dimensions will be used
+		*/
 		$this->load->model('core/uploader_model', 'uploader');
 		$this->uploader->_uploadImage($this->temp_dir, $this->temp_thumb_dir, false, false, $type);
 	}

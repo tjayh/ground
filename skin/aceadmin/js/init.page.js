@@ -136,46 +136,6 @@ CMS.closeWidge = function() {
 		$('#widge').addClass("hid");
 	}, 600);
 }
-$.fn.initFormSubmit = function(details) {
-	$(this).unbind();
-	$(this).on('submit', function(event) {
-		$('#formActions .btn').each(function() {
-			$(this).hide();
-		});
-		$('img#sgLoader_whitebg').removeClass('hid');
-		$.post(details[0], $('#' + details[1]).serialize({
-			checkboxesAsBools: true
-		}), function(data) {
-			setTimeout(function() {
-				if (data != 'false') {
-					flag = true;
-					try {
-						dataJ = $.parseJSON(data);
-					} catch (e) {
-						flag = false;
-					}
-					if (flag && dataJ.error != null) {
-						CMS.showNotification('error', dataJ.error);
-					} else if (flag && dataJ.warning != null) {
-						CMS.showNotification('warning', dataJ.warning);
-					} else if (flag && dataJ.info != null) {
-						CMS.showNotification('info', dataJ.info);
-					} else {
-						CMS.showNotification('success', details[2]);
-						CMS.forcedRefresh();
-					}
-				} else {
-					CMS.showNotification('error', 'Network Problem. Please try again.');
-				}
-				$('#formActions .btn').each(function() {
-					$(this).show();
-				});
-				$('img#sgLoader_whitebg').addClass('hid');
-			}, 3000);
-		});
-		event.preventDefault();
-	});
-};
 CMS.showHideFieldsU = function() {
 	$('.showFields').unbind();
 	$('.hideFields').unbind();
@@ -357,6 +317,58 @@ CMS.common = function(details) {
 	});
 	CMS.initDatePicker();
 }
+CMS.runSummernote = function(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
+	});
+}
+$.fn.initFormSubmit = function(details) {
+	$(this).unbind();
+	$(this).on('submit', function(event) {
+		$('#formActions .btn').each(function() {
+			$(this).hide();
+		});
+		$('img#sgLoader_whitebg').removeClass('hid');
+		$.post(details[0], $('#' + details[1]).serialize({
+			checkboxesAsBools: true
+		}), function(data) {
+			setTimeout(function() {
+				if (data != 'false') {
+					flag = true;
+					try {
+						dataJ = $.parseJSON(data);
+					} catch (e) {
+						flag = false;
+					}
+					if (flag && dataJ.error != null) {
+						CMS.showNotification('error', dataJ.error);
+					} else if (flag && dataJ.warning != null) {
+						CMS.showNotification('warning', dataJ.warning);
+					} else if (flag && dataJ.info != null) {
+						CMS.showNotification('info', dataJ.info);
+					} else {
+						CMS.showNotification('success', details[2]);
+						CMS.forcedRefresh();
+					}
+				} else {
+					CMS.showNotification('error', 'Network Problem. Please try again.');
+				}
+				$('#formActions .btn').each(function() {
+					$(this).show();
+				});
+				$('img#sgLoader_whitebg').addClass('hid');
+			}, 3000);
+		});
+		event.preventDefault();
+	});
+};
 
 function sendFile(file, editor, welEditable) {
 	data = new FormData();

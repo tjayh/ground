@@ -22,8 +22,7 @@ CMS.initPage = function() {
 		$('#image_meta_keywords').val(data.image_meta_keywords);
 		if (data.status == 1) {
 			$('input#status').prop('checked', true);
-		}
-		else {
+		} else {
 			$('input#status').prop('checked', false);
 		}
 		if (!$(this).hasClass('editItem')) {
@@ -35,25 +34,25 @@ CMS.initPage = function() {
 			$('div.note-editable').attr('contenteditable', 'false');
 		} else {
 			$('.content_display').destroy();
-			runSummernote(textedit);
+			CMS.runSummernote(textedit);
 			$('div.note-editable').attr('contenteditable', 'true');
 		}
 		$('#image_src').imgupload('refresh');
 		CMS.showWidge();
 	});
-	runSummernote(textedit);
+	CMS.runSummernote(textedit);
 	$('button#dtAddRow').on('click', function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		runSummernote(textedit);
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 		$('#image_src').val('');
 		$('#image_src').imgupload('refresh');
 	});
 	$('#btnEditForm').click(function() {
 		$('.content_display').destroy();
-		runSummernote(textedit);
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() {
@@ -80,18 +79,6 @@ CMS.initPage = function() {
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
 }
-function runSummernote(textedit) {
-	$.each(textedit, function(index, value) {
-		$('#' + value).summernote({
-			onblur: function(e) {
-				$("#" + value).val($('#' + value).code());
-			},
-			onImageUpload: function(files, editor, $editable) {
-				sendFile(files[0], editor, $editable);
-			}
-		});
-	});
-}
 
 function changeStatus() {
 	if (enableModule) enableModule = 1;
@@ -110,8 +97,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'Blog is successfully Enabled');

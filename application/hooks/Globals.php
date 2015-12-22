@@ -99,7 +99,6 @@ class Globals
 		$this->CI->template->assign('_style', $this->getConfigStyle());
 		$this->CI->template->assign('thisModule', $this->module);
 		$this->CI->template->assign('navItems', $this->_getNav());
-		/* print_r($this->_getNav());exit; */
 		$_cms_pages = $this->getPages();
 		foreach($_cms_pages as $item) {
 			$this->CI->template->assign('_page_' . $item['absolute_link'], $item['content']);
@@ -187,7 +186,6 @@ class Globals
 					$col++;
 				}
 				$result['sections'] = $return;
-				/* print_r($result);exit; */
 				return $result;
 			}
 			else {
@@ -279,7 +277,9 @@ class Globals
 			$this->CI->session->unset_userdata('redirect');
 		}
 		$template = $this->_getLayout($this->module, $this->method);
-		if ($this->module == 'admindashboard' && $this->method == 'login') $this->CI->template->display(_SKIN_PATH_ . _ADMIN_THEME_ . '/login.template.html');
+		if ($this->module == 'admindashboard' && $this->method == 'login') {
+			$this->CI->template->display(_SKIN_PATH_ . _ADMIN_THEME_ . '/login.template.html');
+		}
 		else {
 			if ($this->checkIfAdminModule()) {
 				if (substr($this->method, 0, 2) != 'nd') $this->CI->template->display(_SKIN_PATH_ . _ADMIN_THEME_ . '/admin.template.html');
@@ -670,7 +670,9 @@ class Globals
 		}
 		$this->CI->db->order_by('ap.sort_order', 'ASC');
 		$query = $this->CI->db->get();
-		if (!$query->num_rows()) return false;
+		if (!$query->num_rows()) {
+			return false;
+		}
 		return $query->result_array();
 	}
 	function getConfig($name)

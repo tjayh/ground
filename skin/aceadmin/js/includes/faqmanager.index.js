@@ -3,7 +3,7 @@ CMS.initPageUnbind = function() {
 	$('button.addReset').unbind();
 }
 CMS.initPage = function() {
-	var textedit = ['faq_question','faq_answer']; /* place the fields that needs to have text editor */
+	var textedit = ['faq_question', 'faq_answer']; /* place the fields that needs to have text editor */
 	$('a.setFormValues').on('click', function() {
 		itemID = $(this).closest("td").attr('id');
 		itemID = itemID.replace("jdata", "")
@@ -17,8 +17,11 @@ CMS.initPage = function() {
 				$("#id_faq_category").val(data.id_faq_category);
 			}
 		});
-		if (data.status == 1) $('input#isActive').prop('checked', true);
-		else $('input#isActive').prop('checked', false);
+		if (data.status == 1) {
+			$('input#isActive').prop('checked', true);
+		} else {
+			$('input#isActive').prop('checked', false);
+		}
 		if (!$('button#dtAddRow').is(":visible")) {
 			$('button#dtAddRow').removeClass('hid');
 		}
@@ -31,64 +34,32 @@ CMS.initPage = function() {
 			$('div.note-editable').attr('contenteditable', 'false');
 		} else {
 			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote({
-					onblur: function(e) {
-						$("#" + value).val($('#' + value).code());
-					},
-					onImageUpload: function(files, editor, $editable) {
-						sendFile(files[0], editor, $editable);
-					}
-				});
-			});
+			CMS.runSummernote(textedit);
 			$('div.note-editable').attr('contenteditable', 'true');
 		}
 		CMS.showWidge();
 	});
-	$.each(textedit, function(index, value) {
-		$('#' + value).summernote({
-			onblur: function(e) {
-				$('#' + value).val($('#' + value).code());
-			},
-			onImageUpload: function(files, editor, $editable) {
-				sendFile(files[0], editor, $editable);
-			}
-		});
-	});
+	CMS.runSummernote(textedit);
 	$('button#dtAddRow').on('click', function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#btnEditForm').click(function() {
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() {
 		$.each(textedit, function(index, value) { /* check if submit button is clicked */
 			$('#' + value).val($('#' + value).code());
 		});
+	});
+	$('#date').datepicker({
+		format: "MM dd, yyyy",
+		autoclose: true
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
@@ -101,13 +72,19 @@ CMS.initPage = function() {
 	details[7] = 'id_faq_item'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	$('#date').datepicker({
-		format: "MM dd, yyyy",
-		autoclose: true
-	})
-	$('button.addReset').on('click', function() {
+}
+
+function runSummernote(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
-	
 }
 
 function changeStatus() {
@@ -127,8 +104,9 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
 						CMS.showNotification('success', 'FAQ is successfully Enabled');
@@ -164,6 +142,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+
 function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
@@ -174,7 +153,7 @@ function showActions() {
 		$('#multiActions').attr('style', 'display:none');
 	}
 }
-$("#ckbCheckAll").click(function () {
+$("#ckbCheckAll").click(function() {
 	$(".selected-items").prop('checked', $(this).prop('checked'));
 	showActions();
 });

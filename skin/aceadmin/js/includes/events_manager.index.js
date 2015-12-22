@@ -11,14 +11,20 @@ CMS.initPage = function() {
 		var data = $.parseJSON(json);
 		$('[name="where[id_events_item]"]').val(data.id_events_item);
 		$('#id_events_category').val(data.id_events_category);
+		$('#image_src').val(data.image_src);
 		$('#image_title').val(data.image_title);
 		$('#image_sub_title').val(data.image_sub_title);
 		$('#image_author').val(data.image_author);
 		$('#image_desc').val(data.image_desc);
 		$('#date').val(data.date);
-		$('#image_src').val(data.image_src);
-		if (data.status == 1) $('input#status').prop('checked', true);
-		else $('input#status').prop('checked', false);
+		$('#image_meta_title').val(data.image_meta_title);
+		$('#image_meta_description').val(data.image_meta_description);
+		$('#image_meta_keywords').val(data.image_meta_keywords);
+		if (data.status == 1) {
+			$('input#status').prop('checked', true);
+		} else {
+			$('input#status').prop('checked', false);
+		}
 		if (!$(this).hasClass('editItem')) {
 			$('div#formActions').addClass('hid');
 			$('.content_display').destroy();
@@ -28,66 +34,38 @@ CMS.initPage = function() {
 			$('div.note-editable').attr('contenteditable', 'false');
 		} else {
 			$('.content_display').destroy();
-			$.each(textedit, function(index, value) {
-				$('#' + value).summernote({
-					onblur: function(e) {
-						$("#" + value).val($('#' + value).code());
-					},
-					onImageUpload: function(files, editor, $editable) {
-						sendFile(files[0], editor, $editable);
-					}
-				});
-			});
+			CMS.runSummernote(textedit);
 			$('div.note-editable').attr('contenteditable', 'true');
 		}
 		$('#image_src').imgupload('refresh');
-		$('#image_meta_title').val(data.image_meta_title);
-		$('#image_meta_description').val(data.image_meta_description);
-		$('#image_meta_keywords').val(data.image_meta_keywords);
 		CMS.showWidge();
 	});
-	$('#image_desc').summernote({
-		onblur: function(e) {
-			$("#image_desc").val($('#image_desc').code());
-		},
-		onImageUpload: function(files, editor, $editable) {
-			sendFile(files[0], editor, $editable);
-		}
-	});
+	CMS.runSummernote(textedit);
 	$('button#dtAddRow').on('click', function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
+		$('#image_src').val('');
+		$('#image_src').imgupload('refresh');
 	});
 	$('#btnEditForm').click(function() {
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() {
 		$.each(textedit, function(index, value) { /* check if submit button is clicked */
 			$('#' + value).val($('#' + value).code());
 		});
+	});
+	$('#date').datepicker({
+		format: "MM dd, yyyy",
+		autoclose: true
+	})
+	$('input.imgupload').each(function() {
+		$(this).imgupload();
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
@@ -100,17 +78,18 @@ CMS.initPage = function() {
 	details[7] = 'id_events_item'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details); //include the active data table (for delete function)
-	$('#date').datepicker({
-		format: "MM dd, yyyy",
-		autoclose: true
-	})
-	$('input.imgupload').each(function() {
-		$(this).imgupload();
-	});
-	$('button.addReset').on('click', function() {
-		var flag = true;
-		$('#image_src').val('');
-		$('#image_src').imgupload('refresh');
+}
+
+function runSummernote(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
 }
 
@@ -131,11 +110,12 @@ function changeStatus() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
 				var text = $('div#jd' + itemID).text();
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					var $dataA = $('a#stat' + itemID);
 					if (enableModule == 1) {
-						CMS.showNotification('success', 'News is successfully Enabled');
+						CMS.showNotification('success', 'Events is successfully Enabled');
 						$('a#stat' + itemID).html('<span class="label label-success"> Active </span>');
 						$('a#stat' + itemID).attr('title', 'Disable item status');
 						$dataA.data('data-getDetails', 'disableFxn');
@@ -143,7 +123,7 @@ function changeStatus() {
 						text = text.replace('"status":"0"', '"status":"1"');
 						$('div#jd' + itemID).text(text);
 					} else {
-						CMS.showNotification('success', 'News is successfully Disabled');
+						CMS.showNotification('success', 'Events is successfully Disabled');
 						$('a#stat' + itemID).html('<span class="label label-danger">InActive</span>');
 						$('a#stat' + itemID).attr('title', 'Enable item status');
 						$dataA.data('data-getDetails', 'enableFxn');
@@ -168,6 +148,7 @@ function enableMod() {
 	enableModule = true;
 	changeStatus();
 }
+
 function showActions() {
 	var vals = $('.selected-items:checkbox:checked').map(function() {
 		return this.value;
@@ -178,7 +159,7 @@ function showActions() {
 		$('#multiActions').attr('style', 'display:none');
 	}
 }
-$("#ckbCheckAll").click(function () {
+$("#ckbCheckAll").click(function() {
 	$(".selected-items").prop('checked', $(this).prop('checked'));
 	showActions();
 });
@@ -186,7 +167,7 @@ $('.selected-items').change(function() {
 	showActions();
 });
 $("#dtDeleteRows").on(ace.click_event, function() {
-	bootbox.confirm("Are you sure to update this item/s?", function(result) {
+	bootbox.confirm("Are you sure to update this items/?", function(result) {
 		if (result) {
 			var vals = $('.selected-items:checkbox:checked').map(function() {
 				return this.value;
@@ -203,7 +184,7 @@ $("#dtDeleteRows").on(ace.click_event, function() {
 					if (dataJ.error != null) {
 						CMS.showNotification('error', dataJ.error);
 					} else {
-						CMS.showNotification('success', 'Event item/s was successfully updated.');
+						CMS.showNotification('success', 'Events item/s was successfully updated.');
 						CMS.forcedRefresh();
 					}
 				} else {

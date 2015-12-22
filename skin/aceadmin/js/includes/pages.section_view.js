@@ -24,8 +24,6 @@ CMS.initPage = function() {
 		$("#" + cont_type + '_type .fieldEditable').attr('required', 'required');
 		$('.val-page').removeAttr('required');
 		$("#" + cont_type + "_type #sec_" + data.id_page_section).prop("checked", true);
-
-		
 		$.each(data.pages, function(index, value) {
 			$("#" + cont_type + '_type #pages_' + value.id_page).prop("checked", true);
 		});
@@ -42,7 +40,6 @@ CMS.initPage = function() {
 				$(this).closest('label').insertBefore($($(this).closest('label')).siblings('label').first('label'));
 			}
 		});
-		
 		var pages = $('input.val-' + cont_type + ':checked').map(function() {
 			return $(this).val();
 		}).get();
@@ -78,7 +75,7 @@ CMS.initPage = function() {
 		}
 		CMS.showWidge();
 	});
-	$('button.addReset').on('click', function() /* added trigger point in init.page.js */ {
+	$('button#dtAddRow').on('click', function() {/* added trigger point in init.page.js */
 		var col_num = $(this).data("column");
 		$('#sec_column').val(col_num);
 		$("#page_type").attr("style", "display:none");
@@ -86,7 +83,7 @@ CMS.initPage = function() {
 	});
 	$('.closeWidge').on('click', function() {
 		CMS.closeWidge();
-		$('.addReset').removeClass('hid');
+		$('#dtAddRow').removeClass('hid');
 		CMS.disableFields(details[0]);
 		$("div#formActions").addClass('hid');
 	});
@@ -96,6 +93,9 @@ CMS.initPage = function() {
 		if (check_type != 'module') {
 			$('input.requiredGroup').prop('required', $('input.requiredGroup:checked').length === 0);
 		}
+	});
+	$('input.imgupload').each(function() {
+		$(this).imgupload();
 	});
 	var details = new Array();
 	details[0] = "genericForm"; //active form id
@@ -108,22 +108,6 @@ CMS.initPage = function() {
 	details[7] = 'id_page'; //name of id for delete
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details);
-	$('input.imgupload').each(function() {
-		$(this).imgupload();
-	});
-	$("#inputTitle").keyup(function() {
-		var str = $(this).val();
-		var link_rewrite = str.replace(/[_\W]+/g, "").toLowerCase();
-		$('#inputLinkRewrite').val(link_rewrite);
-	});
-	$("#inputLinkRewrite").bind("keypress", function(event) {
-		var str = $(this).val();
-		$(this).val(str.toLowerCase());
-		var charCode = event.which;
-		if (charCode <= 13) return true;
-		var keyChar = String.fromCharCode(charCode);
-		return /[a-zA-Z0-9_]/.test(keyChar); // alphanumeric and underscore only
-	});
 }
 var template;
 var limit;
@@ -170,7 +154,7 @@ $(".templateList").on('change', function(e) {
 $(".val-page").click(function() {
 	//event if a check box of the pages is checked
 	if ($("input[type='radio']").is(':checked')) { //event if a template name is selected
-	 var limit = $('#limit').val();
+		var limit = $('#limit').val();
 		if ($(this).siblings(':checked').length >= limit) {
 			this.checked = false;
 		}
@@ -184,7 +168,6 @@ $(".val-page").click(function() {
 	}).get();
 	$('#page').val(pages.join(','));
 });
-/* $(".val-module").click(function() { */
 $('input[name="modules"]:radio').on('change', function(e) {
 	var mod_val = $(".val-module:checked").val();
 	var mod_name = $(".val-module:checked").data('modulename');
@@ -217,8 +200,6 @@ $('.viewTemplateButton').on('click', function() {
 $('.deleteSectionButton').on('click', function() {
 	$('#delete_section_modal').attr('src', $(this).data("img"));
 });
-
-
 $("#pageLayoutTemplate").submit(function(event) {
 	$("#layoutTempModalLoading").removeAttr('style');
 	$("#layoutTempModalButtons").attr("style", "display:none");
@@ -241,6 +222,7 @@ $("#pageLayoutTemplate").submit(function(event) {
 		}
 	});
 });
+
 function deleteSecRow() {
 	var key_section = $('#deleteKeySection').val();
 	var column = $('#deleteKeyColumn').val();

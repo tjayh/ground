@@ -18,26 +18,32 @@ class Events_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	function _getItems($limit = false, $offset = false, $id_item = false)
+	function _getItems($limit = false, $offset = false, $id_item = false, $id_events_category = false)
 	{
 		$this->db->select('*, gc.category_title as category');
 		$this->db->from('events_item i');
 		$this->db->join('events_category gc', 'gc.id_events_category = i.id_events_category');
+		if($id_events_category) $this->db->where('i.id_events_category', $id_events_category);
 		$this->db->where('i.status', 1);
-		if ($id_item) $this->db->where('i.id_events_item !=', $id_item);
+		if ($id_item) {
+			$this->db->where('i.id_events_item !=', $id_item);
+		}
 		$this->db->order_by('i.date DESC');
-		if ($limit && !$offset) $this->db->limit($limit);
-		if ($limit && $offset) $this->db->limit($limit, $offset);
+		if ($limit && !$offset) {
+			$this->db->limit($limit);
+		}
+		if ($limit && $offset) {
+			$this->db->limit($limit, $offset);
+		}
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
 			$return = array();
 			foreach($result as $item) {
-				$item['image_desc'] = htmlspecialchars_decode($item['image_desc']);
 				$item['date'] = date('F d, Y', strtotime($item['date']));
 				$item['month'] = date('F', strtotime($item['date']));
 				$item['year'] = date('Y', strtotime($item['date']));
-				$item['image_link'] = base_url() . 'events/view/' . $item['id_events_item'] . '/' . $item['link_rewrite'];
+				$item['image_link'] = base_url() . 'events/article/' . $item['id_events_item'] . '/' . $item['link_rewrite'];
 				if ($item['image_src']) {
 					$item['image_src_thumb'] = base_url() . 'upload/images/events/thumb/' . $item['image_src'];
 					$item['image_src'] = base_url() . 'upload/images/events/' . $item['image_src'];
@@ -49,24 +55,61 @@ class Events_model extends CI_Model
 		}
 		return false;
 	}
-	function _getEventsItem($id_events_item = false)
+	function _getCategories($id_events_category)
+	{
+		$this->db->select('gc.*');
+		$this->db->from('events_category gc');
+		/* $this->db->where('gc.status', 1); */
+		if ($id_events_category) $this->db->where('gc.id_events_category ', $id_events_category);
+		$this->db->order_by('gc.id_events_category DESC');
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			$result = $query->result_array();
+			$return = array();
+			
+			foreach($result as $item) {
+				$item['item_lists'] = $this->_getEventsItem(false,$item['id_events_category']);
+				$item['total_items'] = count($item['item_lists']);
+				if(!$item['item_lists']){
+					$item['total_items'] = 0;
+				}
+				$item['catagory_link'] = base_url() . 'events/category/' . $item['id_events_category'] . '/' . $item['category_link_rewrite'];
+				if ($item['category_image_src']) {
+					$item['category_image_src_thumb'] = base_url() . 'upload/images/events/thumb/' . $item['category_image_src'];
+					$item['category_image_src'] = base_url() . 'upload/images/events/' . $item['category_image_src'];
+				}
+				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
+				$return[] = $item;
+			}
+			if($id_events_category) {
+				return $return[0];
+			}
+			return $return;
+		}
+		return false;
+	}
+	function _getEventsItem($id_events_item = false, $id_events_category = false)
 	{
 		$this->db->select('*, gc.category_title as category');
 		$this->db->from('events_item i');
 		$this->db->join('events_category gc', 'gc.id_events_category = i.id_events_category', 'left');
+		if($id_events_category) {
+			$this->db->where('i.id_events_category', $id_events_category);
+		}
 		$this->db->where('i.status', 1);
-		if ($id_events_item) $this->db->where('i.id_events_item', $id_events_item);
+		if ($id_events_item) {
+			$this->db->where('i.id_events_item', $id_events_item);
+		}
 		$this->db->order_by('i.date DESC');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			$result = $query->result_array();
 			$return = array();
 			foreach($result as $item) {
-				$item['image_desc'] = htmlspecialchars_decode($item['image_desc']);
 				$item['date'] = date('F d, Y', strtotime($item['date']));
 				$item['month'] = date('F', strtotime($item['date']));
 				$item['year'] = date('Y', strtotime($item['date']));
-				$item['image_link'] = base_url() . 'events/view/' . $item['id_events_item'] . '/' . $item['link_rewrite'];
+				$item['image_link'] = base_url() . 'events/article/' . $item['id_events_item'] . '/' . $item['link_rewrite'];
 				if ($item['image_src']) {
 					$item['image_src_thumb'] = base_url() . 'upload/images/events/thumb/' . $item['image_src'];
 					$item['image_src'] = base_url() . 'upload/images/events/' . $item['image_src'];
@@ -74,7 +117,9 @@ class Events_model extends CI_Model
 				$item['json'] = htmlentities(json_encode($item) , ENT_QUOTES);
 				$return[] = $item;
 			}
-			if ($id_events_item) return $return[0];
+			if ($id_events_item) {
+				return $return[0];
+			}
 			return $return;
 		}
 		return false;

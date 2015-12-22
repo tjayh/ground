@@ -1,0 +1,63 @@
+<!---------- RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
+<!-- {foreach from=$recent_promo key=key item=item}
+	<div>{$key}</div>
+	{if $year neq $item.year}{assign var="year" value=$item.year} ====={$item.year}===== {/if}
+	{if $month neq $item.month}{assign var="month" value=$item.month} =={$item.month}== {/if}
+	<div><a href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
+	{if $key eq 4}{break}{/if} 
+{/foreach} -->
+<!---------- EEEEEEEEEND RAW ALL RECENT BLOGS LISTS GROUP BY YEAR AND MONTH ---------->
+
+<!---------- RAW ALL BLOGS CATEGORIES AVAILABLE ---------->
+{if $category_list}
+	{foreach from=$category_list key=key item=item}
+		<div>{$item.category_title}</div>
+		<div>{$item.category_caption}</div>
+		<div>{$item.category_desc}</div>
+		<div><a  href="{$item.catagory_link}">{$item.image_title|ucwords}</a></div>
+		<div>{if $item.category_image_src}<img src="{$item.category_image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+	{/foreach}
+{/if}
+<!---------- EEEEEEEEEND RAW ALL BLOGS CATEGORIES AVAILABLE ---------->
+
+<!---------- DETAILS OF BLOGS CATEGORY SELECTED ---------->
+{if $category}
+		<div>{$category.category_title}</div>
+		<div>{$category.category_caption}</div>
+		<div>{$category.category_desc}</div>
+		<div><a  href="{$category.catagory_link}">{$category.image_title|ucwords}</a></div>
+		<div>{if $category.category_image_src}<img src="{$category.category_image_src}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+{/if}
+***************************************************************
+<!---------- EEEEEEEEEND DETAILS OF BLOGS CATEGORY SELECTED ---------->
+
+<!---------- RAW ALL BLOGS LISTS BASED FROM SELECTED CATEGORY ---------->
+{if $promo}
+	{foreach from=$promo key=key item=item}
+		<div>{$key}</div>
+		<div>{$item.id_promo_item}</div>
+		<div>{$item.image_sub_title}</div>
+		<div><a  href="{$item.image_link}">{$item.image_title|ucwords}</a></div>
+		<div>{if $item.image_src_thumb}<img src="{$item.image_src_thumb}" style="max-height: 150px; max-width: 150px;"/>{/if}</div>
+		<div>{$item.date|date_format}</div>
+		<div>{$item.image_desc|strip_tags:true|truncate:1000}</div>
+		=======================================================
+	{/foreach}
+{/if}
+<!---------- EEEEEEEEEND RAW ALL BLOGS LISTS BASED FROM SELECTED CATEGORY ---------->
+
+<!---------- RAW PAGINATION ---------->
+{if $promo}
+<ul class="pagination">
+	{if $int_page gt 1}<li><a href="{$base_url}{$thisModule}/category_page/{$int_page - 1}/{$category.id_promo_category}/{$category.category_link_rewrite}" rel="prev">Prev</a></li>{/if}
+		{for $page=1 to $num_pages}
+			{if $int_page eq $page}
+				<li><span class="current">{$page}</span></li>
+			{else}
+				<li><a href="{$base_url}{$thisModule}/category_page/{$page}/{$category.id_promo_category}/{$category.category_link_rewrite}">{$page}</a></li>
+			{/if}
+		{/for}
+	{if $int_page lt $num_pages}<li><a href="{$base_url}{$thisModule}/category_page/{$int_page + 1}/{$category.id_promo_category}/{$category.category_link_rewrite}" rel="next">Next</a></li>{/if}
+</ul>
+{/if}
+<!---------- EEEEEEEEEND RAW PAGINATION ---------->

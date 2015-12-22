@@ -11,7 +11,6 @@ CMS.initPage = function() {
 		itemID = itemID.replace("jdata", "")
 		var json = $('div#jd' + itemID).html();
 		var data = $.parseJSON(json);
-		/* console.log(data); */
 		$('input#id_newsletter').val(data.id_newsletter);
 		$('#newsletterTitle').val(data.title);
 		if (!$('button#dtAddRow').is(":visible")) {
@@ -21,16 +20,7 @@ CMS.initPage = function() {
 			$.get('includes/newsletters/' + data.content, function(response) {
 				$('#newsletterContent').val(response);
 				$('.content_display').destroy();
-				$.each(textedit, function(index, value) {
-					$('#' + value).summernote({
-						onblur: function(e) {
-							$("#" + value).val($('#' + value).code());
-						},
-						onImageUpload: function(files, editor, $editable) {
-							sendFile(files[0], editor, $editable);
-						}
-					});
-				});
+				CMS.runSummernote(textedit);
 			}, 'text');
 		}
 		if (!$(this).hasClass('editItem')) {
@@ -44,30 +34,13 @@ CMS.initPage = function() {
 		$('.content_display').val('');
 		$('.content_display').code('');
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
+		CKEDITOR.instances.inputContent.setData('');
 	});
 	$('button#btnEditForm').on('click', function() {
 		$('.content_display').destroy();
-		$.each(textedit, function(index, value) {
-			$('#' + value).summernote({
-				onblur: function(e) {
-					$("#" + value).val($('#' + value).code());
-				},
-				onImageUpload: function(files, editor, $editable) {
-					sendFile(files[0], editor, $editable);
-				}
-			});
-		});
+		CMS.runSummernote(textedit);
 		$('div.note-editable').attr('contenteditable', 'true');
 	});
 	$('#submit').on('click', function() { /* event if submit button is clicked */
@@ -87,8 +60,18 @@ CMS.initPage = function() {
 	details[8] = 'DT_Generic'; //active dataTable id
 	CMS.common(details);
 	CMS.showHideFields();
-	$('button.addReset').on('click', function() { //additional functions for form reset
-		CKEDITOR.instances.inputContent.setData('');
+}
+
+function runSummernote(textedit) {
+	$.each(textedit, function(index, value) {
+		$('#' + value).summernote({
+			onblur: function(e) {
+				$("#" + value).val($('#' + value).code());
+			},
+			onImageUpload: function(files, editor, $editable) {
+				sendFile(files[0], editor, $editable);
+			}
+		});
 	});
 }
 
@@ -106,8 +89,9 @@ function sendNewsletter() {
 		setTimeout(function() {
 			if (data != 'false') {
 				var dataJ = $.parseJSON(data);
-				if (dataJ.error != null) CMS.showNotification('error', dataJ.error);
-				else {
+				if (dataJ.error != null) {
+					CMS.showNotification('error', dataJ.error);
+				} else {
 					CMS.showNotification('success', 'Newsletter is successfully sent to subscribers');
 				}
 			} else {
