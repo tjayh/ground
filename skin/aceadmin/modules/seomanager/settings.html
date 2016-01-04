@@ -52,6 +52,13 @@
 											<div class="col-sm-9">
 												<input type="text" placeholder="Google Analytics" class="col-xs-12 col-sm-8 fieldEditable" id="seo_google_ua" name="data[seo_google_ua]" disabled="disabled" value="{$seo_google_ua}" /> </div>
 										</div>
+										{if $_admin.id_admin_group eq 1}
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="seo_google_ua"> Google Custom Search Engine </label>
+											<div class="col-sm-9">
+												<input type="text" placeholder="Google Custom Search Engine" class="col-xs-12 col-sm-8 fieldEditable" id="google_cse" name="data[google_cse]" disabled="disabled" value="{$google_cse}" /> </div>
+										</div>
+										{/if}
 									</div>
 								</div>
 							</div>

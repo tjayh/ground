@@ -75,6 +75,7 @@ class Globals
 		$this->CI->template->assign('_meta_author', $this->getConfig('META_AUTHOR'));
 		$this->CI->template->assign('_meta_robots', $this->getConfig('META_ROBOTS'));
 		$this->CI->template->assign('_google_ua', $this->getConfig('SEO_GOOGLE_UA'));
+		$this->CI->template->assign('_google_cse', $this->getConfig('GOOGLE_CSE'));
 		$this->CI->template->assign('_logo', $this->upload_images . 'logo/' . $this->getConfig('SITE_LOGO'));
 		$this->CI->template->assign('_favicon', $this->upload_images . 'favicon/' . $this->getConfig('SITE_FAVICON'));
 		$this->CI->template->assign('_site_backgrounds', $this->getConfig('SITE_BACKGROUNDS'));
@@ -156,6 +157,7 @@ class Globals
 				$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
 				$layout_decoded = json_decode($result['layout'], JSON_FORCE_OBJECT);
 				$result['image_src'] = base_url() . 'upload/images/banner/' . $result['image_src'];
+				$result['meta_image'] = base_url() . 'upload/images/banner/' . $result['meta_image'];
 				$result['sections'] = $sections_decoded;
 				$result['layout'] = $layout_decoded;
 				$result['layout']['html_file'] = 'default/includes/layout_templates/' . $result['layout']['filename'] . '.html';
@@ -244,9 +246,23 @@ class Globals
 		$this->CI->db->from('page p');
 		$this->CI->db->where('p.isAdmin', '0');
 		$query = $this->CI->db->get();
-		if (!$query->num_rows()) return false;
+		if (!$query->num_rows()) {
+			return false;
+		}
 		$result = $query->result_array();
 		foreach($result as $item) {
+			if (!$item['title_active']) {
+				$item['title'] = "";
+			}
+			if (!$item['content_active']) {
+				$item['content'] = "";
+			}
+			if (!$item['image_src_active']) {
+				$item['image_src'] = "";
+			}
+			if (!$item['caption_active']) {
+				$item['caption'] = "";
+			}
 			if ($item['image_src']) {
 				$item['image_src'] = base_url() . 'upload/images/banner/' . $item['image_src'];
 			}
@@ -258,13 +274,37 @@ class Globals
 	{
 		$curr_page = $this->getCurrentPage();
 		if ($curr_page) {
-			$this->CI->template->assign('_page_curr_page', $curr_page);
+			$this->CI->template->assign('_curr_page', $curr_page);
+			if (!$curr_page['title_active']) {
+				$curr_page['title'] = "";
+			}
+			if (!$curr_page['content_active']) {
+				$curr_page['content'] = "";
+			}
+			if (!$curr_page['image_src_active']) {
+				$curr_page['image_src'] = "";
+			}
+			if (!$curr_page['caption_active']) {
+				$curr_page['caption'] = "";
+			}
+			if (!$curr_page['meta_title_active']) {
+				$curr_page['meta_title'] = "";
+			}
+			if (!$curr_page['meta_keywords_active']) {
+				$curr_page['meta_keywords'] = "";
+			}
+			if (!$curr_page['meta_description_active']) {
+				$curr_page['meta_description'] = "";
+			}
+			if (!$curr_page['meta_image_active']) {
+				$curr_page['meta_image'] = "";
+			}
 			$this->CI->template->assign('_page_title', strlen($curr_page['title']) ? $curr_page['title'] : '');
 			if ($this->module != 'news' && $this->module != 'blog' && $this->module != 'promo' && $this->module != 'events' && $this->module != 'gallery') {
 				$this->CI->template->assign('_meta_title', strlen($curr_page['meta_title']) ? $curr_page['meta_title'] : $this->getConfig('META_TITLE'));
 				$this->CI->template->assign('_meta_keywords', strlen($curr_page['meta_keywords']) ? $curr_page['meta_keywords'] : $this->getConfig('META_TAGS'));
 				$this->CI->template->assign('_meta_description', strlen($curr_page['meta_description']) ? $curr_page['meta_description'] : $this->getConfig('META_DESCRIPTION'));
-				$this->CI->template->assign('_meta_image', strlen($curr_page['meta_image']) ? $this->upload_images . 'banner/' . $curr_page['meta_image'] : $this->upload_images . 'banner/' . $this->getConfig('META_IMAGE'));
+				$this->CI->template->assign('_meta_image', strlen($curr_page['meta_image']) ? $curr_page['meta_image'] : $this->upload_images . 'banner/' . $this->getConfig('META_IMAGE'));
 			}
 			$this->CI->template->assign('_content', 'default' . '/modules/pages/_content.html');
 			$this->CI->template->assign('_page', $curr_page);
@@ -365,7 +405,7 @@ class Globals
 			}
 			else {
 				if ($nav_item['absolute_link']) {
-					$pages = 'pages/';
+					/* $pages = 'pages/'; */
 				}
 				$nav_item['page_link'] = base_url() . $pages . $nav_item['absolute_link'];
 			}

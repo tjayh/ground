@@ -13,14 +13,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class SeoManager extends MX_Controller
 
 {
-	var $fields = array(
-		'seo_site_name',
-		'seo_site_keyword',
-		'seo_site_description',
-		'meta_author',
-		'meta_robots',
-		'seo_google_ua'
-	);
 	function __construct()
 	{
 		parent::__construct();
@@ -36,7 +28,7 @@ class SeoManager extends MX_Controller
 	{
 		$this->load->library('encrypt');
 		$p = '';
-		if($p) {
+		if ($p) {
 			print_r($this->encrypt->encode($p));
 			exit;
 		}
@@ -82,6 +74,7 @@ class SeoManager extends MX_Controller
 		$fields = array(
 			'site_name',
 			'seo_google_ua',
+			'google_cse',
 			'meta_title',
 			'meta_tags',
 			'meta_description',

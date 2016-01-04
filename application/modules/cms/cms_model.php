@@ -300,7 +300,7 @@ class Cms_model extends CI_Model
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
-			$data = str_replace("<p><br></p>", "", $data);
+			$data = str_replace("<p><br /></p>", "", $data);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}
@@ -379,7 +379,7 @@ class Cms_model extends CI_Model
 			$id_parent = $data['clmn_id_parent'];
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
-			$data = str_replace("<p><br></p>", "", $data);
+			$data = str_replace("<p><br /></p>", "", $data);
 			if ($data['clmn_content'] == '<p><br /></p>') {
 				$data['clmn_content'] = '';
 			}
@@ -477,8 +477,11 @@ class Cms_model extends CI_Model
 				/* copy file */
 				$upload_file_dir = './skin/default/includes/section/';
 				$temp_file_dir = './temp/admin/';
-				if (!is_dir($this->upload_file_dir)) {
-					mkdir($this->upload_file_dir, 0777, TRUE);
+				if (!is_dir($upload_file_dir)) {
+					mkdir($upload_file_dir, 0777, TRUE);
+				}
+				if (!is_dir($temp_file_dir)) {
+					mkdir($temp_file_dir, 0777, TRUE);
 				}
 				if (!copy($temp_file_dir . $fileFolderName, $upload_file_dir . $data['file_name'])) {
 					$result['error'][] = "Failed to copy file to active folder.";
@@ -576,8 +579,11 @@ class Cms_model extends CI_Model
 			$temp_file_dir = './temp/admin/';
 			if (!file_exists($upload_file_dir . $data['file_name'])) {
 				/* copy file */
-				if (!is_dir($this->upload_file_dir)) {
-					mkdir($this->upload_file_dir, 0777, TRUE);
+				if (!is_dir($upload_file_dir)) {
+					mkdir($upload_file_dir, 0777, TRUE);
+				}
+				if (!is_dir($temp_file_dir)) {
+					mkdir($temp_file_dir, 0777, TRUE);
 				}
 				if (!copy($temp_file_dir . $fileFolderName, $upload_file_dir . $data['file_name'])) {
 					$result['error'][] = "Failed to copy file to active folder.";
@@ -721,7 +727,7 @@ class Cms_model extends CI_Model
 	}
 	function _updateLayout()
 	{
-		$this->db->flush_cache();
+		$this->db->Å¦lush_cache();
 		$layout = $this->input->post('layout');
 		$layout_array = explode('_', $layout);
 		$data['columns'] = end($layout_array);
@@ -768,7 +774,7 @@ class Cms_model extends CI_Model
 			break;
 		}
 		$id_page = $this->input->post('id_page');
-		$data_upd['layout'] = json_encode($data, JSON_FORCE_OBJECT);;
+		$data_upd['layout'] = json_encode($data, JSON_FORCE_OBJECT);
 		$this->db->where('id_page', $id_page);
 		$result = $this->db->update('page', $data_upd);
 		$this->refreshRoutes();

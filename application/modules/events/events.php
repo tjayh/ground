@@ -74,7 +74,7 @@ class Events extends MX_Controller
 		if ($list['image_meta_description']) $this->template->assign('_meta_description', $list['image_meta_description']);
 		if ($list['image_meta_keywords']) $this->template->assign('_meta_keywords', $list['image_meta_keywords']);
 		if ($list['image_meta_author']) $this->template->assign('_meta_author', $list['image_meta_author']);
-		if ($list['image_src']) $this->template->assign('_meta_image', base_url() . 'upload/images/events/' . $list['image_src']);
+		if ($list['image_src']) $this->template->assign('_meta_image', $list['image_src']);
 		$list = $this->events->_getEventsItem();
 		$id = $this->uri->segment(3);
 		foreach($list as $key => $item) {

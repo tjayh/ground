@@ -73,6 +73,9 @@ class Settings extends MX_Controller
 			$config['upload_path'] = './temp/admin/users/';
 			$config['allowed_types'] = 'gif|jpg|png|bmp|jpeg';
 			$config['encrypt_name'] = TRUE;
+			if (!is_dir($config['upload_path'])) {
+				mkdir($config['upload_path'], 0777, TRUE);
+			}
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('userfile')) {
 				$data = array(

@@ -99,6 +99,9 @@ class Cms extends MX_Controller
 			$config['upload_path'] = './temp/admin/';
 			$config['allowed_types'] = 'html';
 			$config['encrypt_name'] = TRUE;
+			if (!is_dir($config['upload_path'])) {
+				mkdir($config['upload_path'], 0777, TRUE);
+			}
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('userfile')) {
 				$data = array(

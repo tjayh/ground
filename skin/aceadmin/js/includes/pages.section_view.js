@@ -262,6 +262,12 @@ function updateSectionOrder(id_page_order, col_order, sec_order) {
 		iframe.src = iframe.src;
 	});
 }
+ $('#nestable').nestable({
+        maxDepth: 1
+    });
+ $('#nestable2').nestable({
+        maxDepth: 1
+    });
 $('.widget-container-span1').sortable({
 	connectWith: '.widget-container-span1',
 	items: '> .widget-box',
