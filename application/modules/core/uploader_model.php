@@ -35,39 +35,17 @@ class Uploader_model extends CI_Model
 			mkdir($config['upload_path'], 0777, TRUE);
 		}
 		$this->load->library('upload', $config);
-		if(!$multiple){
-			if (!$this->upload->do_upload('userfile')) {
-				$data['error'][] = $this->upload->display_errors('', '');
-				echo json_encode($data);
-				exit(0);
-			}
-			else {
-				$details = $this->upload->data();
-				$data['file_name'] = $details['file_name'];
-				$this->imageResize($temp_dir, $max_width, $max_height, $details);
-				$this->imageThumb($temp_dir, $temp_thumb_dir, $details);
-				/* $this->imageCrop($temp_thumb_dir, $details); */
-			}
+		if (!$this->upload->do_upload('userfile')) {
+			$data['error'][] = $this->upload->display_errors('', '');
+			echo json_encode($data);
+			exit(0);
 		}
-		else{
-			foreach($_FILES as $file) {
-				$_FILES['file'] = $file;
-				if (!$this->upload->do_upload('file')) {
-					$data['error'][] = $this->upload->display_errors('', '');
-					echo json_encode($data);
-					exit(0);
-				}
-				else {
-					$details = $this->upload->data();
-					$data[] = $details['file_name'];
-					$this->imageResize($temp_dir, $max_width, $max_height, $details);
-					$this->imageThumb($temp_dir, $temp_thumb_dir, $details);
-					/* $this->imageCrop($temp_thumb_dir, $details); */
-				}
-			}
+		else {
+			$details = $this->upload->data();
+			$data['file_name'] = $details['file_name'];
+			echo json_encode($data);
+			exit(0);
 		}
-		echo json_encode($data);
-		exit(0);
 	}
 	function _uploadImage($temp_dir = false, $temp_thumb_dir = false, $max_width = false, $max_height = false, $type = false, $multiple = false)
 	{

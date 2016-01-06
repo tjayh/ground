@@ -89,37 +89,6 @@ class Cms extends MX_Controller
 			$this->template->assign('modules', $modules);
 		}
 	}
-	function tempUpload()
-	{
-		$action = $this->uri->segment(4);
-		$this->load->helper('string');
-		$this->load->helper('file');
-		switch ($action) {
-		case 'file':
-			$config['upload_path'] = './temp/admin/';
-			$config['allowed_types'] = 'html';
-			$config['encrypt_name'] = TRUE;
-			if (!is_dir($config['upload_path'])) {
-				mkdir($config['upload_path'], 0777, TRUE);
-			}
-			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload('userfile')) {
-				$data = array(
-					'error' => $this->upload->display_errors()
-				);
-			}
-			else {
-				$details = $this->upload->data();
-				$data['file_name'] = $details['file_name'];
-			}
-			break;
-		}
-		if ($data) {
-			echo json_encode($data);
-		}
-		else echo 'false';
-		exit(0);
-	}
 	/**
 	 * Ajax Process
 	 *
@@ -153,6 +122,10 @@ class Cms extends MX_Controller
 		case 'upload-image':
 			$type = $this->input->get('type');
 			$result = $this->cms->_uploadImage($type);
+			break;
+
+		case 'upload-html-file':
+			$result = $this->cms->_uploadFile();
 			break;
 
 		case 'add-section':

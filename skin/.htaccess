@@ -1,2 +1,12 @@
 Options -Indexes
 DirectoryIndex index.php
+
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<FilesMatch ".*\.(css|js)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

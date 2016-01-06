@@ -906,6 +906,12 @@ class Cms_model extends CI_Model
 		}
 		$this->uploader->_uploadImage($temp_dir, $temp_thumb_dir, false, false, $type);
 	}
+	function _uploadHtmlFile($type = false)
+	{
+		$this->load->model('core/uploader_model', 'uploader');
+		$temp_dir = './temp/admin/';
+		$this->uploader->_uploadHtmlFile($temp_dir, false, false, false, $type);
+	}
 }
 /* End of file Cms_model.php */
 /* Location: application/modules/Cms/Cms_model.php */

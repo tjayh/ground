@@ -76,7 +76,7 @@ CMS.initPage = function() {
 		$('#image_src').imgupload('refresh');
 	});
 	uploadFile = new AjaxUpload('div#fileUploadDiv', {
-		action: thisURL + thisModule + '/tempUpload/file',
+		action: thisURL + thisModule + '/process/upload-html-file/file',
 		name: 'userfile',
 		params: ['jpg', 'gif', 'png'],
 		onSubmit: function(file, ext) {
