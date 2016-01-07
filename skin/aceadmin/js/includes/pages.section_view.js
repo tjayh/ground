@@ -25,7 +25,17 @@ CMS.initPage = function() {
 		$('.val-page').removeAttr('required');
 		$("#" + cont_type + "_type #sec_" + data.id_page_section).prop("checked", true);
 		$.each(data.pages, function(index, value) {
+			alert(value.id_page);
 			$("#" + cont_type + '_type #pages_' + value.id_page).prop("checked", true);
+			$("li.selected_pages.page_"+value.id_page).removeAttr('style');
+		});
+		$('li.unselected_pages').each(function() {
+			var cur_page = $(this).data("id");
+			$.each(data.pages, function(index2, value2) {
+				if(cur_page != value2.id_page){
+					$("li.unselected_pages.page_"+cur_page).removeAttr('style');
+				}
+			});
 		});
 		var mod_val = $(".val-module:checked").val();
 		var mod_name = $(".val-module:checked").data('modulename');

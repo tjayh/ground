@@ -41,22 +41,22 @@
 				<h4>
           About Us
       </h4>
-				<p> {$_page_about} </p>
+				<div> {$_page_about} </div>
 			</div>
 			<div class="col-md-4">
 				<h4>
               Recent News Per Item
             </h4> {foreach from=$_news key=key item=item}
-				<!-- <p>{$key}</p> -->
-				<p> <a href="{$item.image_link}/">{if $item.image_src_thumb}
+				<!-- <div>{$key}</div> -->
+				<div> <a href="{$item.image_link}/">{if $item.image_src_thumb}
 							<img class="img-responsive" src="{$item.image_src_thumb}" >
-						{/if}</a> </p>
-				<p> <a href="{$item.image_link}/">{if $item.image_src}
+						{/if}</a> </div>
+				<div> <a href="{$item.image_link}/">{if $item.image_src}
 						<img class="img-responsive" src="{$item.image_src}">
-						{/if}</a> </p>
+						{/if}</a> </div>
 				<h3><a href="{$item.image_link}/">{$item.image_title}</a></h3>
 				<h4>{$item.image_sub_title}</h4>
-				<p>{$item.image_desc|strip_tags:true}</p>
+				<div>{$item.image_desc|strip_tags:true}</div>
 				<hr/> {/foreach} </div>
 			<div class="col-md-4">
 				<h4>

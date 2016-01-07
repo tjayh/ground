@@ -1,0 +1,18 @@
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='js/jquery.min.js'>" + "<" + "/script>");
+</script>
+<!-- <![endif]-->
+<script type="text/javascript">
+	if ("ontouchend" in document) {
+		document.write("<script src='js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+	}
+</script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/login.js"></script>
+<script type="text/javascript">
+	function show_box(id) {
+		$('.widget-box.visible').removeClass('visible');
+		$('#' + id).addClass('visible');
+	}
+</script>

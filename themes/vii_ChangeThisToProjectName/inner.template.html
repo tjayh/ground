@@ -34,6 +34,10 @@
 			<!-- HEADER -->
 			{include file="$_theme/include/header.html"}
 			
+			
+			<!-- PAGE - id_page, title, content, caption, image_src, link_rewrite, absolute_link -->
+			{include file="$_theme/include/page-data.html"}
+			
 			<!-- MODULE/PAGE CONTENT -->
 			<div class="content container" id="content_include">{if $_content}{include file=$_content}{/if}{if $_template}{include file=$_template}{/if}</div>
 			

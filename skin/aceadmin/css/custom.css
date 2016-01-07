@@ -32,8 +32,8 @@ a, a:visited, a:focus, a:active, a:hover {
 /*<!-- Login Page -->*/
 div#loginNotification {
 	position: relative;
-	margin-top: 73%;
-	margin-left: 3%;
+	/* margin-top: 73%;
+	margin-left: 3%; */
 }
 
 #spinnerGif {

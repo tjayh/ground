@@ -4,8 +4,12 @@
 <script src="http://www.google.com/jsapi" type="text/javascript"></script>
 <script type="text/javascript">
     {literal}
+	var google_cse = $('span#google_cse').html();
+	if(!google_cse) {
+		alert('Not yet setup please ask developer to create custom search engine from google.');
+	}
     (function() {
-        var cx = '009089290157398579598:bttf7slrpsy'; <!-- change id here https://www.google.com/cse/all -->
+        var cx = google_cse; <!-- change id here https://www.google.com/cse/all developer do this -->
         var gcse = document.createElement('script');
         gcse.type = 'text/javascript';
         gcse.async = true;
@@ -58,7 +62,7 @@
     search_query = str_replace('%20', ' ', search_query);
 
     function OnLoad() {
-        var customSearchControl = new google.search.CustomSearchControl('009089290157398579598:bttf7slrpsy'); <!-- change id here https://www.google.com/cse/all -->
+        var customSearchControl = new google.search.CustomSearchControl(google_cse); <!-- change id here https://www.google.com/cse/all developer do this -->
         customSearchControl.draw('search_results');
         customSearchControl.execute(search_query);
     }

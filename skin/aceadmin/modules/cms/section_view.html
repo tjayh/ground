@@ -106,12 +106,13 @@
 													<input type="checkbox" class=" ace val-page fieldEditable requiredGroup" disabled="disabled" id="pages_{$item.id_page}" value="{$item.id_page}" minchecked="2" /> <span class="lbl">&nbsp;{$item.title}</span>
 													<br> {/foreach} </div>
 											</div>
+											<!-- DRAG START -->
 											<!-- <div class="form-group">
 												<div class="col-sm-6">
 													<div class="dd" id="nestable">
 														<ol class="dd-list">
 															{foreach from=$pages key=key item=item}
-																<li class="dd-item" data-id="{$item.id_page}">
+																<li class="dd-item selected_pages page_{$item.id_page}" data-id="{$item.id_page}" style="display:none;">
 																	<div class="dd-handle">{$item.title}</div>
 																</li>
 															{/foreach}
@@ -122,7 +123,7 @@
 													<div class="dd" id="nestable2">
 														<ol class="dd-list">
 															{foreach from=$pages key=key item=item}
-																<li class="dd-item" data-id="{$item.id_page}">
+																<li class="dd-item unselected_pages page_{$item.id_page}" data-id="{$item.id_page}">
 																	<div class="dd-handle">{$item.title}</div>
 																</li>
 															{/foreach}
@@ -130,6 +131,7 @@
 													</div>
 												</div>
 											</div> -->
+											<!-- DRAG END -->
 										</div>
 										<!-- ==================================================================================================================================== -->
 										<div id="module_type" style="display:none;">

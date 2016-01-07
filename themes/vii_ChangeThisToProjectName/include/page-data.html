@@ -1,0 +1,13 @@
+========== START LINK OF THIS HTML: skin\vii_ChangeThisToProjectName\include\page-data.html ========== 
+<div class="row">
+	<div class="col-md-3">
+		{if $_page.id_page}<div>{$_page.id_page}</div>{/if}
+		{if $_page.title}<div>{$_page.title}</div>{/if}
+		{if $_page.link_rewrite}<div>{$_page.link_rewrite}</div>{/if} <!-- WITH SPECIAL CHARACTERS -->
+		{if $_page.absolute_link}<div>{$_page.absolute_link}</div>{/if} <!-- WITHOUT SPECIAL CHARACTERS -->
+		{if $_page.content}<div>{$_page.content}</div>{/if}
+		{if $_page.caption}<div>{$_page.caption}</div>{/if}
+		{if $_page.image_src}<div><img src="{$_page.image_src}" style="max-height: 150px; max-width: 150px;"/></div>{/if}
+	</div>
+</div>
+========== END ==========

@@ -61,9 +61,10 @@ class AdminDashboard extends MX_Controller
 	function login()
 	{
 		if ($this->input->post('_username') && $this->input->post('_password')) {
-			$admin = $this->dashboard->login();
+			$admin = $this->dashboard->_login();
 			if ($admin) {
 				$this->loginAttemps();
+				$this->loginAttempsSession();
 				if ($admin['isActive']) {
 					$this->session->set_userdata('adminLogged', true);
 					$this->session->set_userdata('adminData', $admin);
@@ -78,6 +79,7 @@ class AdminDashboard extends MX_Controller
 			}
 			else {
 				$this->loginAttemps();
+				$this->loginAttempsSession();
 				$this->error[] = 'Authentication failed.';
 				$result['error'] = $this->error;
 				echo json_encode($result);
@@ -86,13 +88,23 @@ class AdminDashboard extends MX_Controller
 			if (count($this->error)) {
 				$result['error'] = $this->error;
 				echo json_encode($result);
+				exit(0);
 			}
 			else {
-				echo $this->input->post('redirect');
+				if ($this->input->post('redirect')) {
+					$redirect_link = $this->input->post('redirect');
+				}
+				$result['redirect'] = $redirect_link;
+				$this->session->unset_userdata('login_session');
+				setcookie('login', 0, time() + 60 * 5);
+				echo json_encode($result);
+				exit(0);
 			}
-			exit(0);
 		}
-		else {
+		else{
+			if($this->session->userdata('adminLogged')){
+				redirect(base_url() . 'administrator');
+			}
 		}
 	}
 	function loginAttemps()
@@ -103,7 +115,7 @@ class AdminDashboard extends MX_Controller
 				setcookie('login', $attempts, time() + 60 * 5);
 			}
 			else {
-				$this->error[] = 'You are banned for 5 minutes. Try again later';
+				$this->error[] = 'You are banned for 5 minutes. Try again later.';
 				$result['error'] = $this->error;
 				echo json_encode($result);
 				exit(0);
@@ -113,13 +125,43 @@ class AdminDashboard extends MX_Controller
 			setcookie('login', 1, time() + 60 * 5);
 		}
 	}
+	function loginAttempsSession()
+	{
+		$now = time();
+		$current_time = mktime(gmdate("H", $now) , gmdate("i", $now) , gmdate("s", $now) , gmdate("m", $now) , gmdate("d", $now) , gmdate("Y", $now));
+		$login_session = $this->session->userdata('login_session');
+		if ($login_session['attemp'] > 5) { /* check if attemps exceeds */
+			if ($login_session['ban_expire']) { /* check if ban expire exists */
+				if ($login_session['ban_expire'] > $current_time) { /* check if ban expire does not overtake the current time */
+					$this->error[] = 'You are banned for 5 minutes. Try again later.';
+					$result['error'] = $this->error;
+					echo json_encode($result);
+					exit(0);
+				}
+				else {
+					$array = ['attemp' => '', 'ban_expire' => ''];
+					$this->session->set_userdata('login_session', $array);
+				}
+			}
+			else {
+				$ban_expire = $current_time + 300;
+				$array = ['attemp' => $login_session['attemp'], 'ban_expire' => $ban_expire];
+				$this->session->set_userdata('login_session', $array);
+			}
+		}
+		else {
+			$attemp = $login_session['attemp'] + 1;
+			$array = ['attemp' => $attemp, 'ban_expire' => $login_session['ban_expire']];
+			$this->session->set_userdata('login_session', $array);
+		}
+	}
 	function logout()
 	{
 		$this->load->model('cms/cms_model', 'cms');
 		$this->cms->refreshRoutes();
 		$this->session->unset_userdata('adminLogged');
 		$this->session->unset_userdata('adminData');
-		redirect(base_url() . 'administrator');
+		redirect(base_url() . 'administrator/login');
 	}
 	/**
 	 * Administrator Logout

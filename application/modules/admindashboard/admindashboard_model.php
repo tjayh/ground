@@ -17,7 +17,7 @@ class AdminDashboard_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	function login()
+	function _login()
 	{
 		$this->db->select('a.isActive,a.id_admin_group, a.id_admin, a.firstname, a.lastname, a.occupation, a.image');
 		$this->db->from('admin a');
