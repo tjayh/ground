@@ -99,18 +99,25 @@
 													<div id="templateNotif" style='display:none;'></div>
 												</p>
 											</div>
-											<div class="form-group">
-												<!-- pages -->
-												<label class="col-sm-2 control-label" for="form-field-1">Pages</label>
-												<div class="col-sm-10"> {foreach from=$pages item=item}
-													<input type="checkbox" class=" ace val-page fieldEditable requiredGroup" disabled="disabled" id="pages_{$item.id_page}" value="{$item.id_page}" minchecked="2" /> <span class="lbl">&nbsp;{$item.title}</span>
-													<br> {/foreach} </div>
-											</div>
 											<!-- DRAG START -->
-											<!-- <div class="form-group">
+											<div id="raw_sel_dd_list" class="hid">
+												{foreach from=$pages key=key item=item}
+													<li class="dd-item selected_pages page_{$item.id_page}" data-id="{$item.id_page}" style="display:none;">
+														<div class="dd-handle">{$item.title}</div>
+													</li>
+												{/foreach}
+											</div>
+											<div id="raw_unsel_dd_list" class="hid">
+												{foreach from=$pages key=key item=item}
+													<li class="dd-item unselected_pages page_{$item.id_page}" data-id="{$item.id_page}">
+														<div class="dd-handle">{$item.title}</div>
+													</li>
+												{/foreach}
+											</div>
+											<div class="form-group">
 												<div class="col-sm-6">
 													<div class="dd" id="nestable">
-														<ol class="dd-list">
+														<ol class="dd-list" id="sel-list">
 															{foreach from=$pages key=key item=item}
 																<li class="dd-item selected_pages page_{$item.id_page}" data-id="{$item.id_page}" style="display:none;">
 																	<div class="dd-handle">{$item.title}</div>
@@ -121,7 +128,7 @@
 												</div>
 												<div class="col-sm-6">
 													<div class="dd" id="nestable2">
-														<ol class="dd-list">
+														<ol class="dd-list" id="unsel-list">
 															{foreach from=$pages key=key item=item}
 																<li class="dd-item unselected_pages page_{$item.id_page}" data-id="{$item.id_page}">
 																	<div class="dd-handle">{$item.title}</div>
@@ -130,7 +137,8 @@
 														</ol>
 													</div>
 												</div>
-											</div> -->
+											</div>
+											<input id="nestable-output" class="" name="data[aaaaaaaaaaaaaa]"></input>
 											<!-- DRAG END -->
 										</div>
 										<!-- ==================================================================================================================================== -->

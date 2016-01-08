@@ -526,6 +526,7 @@ class Cms_model extends CI_Model
 				}
 				else { // update existing section
 					$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
+					
 					$col_sec = $sections_decoded[$column];
 					if ($sections_decoded[$column]) {
 						array_push($sections_decoded[$column], $data);
@@ -605,6 +606,12 @@ class Cms_model extends CI_Model
 		$this->db->where('id_page', $id_page);
 		$query = $this->db->get();
 		$data = $this->input->post('data');
+		$aaa = json_decode($data['aaaaaaaaaaaaaa'], JSON_FORCE_OBJECT);
+		$new_array = array();
+		foreach($aaa as $key => $item) {
+			$new_array[] = $item['id']; 
+		}
+		$data['pages'] = implode(",", $new_array);
 		$selected = $data['pages'];
 		$data['pages'] = explode(",", $selected);
 		$key_section = $where['key_section'];
