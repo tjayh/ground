@@ -1,12 +1,12 @@
 Options -Indexes
 DirectoryIndex index.php
-
 <Files *.php>
     Order Deny,Allow
     Deny from all
 </Files>
-
-<FilesMatch ".*\.(css|js)$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
+<IfModule mod_php4.c>
+	php_value engine off
+</IfModule>
+<IfModule mod_php5.c>
+	php_value engine off
+</IfModule>
