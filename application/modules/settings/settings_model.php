@@ -640,7 +640,9 @@ class Settings_model extends CI_Model
 		if (count($result['error']) > 0) {
 			return $result;
 		}
-		return true;
+		else {
+			return true;
+		}
 	}
 	function _moveFaviconImages()
 	{
@@ -658,7 +660,9 @@ class Settings_model extends CI_Model
 		if (count($result['error']) > 0) {
 			return $result;
 		}
-		return true;
+		else {
+			return true;
+		}
 	}
 	function _changeStatus()
 	{

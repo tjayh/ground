@@ -301,9 +301,6 @@ class Cms_model extends CI_Model
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
 			$data = str_replace("<p><br /></p>", "", $data);
-			if ($data['clmn_content'] == '<p><br /></p>') {
-				$data['clmn_content'] = '';
-			}
 			$params['table'] = 'page';
 			$params['post_data'] = $data;
 			$params['includeDates'] = null;
@@ -380,12 +377,6 @@ class Cms_model extends CI_Model
 			unset($data['clmn_id_parent']);
 			$data['clmn_absolute_link'] = preg_replace("/[^a-zA-Z 0-9]+/", "", $data['clmn_link_rewrite']);
 			$data = str_replace("<p><br /></p>", "", $data);
-			if ($data['clmn_content'] == '<p><br /></p>') {
-				$data['clmn_content'] = '';
-			}
-			if ($data['clmn_caption'] == '<p><br /></p>') {
-				$data['clmn_caption'] = '';
-			}
 			$params['table'] = 'page';
 			$params['post_data'] = $data;
 			$params['includeDates'] = null;
@@ -545,6 +536,51 @@ class Cms_model extends CI_Model
 			}
 		}
 	}
+	function _editSection()
+	{
+		$where = $this->input->post('where');
+		$id_page = $where['id_page'];
+		$this->db->select('p.*');
+		$this->db->from('page p');
+		$this->db->where('id_page', $id_page);
+		$query = $this->db->get();
+		$data = $this->input->post('data');
+		$pages = json_decode($data['pages'], JSON_FORCE_OBJECT);
+		$new_array = array();
+		foreach($pages as $key => $item) {
+			$new_array[] = $item['id']; 
+		}
+		$data['pages'] = implode(",", $new_array);
+		$selected = $data['pages'];
+		$data['pages'] = explode(",", $selected);
+		$key_section = $where['key_section'];
+		$column = $where['column'];
+		if ($data) {
+			if ($query->num_rows() > 0) {
+				$result = $query->result_array();
+				$return = array();
+				foreach($result as $key => $item) {
+					$item['sections'] = $item['sections'];
+					$sections_decoded = json_decode($item['sections'], JSON_FORCE_OBJECT);
+					$sections_decoded[$column][$key_section]['section_title'] = $data['section_title'];
+					$sections_decoded[$column][$key_section]['section_subtitle'] = $data['section_subtitle'];
+					$sections_decoded[$column][$key_section]['content_type'] = $data['content_type'];
+					$sections_decoded[$column][$key_section]['id_page_section'] = $data['id_page_section'];
+					$sections_decoded[$column][$key_section]['section_class'] = $data['section_class'];
+					$sections_decoded[$column][$key_section]['section_title_active'] = $data['section_title_active'];
+					$sections_decoded[$column][$key_section]['section_subtitle_active'] = $data['section_subtitle_active'];
+					$sections_decoded[$column][$key_section]['section_class_active'] = $data['section_class_active'];
+					$sections_decoded[$column][$key_section]['pages'] = $data['pages'];
+					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
+					$this->db->flush_cache();
+					$data_upd['sections'] = $sections_encoded;
+					$this->db->where('id_page', $id_page);
+					$result = $this->db->update('page', $data_upd);
+					return $result;
+				}
+			}
+		}
+	}
 	function _editSectionFile()
 	{
 		$where = $this->input->post('where');
@@ -595,51 +631,6 @@ class Cms_model extends CI_Model
 			}
 			$this->refreshRoutes();
 			return $result;
-		}
-	}
-	function _editSection()
-	{
-		$where = $this->input->post('where');
-		$id_page = $where['id_page'];
-		$this->db->select('p.*');
-		$this->db->from('page p');
-		$this->db->where('id_page', $id_page);
-		$query = $this->db->get();
-		$data = $this->input->post('data');
-		$aaa = json_decode($data['aaaaaaaaaaaaaa'], JSON_FORCE_OBJECT);
-		$new_array = array();
-		foreach($aaa as $key => $item) {
-			$new_array[] = $item['id']; 
-		}
-		$data['pages'] = implode(",", $new_array);
-		$selected = $data['pages'];
-		$data['pages'] = explode(",", $selected);
-		$key_section = $where['key_section'];
-		$column = $where['column'];
-		if ($data) {
-			if ($query->num_rows() > 0) {
-				$result = $query->result_array();
-				$return = array();
-				foreach($result as $key => $item) {
-					$item['sections'] = $item['sections'];
-					$sections_decoded = json_decode($item['sections'], JSON_FORCE_OBJECT);
-					$sections_decoded[$column][$key_section]['section_title'] = $data['section_title'];
-					$sections_decoded[$column][$key_section]['section_subtitle'] = $data['section_subtitle'];
-					$sections_decoded[$column][$key_section]['content_type'] = $data['content_type'];
-					$sections_decoded[$column][$key_section]['id_page_section'] = $data['id_page_section'];
-					$sections_decoded[$column][$key_section]['section_class'] = $data['section_class'];
-					$sections_decoded[$column][$key_section]['section_title_active'] = $data['section_title_active'];
-					$sections_decoded[$column][$key_section]['section_subtitle_active'] = $data['section_subtitle_active'];
-					$sections_decoded[$column][$key_section]['section_class_active'] = $data['section_class_active'];
-					$sections_decoded[$column][$key_section]['pages'] = $data['pages'];
-					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
-					$this->db->flush_cache();
-					$data_upd['sections'] = $sections_encoded;
-					$this->db->where('id_page', $id_page);
-					$result = $this->db->update('page', $data_upd);
-					return $result;
-				}
-			}
 		}
 	}
 	function _deletePage()

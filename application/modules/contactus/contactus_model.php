@@ -37,13 +37,14 @@ class Contactus_model extends CI_Model
 	function notifyStaff($data)
 	{
 		$to = $this->config_model->get('CONTACT_EMAIL');
+		$cc = $this->config_model->get('CONTACT_EMAIL_CC');
 		$replyTo = $data['email'];
 		$fromName = $data['name'];
 		if ($data['subject']) {
 			$data['subject'] = '[' . $data['subject'] . ']';
 		}
 		$subject = $this->config_model->get('SITE_NAME') . ' :: New Contact Us Message ' . $data['subject'];
-		$this->email_model->sendEmail($to, $subject, 'Message', false, 'contact-us-admin.html', $data, $replyTo, $fromName);
+		$this->email_model->sendEmail($to, $subject, 'Message', false, 'contact-us-admin.html', $data, $replyTo, $fromName, $cc);
 		// (to, subject, message, attachment, template, data, replyTo, fromName)
 	}
 	function notifySender($data)
@@ -52,7 +53,7 @@ class Contactus_model extends CI_Model
 		$replyTo = $this->config_model->get('CONTACT_EMAIL');
 		$fromName = $this->config_model->get('SITE_NAME');
 		$subject = $this->config_model->get('SITE_NAME') . ' :: Thank you for contacting us';
-		$this->email_model->sendEmail($to, $subject, 'Message', false, 'contact-us-sender.html', $data, $replyTo, $fromName);
+		$this->email_model->sendEmail($to, $subject, 'Message', false, 'contact-us-sender.html', $data, $replyTo, $fromName, false);
 	}
 }
 /* End of file pages_model.php */

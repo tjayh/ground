@@ -147,11 +147,11 @@
 																<i class="fa fa-trash"></i>
 																</span> </a>
 													</li>
-													<li>
-														<a href="{$base_url}skin/default/includes/section/{$item.file_name}" class="tooltip-warning ignore tooltip-warning" title="Preview" title="Preview" > <span class="blue">
+													{if $_admin.id_admin_group eq 1}<li>
+														<a href="{$base_url}skin/default/includes/section/{$item.file_name}" class="tooltip-warning ignore tooltip-warning" title="Preview Code" title="Preview Code" > <span class="blue">
 																<i class="fa fa-mail-forward"></i>
 																</span> </a>
-													</li>
+													</li>{/if}
 												</ul>
 											</div>
 										</div>

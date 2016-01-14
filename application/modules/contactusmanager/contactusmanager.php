@@ -33,6 +33,7 @@ class Contactusmanager extends MX_Controller
 		$this->load->model('settings/settings_model', 'settings');
 		$fields = array(
 			'contact_email',
+			'contact_email_cc',
 			'contact_no',
 			'contact_address',
 			'google_map',

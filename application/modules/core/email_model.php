@@ -17,7 +17,7 @@ class Email_model extends CI_Model
 	Link Gmail to webmail:
 	http://www.inmotionhosting.com/support/email/email-client-setup/setting-up-gmail-for-pop3-and-smtp
 	*/
-	function sendEmail($to, $subject, $message, $attachment = false, $template = false, $data = false, $replyTo = false, $fromName = false)
+	function sendEmail($to, $subject, $message, $attachment = false, $template = false, $data = false, $replyTo = false, $fromName = false ,$cc = false)
 	{
 		$this->load->library('email');
 		$this->load->library('encrypt');
@@ -33,6 +33,9 @@ class Email_model extends CI_Model
 		$this->email->from($replyTo, $fromName);
 		$this->email->reply_to($replyTo, $fromName);
 		$this->email->to($to);
+		if($cc){
+			$this->email->cc($cc);
+		}
 		$this->email->subject($subject);
 		if ($attachment) {
 			$this->email->attach($attachment);

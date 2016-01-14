@@ -13,7 +13,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Newslettermanager_model extends CI_Model
 
 {
-	var $error = array();
 	function __construct()
 	{
 		parent::__construct();
@@ -85,8 +84,10 @@ class Newslettermanager_model extends CI_Model
 	function _sendNewsletter($title = false, $content = false)
 	{
 		if ($content == null) {
-			$this->error[] = "Content can't be null.";
-			return false;
+			$result = array();
+			$result['error'] = array();
+			$result['error'][] = "Content can't be null.";
+			return $result;
 		}
 		else {
 			$result = $this->getActiveSubscribers();
@@ -117,16 +118,22 @@ class Newslettermanager_model extends CI_Model
 						$flag = false;
 					}
 				}
-				if ($flag) return true;
-				else return false;
+				if ($flag) {
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 		}
 	}
 	function _sendNewsletter2($title = false, $content = false)
 	{
 		if ($content == null) {
-			$this->error[] = "Content can't be null.";
-			return false;
+			$result = array();
+			$result['error'] = array();
+			$result['error'][] = "Content can't be null.";
+			return $result;
 		}
 		else {
 			$result = $this->getActiveSubscribers();
@@ -165,8 +172,12 @@ class Newslettermanager_model extends CI_Model
 						$flag = false;
 					}
 				}
-				if ($flag) return true;
-				else return false;
+				if ($flag) {
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 		}
 	}
@@ -190,7 +201,6 @@ class Newslettermanager_model extends CI_Model
 	}
 	function _editNewsletter()
 	{
-		$errorList = array();
 		$data = $this->input->post('data');
 		if ($data) {
 			$title = $data['clmn_title'];
@@ -206,24 +216,23 @@ class Newslettermanager_model extends CI_Model
 				fclose($dbr);
 			}
 			else {
-				$this->error[] = 'Failed to update newsletter table.';
+				$result = array();
+				$result['error'] = array();
+				$result['error'][] = 'Failed to update newsletter table.';
+				return $result;
 			}
 		}
 		else {
-			$this->error[] = 'No post data.';
-		}
-		if (count($this->error)) {
 			$result = array();
-			$result['error'] = $this->error;
+			$result['error'] = array();
+			$result['error'][] = 'No post data.';
 			return $result;
 		}
-		else return true;
 	}
 	function _addNewsletter()
 	{
 		$data = $this->input->post('data');
 		$data = str_replace("<p><br></p>", "", $data);
-		$errorList = array();
 		if ($data) {
 			$title = $data['clmn_title'];
 			$content = $data['content'];
@@ -253,20 +262,22 @@ class Newslettermanager_model extends CI_Model
 					} */
 				}
 				else {
-					$this->error[] = 'Database Error: Failed to update filename at content column.';
+					$result = array();
+					$result['error'] = array();
+					$result['error'][] = 'Database Error: Failed to update filename at content column.';
+					return $result;
 				}
 			}
-			else return false;
+			else {
+				return false;
+			}
 		}
 		else {
-			$this->error[] = 'No post data.';
-		}
-		if (count($this->error)) {
 			$result = array();
-			$result['error'] = $this->error;
+			$result['error'] = array();
+			$result['error'][] = 'No post data.';
 			return $result;
 		}
-		else return true;
 	}
 	function _deleteSubscriber()
 	{
@@ -277,7 +288,12 @@ class Newslettermanager_model extends CI_Model
 			if ($result) {
 				$result = true;
 			}
-			else $this->error[] = "Failed to delete subscriber.";
+			else {
+				$result = array();
+				$result['error'] = array();
+				$result['error'][] = "Failed to delete subscriber.";
+				return $result;
+			}
 		}
 		else {
 			return false;
@@ -295,7 +311,12 @@ class Newslettermanager_model extends CI_Model
 				}
 				$result = true;
 			}
-			else $this->error[] = "Failed to delete newsletter.";
+			else {
+				$result = array();
+				$result['error'] = array();
+				$result['error'][] = "Failed to delete newsletter.";
+				return $result;
+			}
 		}
 		else {
 			return false;

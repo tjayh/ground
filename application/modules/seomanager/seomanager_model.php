@@ -36,7 +36,9 @@ class SeoManager_model extends CI_Model
 				unset($data2);
 			}
 			if (count($this->error)) {
-				$result['error'] = $this->error;
+				$result = array();
+				$result['error'] = array();
+				$result['error'][] = $this->error;
 				return $result;
 			}
 			return true;

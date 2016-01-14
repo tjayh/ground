@@ -114,11 +114,11 @@
 																<i class="fa fa-pencil"></i>
 																</span> </a>
 													</li>
-													<li>
+													{if $item.id_admin_group neq 2}<li>
 														<a href="javascript:;" class="tooltip-error showGlobal ignore tooltip-error" data-rel="tooltip" title="Delete" title="Delete" data-modID="jdata{$item.id_admin_group}" data-getDetails="forDeleteFxn"> <span class="red">
 																<i class="fa fa-trash"></i>
 																</span> </a>
-													</li>
+													</li>{/if}
 												</ul>
 											</div>
 										</div>

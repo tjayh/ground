@@ -129,9 +129,9 @@ class Events_manager_model extends CI_Model
 		$data = $this->input->post('data');
 		if ($data) {
 			$data['link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['image_title']));
-			$data = str_replace("<p><br></p>", "", $data);
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
 			$data['date_add'] = date('Y-m-d H:i:s');
+			$data = str_replace("<p><br></p>", "", $data);
 			$result = $this->db->insert('events_item', $data);
 			if ($result) {
 				if (!file_exists($this->upload_dir . $data['image_src'])) {
@@ -167,8 +167,8 @@ class Events_manager_model extends CI_Model
 		$where = $this->input->post('where');
 		if ($data) {
 			$data['link_rewrite'] = strtolower(preg_replace('/[^A-Za-z0-9]/', '_', $data['image_title']));
-			$data = str_replace("<p><br></p>", "", $data);
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
+			$data = str_replace("<p><br></p>", "", $data);
 			// delete image
 			$this->db->where($where);
 			$result = $this->db->update('events_item', $data);

@@ -195,13 +195,21 @@ class Settings extends MX_Controller
 
 		case 'delete-group':
 			$deleteid = $this->input->post('id_admin_group');
-			if ($deleteid) {
-				$this->load->model('core/dbtm_model', 'dbtm');
-				$result = $this->dbtm->deleteItem('id_admin_group', $deleteid, 'admin_group');
-				if (!$result) $this->error[] = "Failed to delete admin group.";
+			if($deleteid == 2 || $deleteid == 1){
+				$this->error[] = "Sorry deleting this group is disabled.";
+				$result['error'] = $this->error;
+				echo json_encode($result);
+				exit(0);
 			}
-			else { //direct link access
-				header('Location: ' . _BASE_URL_);
+			else{
+				if ($deleteid) {
+					$this->load->model('core/dbtm_model', 'dbtm');
+					$result = $this->dbtm->deleteItem('id_admin_group', $deleteid, 'admin_group');
+					if (!$result) $this->error[] = "Failed to delete admin group.";
+				}
+				else { //direct link access
+					header('Location: ' . _BASE_URL_);
+				}
 			}
 			break;
 

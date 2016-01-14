@@ -51,6 +51,7 @@ class Bannermanager_model extends CI_Model
 		if ($data) {
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
 			$data['date_add'] = date('Y-m-d H:i:s');
+			$data = str_replace("<p><br></p>", "", $data);
 			$result = $this->db->insert('banner', $data);
 			if ($result) {
 				if (!file_exists($this->upload_dir . $data['image_src'])) {
@@ -103,6 +104,7 @@ class Bannermanager_model extends CI_Model
 		$where = $this->input->post('where');
 		if ($data) {
 			$data['date'] = date('Y-m-d', strtotime($data['date']));
+			$data = str_replace("<p><br></p>", "", $data);
 			$this->db->where($where);
 			$to_edit = $this->db->get('banner');
 			$edit_this = $to_edit->row_array();

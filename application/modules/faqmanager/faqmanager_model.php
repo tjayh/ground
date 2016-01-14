@@ -13,7 +13,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Faqmanager_model extends CI_Model
 
 {
-	var $error = array();
 	function __construct()
 	{
 		parent::__construct();
@@ -206,6 +205,7 @@ class Faqmanager_model extends CI_Model
 	function _addCategory()
 	{
 		$data = $this->input->post('data');
+		$data = str_replace("<p><br></p>", "", $data);
 		if ($data) {
 			$params['table'] = 'faq_category';
 			$params['post_data'] = $data;
@@ -228,6 +228,7 @@ class Faqmanager_model extends CI_Model
 	function _editCategory()
 	{
 		$data = $this->input->post('data');
+		$data = str_replace("<p><br></p>", "", $data);
 		if ($data) {
 			$params['table'] = 'faq_category';
 			$params['post_data'] = $data;
