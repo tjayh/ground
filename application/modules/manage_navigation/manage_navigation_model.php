@@ -38,8 +38,7 @@ class Manage_navigation_model extends CI_Model
 		$result = null;
 		foreach($menuData as $item) {
 			$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
-					<div class='dd-handle dd3-handle'></div>
-					<div class='dd3-content'>
+					<div class='dd-handle'>
 						<span>" . $item['title'] . "</span>
 						<div class='pull-right'>";
 			if ($item['isActive'] == '0') {
@@ -64,8 +63,7 @@ class Manage_navigation_model extends CI_Model
 		foreach($menuData as $item) {
 			if ($item['id_parent'] == $parentID) {
 				$result.= "<li class='dd-item dd3-item' data-id='" . $item['id_page'] . "'>
-					<div class='dd-handle dd3-handle'></div>
-					<div class='dd3-content'>
+					<div class='dd-handle'>
 						<span>" . $item['title'] . "</span>
 						<div class='pull-right'>";
 				if ($item['isActive'] == '0') {

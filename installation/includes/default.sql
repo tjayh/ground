@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2015 at 10:17 AM
+-- Generation Time: Jan 15, 2016 at 08:58 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `vii_admin` (
 
 INSERT INTO `vii_admin` (`id_admin`, `id_admin_group`, `username`, `password`, `email_address`, `firstname`, `lastname`, `age`, `occupation`, `image`, `isActive`, `date_add`, `date_upd`) VALUES
 (1, 1, 'admin', '098f6bcd4621d373cade4e832627b4f6', 'info@viiworks.com', 'Admin', 'Viiworks', NULL, NULL, NULL, 1, '2013-10-21 08:43:42', '2014-02-13 05:06:45'),
-(56, 9, 'webadmin', '33dfa77a638de63d9655f8854a805703', '', 'Web Admin', 'User', NULL, NULL, NULL, 1, '2015-06-17 09:21:29', '2015-06-17 09:38:30'),
+(56, 2, 'webadmin', '33dfa77a638de63d9655f8854a805703', '', 'Web Admin', 'User', NULL, NULL, NULL, 1, '2015-06-17 09:21:29', '2015-06-17 09:38:30'),
 (57, 10, 'staffuser', '33dfa77a638de63d9655f8854a805703', '', 'Staff', 'User', NULL, NULL, NULL, 1, '2015-06-17 09:21:52', '2015-06-17 09:54:05');
 
 -- --------------------------------------------------------
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `vii_admin_group` (
 
 INSERT INTO `vii_admin_group` (`id_admin_group`, `group_name`, `group_description`, `date_add`, `date_upd`) VALUES
 (1, 'Administrator', 'Admin Group Description', '2011-03-15 10:39:34', '2011-03-15 10:39:34'),
-(9, 'Website Admin Manager', 'Website Admin Manager', '2015-06-17 09:19:53', '2015-06-17 09:32:58'),
+(2, 'Website Admin Manager', 'Website Admin Manager', '2015-06-17 09:19:53', '2015-06-17 09:32:58'),
 (10, 'Staff Group', 'Staff Group', '2015-06-17 09:20:34', '2015-06-17 09:20:34');
 
 -- --------------------------------------------------------
@@ -91,7 +91,40 @@ CREATE TABLE IF NOT EXISTS `vii_admin_log` (
   `name` varchar(255) NOT NULL,
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_admin_log`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+
+--
+-- Dumping data for table `vii_admin_log`
+--
+
+INSERT INTO `vii_admin_log` (`id_admin_log`, `ip_address`, `id_admin`, `name`, `date_add`) VALUES
+(1, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-04 06:13:18'),
+(2, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 07:58:13'),
+(3, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 07:59:35'),
+(4, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:02:21'),
+(5, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:03:07'),
+(6, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:06:54'),
+(7, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:07:17'),
+(8, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:07:41'),
+(9, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:08:37'),
+(10, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:09:06'),
+(11, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:12:53'),
+(12, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:13:07'),
+(13, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:13:42'),
+(14, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:15:00'),
+(15, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:25:23'),
+(16, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:29:55'),
+(17, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:30:51'),
+(18, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:47:08'),
+(19, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:47:15'),
+(20, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:53:44'),
+(21, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-07 08:54:06'),
+(22, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-12 01:01:23'),
+(23, '10.10.1.12', 56, 'Web Admin User', '2016-01-14 09:51:27'),
+(24, '10.10.1.12', 56, 'Web Admin User', '2016-01-14 10:02:06'),
+(25, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-14 10:25:18'),
+(26, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-15 07:27:34'),
+(27, '10.10.1.12', 1, 'Admin Viiworks', '2016-01-15 07:28:05');
 
 -- --------------------------------------------------------
 
@@ -127,8 +160,8 @@ INSERT INTO `vii_admin_permission` (`id_admin_permission`, `id_admin_group`, `id
 (12, 1, 20, 12, 1),
 (13, 1, 23, 13, 1),
 (14, 1, 24, 14, 1),
-(167, 9, 1, 1, 1),
-(168, 9, 2, 2, 1),
+(167, 2, 1, 1, 1),
+(168, 2, 2, 2, 1),
 (190, 10, 11, 11, 1),
 (192, 10, 15, 15, 0),
 (193, 10, 17, 17, 1),
@@ -141,25 +174,25 @@ INSERT INTO `vii_admin_permission` (`id_admin_permission`, `id_admin_group`, `id
 (198, 10, 25, 25, 0),
 (197, 10, 24, 24, 0),
 (200, 10, 32, 32, 0),
-(169, 9, 3, 3, 1),
-(170, 9, 6, 6, 1),
-(183, 9, 32, 32, 0),
-(171, 9, 7, 7, 1),
+(169, 2, 3, 3, 1),
+(170, 2, 6, 6, 1),
+(183, 2, 32, 32, 0),
+(171, 2, 7, 7, 1),
 (187, 10, 6, 6, 0),
-(172, 9, 10, 10, 0),
-(173, 9, 11, 11, 1),
-(181, 9, 25, 25, 1),
-(174, 9, 12, 12, 1),
+(172, 2, 10, 10, 0),
+(173, 2, 11, 11, 1),
+(181, 2, 25, 25, 1),
+(174, 2, 12, 12, 1),
 (188, 10, 7, 7, 1),
-(175, 9, 15, 15, 1),
+(175, 2, 15, 15, 1),
 (185, 10, 2, 2, 0),
-(176, 9, 17, 17, 1),
-(182, 9, 30, 30, 1),
-(177, 9, 18, 18, 1),
+(176, 2, 17, 17, 1),
+(182, 2, 30, 30, 1),
+(177, 2, 18, 18, 1),
 (195, 10, 20, 20, 0),
-(178, 9, 20, 20, 1),
-(179, 9, 23, 23, 1),
-(180, 9, 24, 24, 1),
+(178, 2, 20, 20, 1),
+(179, 2, 23, 23, 1),
+(180, 2, 24, 24, 1),
 (16, 1, 30, 4, 1),
 (199, 10, 30, 30, 0),
 (15, 1, 25, 3, 1),
@@ -310,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `vii_blog_category` (
   `status` int(11) NOT NULL DEFAULT '0',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `vii_blog_category`
@@ -343,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `vii_blog_item` (
   `id_blog_category` int(11) NOT NULL DEFAULT '1',
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_blog_item`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `vii_blog_item`
@@ -366,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `vii_config` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=77 ;
 
 --
 -- Dumping data for table `vii_config`
@@ -386,7 +419,7 @@ INSERT INTO `vii_config` (`id`, `name`, `value`, `date_add`, `date_upd`) VALUES
 (13, 'SERVER_PASSWORD', '', '2010-12-02 18:02:19', '2012-05-08 09:57:41'),
 (63, 'RECAPTCHA_PUBLIC_KEY', '', '2014-08-07 00:00:00', '2014-08-07 00:00:00'),
 (23, 'CONTACT_EMAIL', 'testviiworks@gmail.com', '2011-04-14 08:08:32', '2012-10-03 14:49:40'),
-(24, 'CONTACT_PASSWORD', 'A4yYzYvo0uqtDyUlqizn3dFAWJVt6BDxvWNoXdp0php7nPBRmIQzEE7KAVOS0WkQ2S1DjZK1OePMgkZGXErMtA==', '2011-05-03 08:51:17', '2011-05-03 08:53:52'),
+(24, 'CONTACT_PASSWORD', 'IT2jIZTjVCmyb2Janmv/coc1T1OU0cYC6tegS35vAdFmfsn5szzwUTskM1d0v+DQN6nGG6wUEOxgzqOlAv72bQ==', '2011-05-03 08:51:17', '2011-05-03 08:53:52'),
 (25, 'CONTACT_SMTP_HOST', 'ssl://smtp.googlemail.com', '2011-05-03 08:51:17', '2011-05-03 08:53:52'),
 (26, 'CONTACT_SMTP_PORT', '465', '2011-05-03 08:51:17', '2011-05-03 08:53:52'),
 (27, 'CONTACT_EMAIL_BODY', '', '2011-04-14 08:08:32', '2012-10-03 14:49:40'),
@@ -422,7 +455,10 @@ INSERT INTO `vii_config` (`id`, `name`, `value`, `date_add`, `date_upd`) VALUES
 (70, 'CONTACT_NO', '123-456-7890', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (71, 'CONTACT_ADDRESS', 'Viiworks Drive corner, Bonifacio Global City, 32nd St, Taguig City ', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (72, 'IMAGE_DIMENSIONS', '{"gallery_cat_wd":"1600","gallery_cat_hg":"1600","gallery_cat_th_wd":"500","gallery_cat_th_hg":"500","gallery_itm_wd":"1600","gallery_itm_hg":"1600","gallery_itm_th_wd":"500","gallery_itm_th_hg":"500"}', '2015-11-26 00:00:00', '0000-00-00 00:00:00'),
-(73, 'SITE_BACKGROUNDS', '["85cecc1843d78680354372e228914439.jpg","785187165a95db373ea043a7fa2dce70.jpg","9ef604e40c54444f15355f339286f65c.jpg","1de3dfe7be1a7a0c90dc9d0dbcd12e16.jpg"]', '2015-11-27 00:00:00', '0000-00-00 00:00:00');
+(73, 'SITE_BACKGROUNDS', '["85cecc1843d78680354372e228914439.jpg","785187165a95db373ea043a7fa2dce70.jpg","9ef604e40c54444f15355f339286f65c.jpg","1de3dfe7be1a7a0c90dc9d0dbcd12e16.jpg"]', '2015-11-27 00:00:00', '0000-00-00 00:00:00'),
+(74, 'GOOGLE_CSE', '', '2016-01-04 00:00:00', '0000-00-00 00:00:00'),
+(75, 'GOOGLE_MAP', '', '2016-01-14 00:00:00', '0000-00-00 00:00:00'),
+(76, 'CONTACT_EMAIL_CC', 'testviiworks@gmail.com', '2016-01-14 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -473,8 +509,7 @@ CREATE TABLE IF NOT EXISTS `vii_contact_us` (
 
 INSERT INTO `vii_contact_us` (`id_contact_us`, `name`, `email`, `phone`, `website`, `address`, `subject`, `message`, `date_add`) VALUES
 (1, 'Sample One', 'testviiworks@gmail.com', '1234567890', 'SampleOne.com', 'testviiworks.gmail.com', 'Sample One Subject', 'Sample One Messages Here', '2014-10-15 23:08:31'),
-(2, 'Sample Two', 'testviiworks@gmail.com', '1234567890', 'SampleTwo.com', 'Sample st. Two City', 'Sample Two Subject', 'Sample Two Messages Here', '2014-10-15 23:30:08'),
-(3, 'df', 'asdf@asdfas.asdf', 'asd', 'asd', 'asd', 'asd', 'asd', '2015-11-23 23:56:30');
+(2, 'Sample Two', 'testviiworks@gmail.com', '1234567890', 'SampleTwo.com', 'Sample st. Two City', 'Sample Two Subject', 'Sample Two Messages Here', '2014-10-15 23:30:08');
 
 -- --------------------------------------------------------
 
@@ -537,8 +572,8 @@ CREATE TABLE IF NOT EXISTS `vii_events_item` (
 --
 
 INSERT INTO `vii_events_item` (`id_events_item`, `date`, `image_title`, `link_rewrite`, `image_sub_title`, `image_desc`, `image_src`, `image_author`, `image_meta_title`, `image_meta_description`, `image_meta_keywords`, `status`, `id_events_category`, `date_add`) VALUES
-(1, '2014-12-29', 'Sample Title #1', NULL, 'Sample Sub Title #1', '<p>Sample Description #1<br></p>', '949c999ff75f6ef81ade90d987955a5f.jpg', 'Sample Author #1', 'Sample Meta Title #1', 'Sample Meta Description #1', 'Sample Meta Keywords #1', 0, 1, '2015-11-26 05:32:28'),
-(2, '2014-11-26', 'Sample Title #2', NULL, 'Sample Sub Title #2', '<p>Sample Description #2<br></p>', '7a03a4432714dcac24b02c92bb57a4fe.jpg', 'Sample Author #2', 'Sample  Meta Title #2', 'Sample  Meta Description #2', 'Sample  Meta Keywords #2', 0, 1, '2015-11-26 05:32:32');
+(1, '2014-12-29', 'Sample Title #1', NULL, 'Sample Sub Title #1', '<p>Sample Description #1<br></p>', '949c999ff75f6ef81ade90d987955a5f.jpg', 'Sample Author #1', 'Sample Meta Title #1', 'Sample Meta Description #1', 'Sample Meta Keywords #1', 1, 1, '2015-11-26 05:32:28'),
+(2, '2014-11-26', 'Sample Title #2', NULL, 'Sample Sub Title #2', '<p>Sample Description #2<br></p>', '7a03a4432714dcac24b02c92bb57a4fe.jpg', 'Sample Author #2', 'Sample  Meta Title #2', 'Sample  Meta Description #2', 'Sample  Meta Keywords #2', 1, 1, '2015-11-26 05:32:32');
 
 -- --------------------------------------------------------
 
@@ -862,26 +897,26 @@ CREATE TABLE IF NOT EXISTS `vii_page` (
 --
 
 INSERT INTO `vii_page` (`id_page`, `title`, `sort_order`, `content`, `image_src`, `caption`, `class`, `function`, `link_rewrite`, `absolute_link`, `redirect`, `meta_title`, `meta_keywords`, `meta_description`, `meta_image`, `title_active`, `content_active`, `caption_active`, `image_src_active`, `meta_title_active`, `meta_keywords_active`, `meta_description_active`, `meta_image_active`, `custom_theme`, `custom_layout`, `layout`, `sections`, `isAdmin`, `date_add`, `date_upd`) VALUES
-(20, 'Sample 1.1.3', 6, '<p>Sample 1.1.3 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample113', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(19, 'Sample 1.1.2', 5, '<p>Sample 1.1.2 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample112', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(18, 'Sample 1.2', 7, '<p>Sample 1.2 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample12', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 'Sample 1.1.1', 4, '<p>Sample 1.1.1 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample111', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(16, 'Sample 1.1', 3, '<p>Sample 1.1 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample11', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, 'Sample 1', 2, '<p><span style="font-weight: bold;">Sample 1 Contents Here</span><br></p>', '', '<p><span style="font-weight: bold;">Sample 1 Caption Here</span><br></p>', 'pages', 'index', 'sample1', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, 'Testimonials', 14, '', NULL, NULL, 'testimonial', 'index', 'testimonial', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(1, 'Home', 0, '<p><br></p>', '', '<p><br></p>', 'pages', 'index', '', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'main.template.html', '{"columns":"1","filename":"layout_template_col1_v1_1","format":"12_0_0_0"}', '{"col0":{"0":{"section_title":"test 001 page","section_title_active":"1","section_subtitle":"test 001 page","section_subtitle_active":"1","section_class":"test 001 page","section_class_active":"1","isActive":"1","content_type":"page","pages":{"0":"27","1":"21","2":"13","3":"1","4":"4","5":"25"},"id_page_section":"3"},"1":{"section_title":"test 002 blog","section_title_active":"1","section_subtitle":"test 002 blog","section_subtitle_active":"1","section_class":"test 002 blog","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"13"},"id_page_section":"2"},"2":{"section_title":"test 003 contactus","section_title_active":"1","section_subtitle":"test 003 contactus","section_subtitle_active":"1","section_class":"test 003 contactus","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"12"},"id_page_section":"14"},"3":{"section_title":"test 004 events","section_title_active":"1","section_subtitle":"test 004 events","section_subtitle_active":"1","section_class":"test 004 events","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"25"},"id_page_section":"5"},"4":{"section_title":"test 005 faqs","section_title_active":"1","section_subtitle":"test 005 faqs","section_subtitle_active":"1","section_class":"test 005 faqs","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"6"},"id_page_section":"4"},"5":{"section_title":"test 006 gallery","section_title_active":"1","section_subtitle":"test 006 gallery","section_subtitle_active":"1","section_class":"test 006 gallery","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"7"},"id_page_section":"6"},"6":{"section_title":"test 007 news","section_title_active":"1","section_subtitle":"test 007 news","section_subtitle_active":"1","section_class":"test 007 news","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"11"},"id_page_section":"7"},"7":{"section_title":"test 008 newsletter","section_title_active":"1","section_subtitle":"test 008 newsletter","section_subtitle_active":"1","section_class":"test 008 newsletter","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"24"},"id_page_section":"8"},"8":{"section_title":"test 009 promotion","section_title_active":"1","section_subtitle":"test 009 promotion","section_subtitle_active":"1","section_class":"test 009 promotion","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"22"},"id_page_section":"9"},"9":{"section_title":"test 010 search","section_title_active":"1","section_subtitle":"test 010 search","section_subtitle_active":"1","section_class":"test 010 search","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"23"},"id_page_section":"10"},"10":{"section_title":"test 011 testimonial","section_title_active":"1","section_subtitle":"test 011 testimonial","section_subtitle_active":"1","section_class":"test 011 testimonial","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"14"},"id_page_section":"11"}}}', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(13, 'Blog', 11, '<p>aaaaaaaaaaaaa<br></p>', '', '<p>aaaaaaaaaaa<br></p>', 'blog', 'index', 'blog', 'blog', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, 'News', 10, '', NULL, NULL, 'news', 'index', 'news', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, 'RSS Feed', 15, '', NULL, NULL, 'rssfeed', 'index', 'rssfeed', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'rssfeed.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(6, 'Frequently Asked Questions', 13, '', NULL, NULL, 'faqs', 'index', 'faqs', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 'Gallery', 9, '', NULL, NULL, 'gallery', 'index', 'gallery', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'Error Page', 19, 'This is ERROR message. Edit via CMS &gt; Pages &gt; Error.<br><br>', '', '', 'pages', 'error', 'error', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(20, 'Sample 1.1.3', 7, '<p>Sample 1.1.3 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample113', 'sample113', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, 'Sample 1.1.2', 6, '<p>Sample 1.1.2 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample112', 'sample112', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 'Sample 1.2', 3, '<p>Sample 1.2 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample12', 'sample12', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, 'Sample 1.1.1', 5, '<p>Sample 1.1.1 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample111', 'sample111', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'Sample 1.1', 4, '<p>Sample 1.1 Contents Here<br></p>', NULL, NULL, 'pages', 'index', 'sample11', 'sample11', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'Sample 1', 2, '<p><span style="font-weight: bold;">Sample 1 Contents Here</span><br></p>', '', '<p><span style="font-weight: bold;">Sample 1 Caption Here</span><br></p>', 'pages', 'index', 'sample1', 'sample1', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'Testimonials', 15, '', NULL, NULL, 'testimonial', 'index', 'testimonial', 'testimonial', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Home', 0, '<p><br></p>', '', '<p><br></p>', 'pages', 'index', '', '', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'main.template.html', '{"columns":"1","filename":"layout_template_col1_v1_1","format":"12_0_0_0"}', '{"col0":{"0":{"section_title":"test 001 page","section_title_active":"1","section_subtitle":"test 001 page","section_subtitle_active":"1","section_class":"test 001 page","section_class_active":"1","isActive":"1","content_type":"page","pages":{"0":"27"},"id_page_section":"3"},"1":{"section_title":"test 002 blog","section_title_active":"1","section_subtitle":"test 002 blog","section_subtitle_active":"1","section_class":"test 002 blog","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"13"},"id_page_section":"2"},"2":{"section_title":"test 003 contactus","section_title_active":"1","section_subtitle":"test 003 contactus","section_subtitle_active":"1","section_class":"test 003 contactus","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"12"},"id_page_section":"14"},"3":{"section_title":"test 004 events","section_title_active":"1","section_subtitle":"test 004 events","section_subtitle_active":"1","section_class":"test 004 events","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"25"},"id_page_section":"5"},"4":{"section_title":"test 005 faqs","section_title_active":"1","section_subtitle":"test 005 faqs","section_subtitle_active":"1","section_class":"test 005 faqs","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"6"},"id_page_section":"4"},"5":{"section_title":"test 006 gallery","section_title_active":"1","section_subtitle":"test 006 gallery","section_subtitle_active":"1","section_class":"test 006 gallery","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"7"},"id_page_section":"6"},"6":{"section_title":"test 007 news","section_title_active":"1","section_subtitle":"test 007 news","section_subtitle_active":"1","section_class":"test 007 news","section_class_active":"1","isActive":"0","content_type":"module","pages":{"0":"11"},"id_page_section":"7"},"7":{"section_title":"test 008 newsletter","section_title_active":"1","section_subtitle":"test 008 newsletter","section_subtitle_active":"1","section_class":"test 008 newsletter","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"24"},"id_page_section":"8"},"8":{"section_title":"test 009 promotion","section_title_active":"1","section_subtitle":"test 009 promotion","section_subtitle_active":"1","section_class":"test 009 promotion","section_class_active":"1","isActive":"1","content_type":"module","pages":{"0":"22"},"id_page_section":"9"}}}', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'Blog', 12, '<p>aaaaaaaaaaaaa<br></p>', '', '<p>aaaaaaaaaaa<br></p>', 'blog', 'index', 'blog', 'blog', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'News', 11, '', NULL, NULL, 'news', 'index', 'news', 'news', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'RSS Feed', 8, '', NULL, NULL, 'rssfeed', 'index', 'rssfeed', 'rssfeed', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'rssfeed.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'Frequently Asked Questions', 14, '', NULL, NULL, 'faqs', 'index', 'faqs', 'faqs', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Gallery', 10, '', NULL, NULL, 'gallery', 'index', 'gallery', 'gallery', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Error Page', 13, 'This is ERROR message. Edit via CMS &gt; Pages &gt; Error.<br><br>', '', '', 'pages', 'error', 'error', 'error', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (12, 'Contact Us', 8, '', '', '', 'contactus', 'index', 'contactus', 'contactus', 1, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(21, 'About Us', 1, '<p>About Us content here. Edit via CMS &gt; Pages &gt; About Us.<br></p>', '11d092cb857bbe2174d0b49315ba866a.jpg', 'Sample banner caption. Edit via CMS &gt; Pages &gt; About Us.', 'pages', 'index', 'about', '', 1, 'About Us Meta Title Here', 'About Us Meta Title Keywords', 'About Us Meta Title Description', '3007ec9ee04e1d545ed1ebc28f5e290f.jpg', 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', '{"columns":"","filename":false}', NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(22, 'Promotion', 12, '<p><br></p>', NULL, NULL, 'promo', 'index', 'promo', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(23, 'Search', 17, '<p>search<br></p>', NULL, NULL, 'search', 'index', 'search', '', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(24, 'Newsletter', 18, '', NULL, NULL, 'newsletter', 'index', 'newsletter', '', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(25, 'Events', 16, '', '', NULL, 'events', 'index', 'events', '', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 'About Us', 1, '<p>About Us content here. Edit via CMS &gt; Pages &gt; About Us.<br></p>', '11d092cb857bbe2174d0b49315ba866a.jpg', 'Sample banner caption. Edit via CMS &gt; Pages &gt; About Us.', 'pages', 'index', 'about', 'about', 1, 'About Us Meta Title Here', 'About Us Meta Title Keywords', 'About Us Meta Title Description', '2c78f8fddd3b483bdffc08bc6b93e373.jpg', 1, 1, 1, 1, 0, 0, 0, 1, 'viidemo', 'inner.template.html', '{"columns":"","filename":false}', NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 'Promotion', 13, '<p><br></p>', NULL, NULL, 'promo', 'index', 'promo', 'promo', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 'Search', 11, '<p>search<br></p>', NULL, NULL, 'search', 'index', 'search', 'search', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(24, 'Newsletter', 12, '', NULL, NULL, 'newsletter', 'index', 'newsletter', 'newsletter', 0, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(25, 'Events', 9, '', '', NULL, 'events', 'index', 'events', 'events', 1, '', '', '', NULL, 0, 0, 0, 0, 0, 0, 0, 0, 'viidemo', 'inner.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (27, 'AaAaA TITLE', 0, '<span style="font-weight: bold;"><span style="font-style: italic;"><span style="text-decoration: underline;">CcCcC CONTENT<br></span></span></span>', '8da79baa7fa43d7011f240be31d18252.jpg', '<span style="text-decoration: underline;"><span style="font-style: italic;"><span style="font-weight: bold;">BbBbB CAPTION<br></span></span></span>', 'pages', 'index', 'aaaaatitle', 'aaaaatitle', 1, 'mmmmm title', 'mmmmm keywords', 'mmmmmmm description', '92f806d36c39287990c4b38f65c490a6.jpg', 1, 1, 1, 1, 1, 1, 1, 1, 'viidemo', 'main.template.html', NULL, NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -901,7 +936,7 @@ CREATE TABLE IF NOT EXISTS `vii_page_section` (
   `date_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_upd` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id_page_section`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `vii_page_section`
@@ -918,7 +953,8 @@ INSERT INTO `vii_page_section` (`id_page_section`, `title`, `limit`, `file_name`
 (9, 'promo layout', 1, 'b48bd5880e975f6e58f19e7d574cfab9_1.html', 'd3b886daa5e95408dce48021cec28cf4.jpg', 'module', 26, '2015-11-26 07:44:00', '0000-00-00 00:00:00'),
 (10, 'search layout', 1, '81cb0b2d1df94f428cea81ffeef11374_1.html', '819f5ec80122db6df997b02fddc3ec5d.jpg', 'module', 27, '2015-11-26 07:44:14', '0000-00-00 00:00:00'),
 (11, 'testimonial layout', 1, '32a6fadece44c7806acf69445f096d8e_1.html', '9ceaf61776ada02efa1ea723a9cb7b6b.jpg', 'module', 22, '2015-11-26 07:44:28', '0000-00-00 00:00:00'),
-(14, 'contact us layout', 1, '400be38dc5f09f0b7a97eb036aa83b20_1.html', 'a217e7e9ee49f4e7e2bbdfc3df22d302.jpg', 'module', 9, '2015-12-08 03:50:37', '0000-00-00 00:00:00');
+(14, 'contact us layout', 1, '400be38dc5f09f0b7a97eb036aa83b20_1.html', 'a217e7e9ee49f4e7e2bbdfc3df22d302.jpg', 'module', 9, '2015-12-08 03:50:37', '0000-00-00 00:00:00'),
+(15, ' simple page layout 002', 4, '97fdd096b015eb758712e68c5a0bea76_4.html', 'c7b0e869bb1ce5294cc6dced3f6d4318.jpg', 'page', 0, '2016-01-12 10:02:12', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -958,7 +994,7 @@ INSERT INTO `vii_page_tree` (`id_page`, `id_parent`, `depth`, `isActive`, `absol
 (22, 0, 1, 1, 'promo'),
 (23, 0, 1, 0, 'search'),
 (24, 0, 1, 0, 'newsletter'),
-(25, 0, 1, 0, 'events'),
+(25, 0, 1, 1, 'events'),
 (27, 0, 1, 0, 'aaaaatitle');
 
 -- --------------------------------------------------------
