@@ -39,7 +39,6 @@
 		maxItems: 0,
 		threshold: 20
 	};
-
 	function Plugin(element, options) {
 		this.w = $(window);
 		this.el = $(element);
@@ -320,9 +319,23 @@
 				if (isNewRoot && opt.group !== pointElRoot.data("nestable-group")) {
 					return
 				}
-				if (countChildren >= opt.maxItems && opt.maxItems) {
+				if(pointElRoot.attr('id') == 'nestable'){
+					if($('#section_limit').val()){
+						var maxItems = $('#section_limit').val();
+					}
+					else{
+						var maxItems = opt.maxItems;
+					}	
+				}
+				else{
+					var maxItems = opt.maxItems;
+				}
+				var targetGroup = pointElRoot.attr('id');
+				var aaa = $('#section_limit #'+targetGroup ).data('maxItems');
+				if (countChildren >= maxItems && maxItems) {
 					return;
 				}
+				
 				depth = this.dragDepth - 1 + this.pointEl.parents(opt.listNodeName).length;
 				if (depth > opt.maxDepth) {
 					return

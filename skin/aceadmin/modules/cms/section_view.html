@@ -119,7 +119,7 @@
 													{/foreach}
 												</ol>
 											</div>
-											<div class="form-group">
+											<div class="form-group" id="page_dd" style="display:none;">
 												<div class="col-sm-6">
 													<div class="dd" id="nestable">
 														<ol class="dd-list" id="sel-list">
@@ -132,7 +132,7 @@
 													</div>
 												</div>
 												<div class="col-sm-6">
-													<div class="dd" id="nestable2">
+													<div class="dd" id="nestable2" data-maxItems = "0">
 														<ol class="dd-list" id="unsel-list">
 															{foreach from=$pages key=key item=item}
 																<li class="dd-item unselected_pages page_{$item.id_page}" data-id="{$item.id_page}">

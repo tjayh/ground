@@ -432,6 +432,61 @@ class Cms_model extends CI_Model
 		}
 		else return true;
 	}
+	function _addSection()
+	{
+		$this->db->flush_cache();
+		$data = $this->input->post('data');
+		$where = $this->input->post('where');
+		$id_page = $where['id_page'];
+		$column = $where['column'];
+		$pages = json_decode($data['pages'], JSON_FORCE_OBJECT);
+		$new_array = array();
+		foreach($pages as $key => $item) {
+			$new_array[] = $item['id']; 
+		}
+		$data['pages'] = implode(",", $new_array);
+		$selected = $data['pages'];
+		$data['pages'] = explode(",", $selected);
+		$this->db->select('p.*');
+		$this->db->from('page p');
+		$this->db->where('id_page', $id_page);
+		$query = $this->db->get();
+		if ($data) {
+			if ($query->num_rows() > 0) {
+				$result = $query->row_array();
+				$return = array();
+				if (empty($result['sections'])) { // no section save
+					$sections_encoded[$column] = array(
+						$data
+					);
+					$sections_encoded = json_encode($sections_encoded, JSON_FORCE_OBJECT);
+					$this->db->flush_cache();
+					$data_upd['sections'] = $sections_encoded;
+					$this->db->where('id_page', $id_page);
+					print_r($data_upd);exit;
+					$result = $this->db->update('page', $data_upd);
+				}
+				else { // update existing section
+					$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
+					
+					$col_sec = $sections_decoded[$column];
+					if ($sections_decoded[$column]) {
+						array_push($sections_decoded[$column], $data);
+					}
+					else {
+						$sections_decoded[$column][] = $data;
+					}
+					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
+					$this->db->flush_cache();
+					$data_upd['sections'] = $sections_encoded;
+					$this->db->where('id_page', $id_page);
+					$result = $this->db->update('page', $data_upd);
+				}
+				$this->refreshRoutes();
+				return $result;
+			}
+		}
+	}
 	function _addSectionFile()
 	{
 		$this->db->flush_cache();
@@ -486,54 +541,6 @@ class Cms_model extends CI_Model
 		}
 		else {
 			return $result;
-		}
-	}
-	function _addSection()
-	{
-		$this->db->flush_cache();
-		$data = $this->input->post('data');
-		$where = $this->input->post('where');
-		$id_page = $where['id_page'];
-		$column = $where['column'];
-		$selected = $data['pages'];
-		$data['pages'] = explode(",", $selected);
-		$this->db->select('p.*');
-		$this->db->from('page p');
-		$this->db->where('id_page', $id_page);
-		$query = $this->db->get();
-		if ($data) {
-			if ($query->num_rows() > 0) {
-				$result = $query->row_array();
-				$return = array();
-				if (empty($result['sections'])) { // no section save
-					$sections_encoded[$column] = array(
-						$data
-					);
-					$sections_encoded = json_encode($sections_encoded, JSON_FORCE_OBJECT);
-					$this->db->flush_cache();
-					$data_upd['sections'] = $sections_encoded;
-					$this->db->where('id_page', $id_page);
-					$result = $this->db->update('page', $data_upd);
-				}
-				else { // update existing section
-					$sections_decoded = json_decode($result['sections'], JSON_FORCE_OBJECT);
-					
-					$col_sec = $sections_decoded[$column];
-					if ($sections_decoded[$column]) {
-						array_push($sections_decoded[$column], $data);
-					}
-					else {
-						$sections_decoded[$column][] = $data;
-					}
-					$sections_encoded = json_encode($sections_decoded, JSON_FORCE_OBJECT);
-					$this->db->flush_cache();
-					$data_upd['sections'] = $sections_encoded;
-					$this->db->where('id_page', $id_page);
-					$result = $this->db->update('page', $data_upd);
-				}
-				$this->refreshRoutes();
-				return $result;
-			}
 		}
 	}
 	function _editSection()
