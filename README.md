@@ -5,9 +5,9 @@
 
 ## Usage Note
 ### Production / Project
-* Download [Viiworks CMS v1.0.1](https://github.com/viiworks/Viiworks-CMS/archive/v1.0.1.zip) stable version or clone in to your machine
+* Download [Viiworks CMS v1.1.0](https://github.com/viiworks/Viiworks-CMS/archive/v1.1.0.zip) stable version or clone in to your machine
 * Do this when you clone the repository
- * then run the `git checkout tags/v1.0.1`
+ * then run the `git checkout tags/v1.1.0`
  * DO NOT PUSH TO THIS REPOSITORY IF FOR DIFFERENT PRODUCTION / PROJECT so please follow the instructions
  * change origin of the repository (if you don't have one, please ask [@jestherthejoker](https://github.com/jestherthejoker)) `git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git`
 * run the command `git init` using your git bash inside the production folder
