@@ -10,7 +10,8 @@
  * then run the `git checkout tags/v1.1.0`
  * DO NOT PUSH TO THIS REPOSITORY IF FOR DIFFERENT PRODUCTION / PROJECT so please follow the instructions
  * change origin of the repository (if you don't have one, please ask [@jestherthejoker](https://github.com/jestherthejoker)) `git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git`
-* run the command `git init` using your git bash inside the production folder
+* Do this when you just download the framework
+ * run the command `git init` using your git bash inside the production folder
 * Every success edit please run `git add --all` then `git commit -m "Edits Description for your Work to the Repo"`
 * to be continue: ask [@jestherthejoker](https://github.com/jestherthejoker) for more
 
