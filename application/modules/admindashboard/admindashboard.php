@@ -128,6 +128,7 @@ class AdminDashboard extends MX_Controller
 	function loginAttempsSession()
 	{
 		$now = time();
+		$array = array();
 		$current_time = mktime(gmdate("H", $now) , gmdate("i", $now) , gmdate("s", $now) , gmdate("m", $now) , gmdate("d", $now) , gmdate("Y", $now));
 		$login_session = $this->session->userdata('login_session');
 		if ($login_session['attemp'] > 5) { /* check if attemps exceeds */
@@ -139,19 +140,22 @@ class AdminDashboard extends MX_Controller
 					exit(0);
 				}
 				else {
-					$array = ['attemp' => '', 'ban_expire' => ''];
+					$array['attemp']=  '';
+					$array['ban_expire']=  '';
 					$this->session->set_userdata('login_session', $array);
 				}
 			}
 			else {
 				$ban_expire = $current_time + 300;
-				$array = ['attemp' => $login_session['attemp'], 'ban_expire' => $ban_expire];
+				$array['attemp']=  $login_session['attemp'];
+				$array['ban_expire']=  $ban_expire;
 				$this->session->set_userdata('login_session', $array);
 			}
 		}
 		else {
 			$attemp = $login_session['attemp'] + 1;
-			$array = ['attemp' => $attemp, 'ban_expire' => $login_session['ban_expire']];
+			$array['attemp']=  $attemp;
+			$array['ban_expire']=  $login_session['ban_expire'];
 			$this->session->set_userdata('login_session', $array);
 		}
 	}

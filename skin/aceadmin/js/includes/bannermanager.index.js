@@ -3,7 +3,7 @@ CMS.initPageUnbind = function() {
 	$('button.addReset').unbind();
 }
 CMS.initPage = function() {
-	var textedit = ['image_desc']; /* place the fields that needs to have text editor */
+	var textedit = ['image_desc','image_video_desc']; /* place the fields that needs to have text editor */
 	$('a.setFormValues').on('click', function() {
 		itemID = $(this).closest("td").attr('id');
 		itemID = itemID.replace("jdata", "")
@@ -17,6 +17,7 @@ CMS.initPage = function() {
 		$('#image_src').val(data.image_src);
 		$('#image_src2').val(data.image_src2);
 		$('#image_desc').val(data.image_desc);
+		$('#image_video_desc').val(data.image_video_desc);
 		$('#image_link').val(data.image_link);
 		if (data.status == 1) {
 			$('input#status').prop('checked', true);
