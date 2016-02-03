@@ -463,7 +463,6 @@ class Cms_model extends CI_Model
 					$this->db->flush_cache();
 					$data_upd['sections'] = $sections_encoded;
 					$this->db->where('id_page', $id_page);
-					print_r($data_upd);exit;
 					$result = $this->db->update('page', $data_upd);
 				}
 				else { // update existing section
