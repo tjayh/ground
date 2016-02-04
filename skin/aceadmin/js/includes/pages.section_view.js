@@ -247,7 +247,7 @@ $('.deleteSectionButton').on('click', function() {
 $("#pageLayoutTemplate").submit(function(event) {
 	$("#layoutTempModalLoading").removeAttr('style');
 	$("#layoutTempModalButtons").attr("style", "display:none");
-	var id_page = $(this).data('idpage');
+	var id_page = $('#id_page_order').val();
 	var layout = $('input[name=page_layout]:checked').val();
 	$.post(thisURL + thisModule + "/process/update-layout/", {
 		layout: layout,
