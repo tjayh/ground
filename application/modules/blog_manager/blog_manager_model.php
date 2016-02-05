@@ -102,7 +102,7 @@ class Blog_manager_model extends CI_Model
 	{
 		$this->db->select('i.*, gc.id_blog_category, gc.id_parent, gc.category_title as category');
 		$this->db->from('blog_item i');
-		$this->db->join('blog_category gc', 'gc.id_blog_category = i.id_blog_category');
+		$this->db->join('blog_category gc', 'gc.id_blog_category = i.id_blog_category', 'left');
 		$this->db->order_by('i.date DESC');
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
