@@ -48,6 +48,7 @@ $route['administrator/login'] = "admindashboard/login";
 $route['administrator/login(.*)'] = "admindashboard/login";
 $route['administrator/logout'] = "admindashboard/logout";
 $route['administrator/logout(.*)'] = "admindashboard/logout";
+$route['migrate'] = 'migrate/$1'; // Bas :: 021816 :: Migration
 include_once('routes_frontend.php');
 include_once('routes_backend.php');
 $route[_ADMIN_BASE_."/(.*)"] = "admindashboard/$1";

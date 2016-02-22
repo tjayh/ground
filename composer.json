@@ -1,0 +1,9 @@
+{
+	"description": "Sevenworks, Inc. CMS",
+	"name": "viiworks/viiworks-CMS",
+	"homepage": "http://www.viiworks.com",
+	"require": {
+		"twbs/bootstrap": "^3.3",
+		"FortAwesome/Font-Awesome": "^4.5"
+	}
+}
