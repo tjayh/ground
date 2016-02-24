@@ -12,7 +12,7 @@
 	define('_DB_PASSWORD_','');
 	define('_DB_DATABASE_','new_installer');
 	define('_DB_PREFIX_','vii_');
-	define('_URI_PROTOCOL_','PATH_INFO');
+	define('_URI_PROTOCOL_','REQUEST_URI');
 	define('_BASE_URL_','http://localhost/new_installer/');
 	define('_ENABLE_QUERY_STRING_',TRUE);
 	define('_ACTIVE_DB_','default');
